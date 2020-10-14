@@ -1,0 +1,11 @@
+<ion-content>
+  Min {{ min }}
+  Min {{ max }}
+  <ion-range pin="true" [(ngModel)]="value" dualKnobs="true" [min]="min" [max]="max" step="10"></ion-range>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="block" (click)="filtrar ()">Filtrar</ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,184 @@
+<ion-header>
+  <ion-toolbar>
+    <img src="assets/img/logoblanco.png">
+    <div class="div_iconos_blancos">
+      <ion-icon (click)="back ()"name="arrow-back-outline"></ion-icon>
+      <ion-icon (click)="share ()" name="share-social-sharp"></ion-icon>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-md="7">
+        <div class="div_circulo">
+          <img [src]="'http://appmedico.demoperu.site/storage/' + datos.fotografia">
+        </div>
+        <ion-card class="card_iguales">
+          <ion-row>
+            <ion-col size="4" class="ion-no-padding">
+              <div *ngIf="datos?.atiende_emergencias_24 === '1'" class="div_verde">
+                Emergencias 24/7
+              </div>
+            </ion-col>
+            <ion-col size="4" style="display: flex;justify-content: center;">
+            </ion-col>
+            <ion-col size="4" class="col_flex">
+              <p style="opacity:0"  class="ion-no-margin p_iconos"><img src="assets/img/star.png" style="margin-right: 5px;">4.2</p>
+              <ion-icon style="opacity:0" name="videocam-outline" class="icon_camra_cora icon_rigth"></ion-icon>
+              <ion-icon (click)="toggle_favorito ()" [name]="favorito === true ? 'heart' : 'heart-outline'" class="icon_camra_cora"></ion-icon>
+            </ion-col>
+            <ion-col size="12" class="ion-text-center">
+              <p class="titulo_p">{{ datos?.nombre_completo }}</p>
+              <p class="subtitulo_p">{{ datos?.especialidad?.nombre }}</p>
+            </ion-col>
+            <ion-col size="6" class="ion-no-padding">
+              <p class="p_años">{{ get_tiempo_experiencia (datos?.anio_colegiatura) }} de experiencia</p>
+              <!-- <p class="p_años"><span class="span_number">97%</span> (432 votos)</p> -->
+            </ion-col>
+            <ion-col size="6" class="ion-no-padding ion-text-end">
+              <p class="p_años">{{ datos?.idiomas }}</p>
+              <p class="p_años" *ngIf="datos?.atiende_emergencias_24 === '1'">Atiendo emergencias 24/7</p>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12" size-md="7">
+        <ion-card class="card_iguales">
+          <p class="p_medium">Trayectoria</p>
+          <p class="descripcion_p_regular">{{ datos?.adicional }}</p>
+          <!-- <a class="a_leer_link">Leer mas ></a> -->
+        </ion-card>
+      </ion-col>
+      <ion-col size="12" size-md="7">
+        <ion-card class="card_iguales">
+          <ion-row>
+            <ion-col size="4" style="padding-top: 0px;padding-bottom: 0px;display: flex;">
+              <p class="p_medium">Contacto</p>
+              <div class="linea_rigt"></div>
+            </ion-col>
+            <ion-col size="8" class="ion-no-padding">
+              <ion-list class="ion-no-padding">
+                <ion-item lines="none" class="item_list">
+                  <ion-icon name="call-outline"></ion-icon>
+                  <ion-label class="label_list">{{ datos?.telefono_celular }}</ion-label>
+                </ion-item>
+                <ion-item (click)="send_email ()" lines="none" class="item_list">
+                  <ion-icon name="person-outline"></ion-icon>
+                  <ion-label class="label_list">{{ datos?.usercorreo?.email }}</ion-label>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12" size-md="7">
+        <ion-card class="card_iguales">
+          <p class="p_medium">Atiendo en</p>
+          <ion-card class="card_acordion" *ngFor="let consultorio of datos.consultorios_tarjetas">
+            <ion-card-header (click)="toggle_consultorio (consultorio)">
+              <ion-card-subtitle><img src="assets/img/Grupo1722.png" class="icon_verde">Consultorio medico<ion-icon name="close-outline" class="icon_close"></ion-icon></ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content *ngIf="consultorio.visible">
+              <div class="div_conuslta_nutton">
+                <p>Costo de consulta : <span>{{ consultorio.precio_consulta | currency:'S/. ' }}</span></p>
+                <!-- <ion-button>Reservar</ion-button> -->
+              </div>
+              <div class="div_border_bootom">
+                <ion-row>
+                  <ion-col size="12" style="padding-bottom: 0px;padding-top: 0px;">
+                    <ion-row *ngFor="let horario of consultorio.horarios">
+                      <ion-col size="4" style="padding-bottom: 0px;padding-top: 0px;">
+                        <p class="p_dias"><strong>{{ horario.infodia.dia }}</strong></p>
+                      </ion-col>
+                      <ion-col size="4" style="padding-right: 0px;padding-top: 0px;padding-bottom: 0px;">
+                        <p class="p_horas">{{ horario.horario_atencion }}</p>
+                      </ion-col>
+                    </ion-row>
+                  </ion-col>
+                </ion-row>
+              </div>
+              <div class="ion-padding-top div_mapa">
+                <p class="p_direccion"><ion-icon name="location-outline"></ion-icon>{{ consultorio.direccion }}</p>
+
+                <div>
+                  <div #map [id]="'consultorio_' + consultorio.id"></div>
+                </div>
+
+                <!-- <a class="a_leer_link ion-margin-bottom">Ver clinica ></a> -->
+
+                {{ draw_mapa (consultorio) }}
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card class="card_acordion" *ngFor="let centro of datos.centros_medicos">
+            <ion-card-header (click)="toggle_consultorio (centro)">
+              <ion-card-subtitle><img src="assets/img/Grupo1722.png" class="icon_verde">
+                {{ centro.info_centro_medico_sucursal.infocentro_medico.nombre_comercial }}
+              <ion-icon name="close-outline" class="icon_close"></ion-icon></ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content *ngIf="centro.visible">
+              <div class="div_conuslta_nutton">
+                <p>Costo de consulta : <span>{{ centro.precio_consulta | currency:'S/. ' }}</span></p>
+                <!-- <ion-button>Reservar</ion-button> -->
+              </div>
+              <div class="div_border_bootom">
+                <ion-row>
+                  <ion-col size="12" style="padding-bottom: 0px;padding-top: 0px;">
+                    <ion-row *ngFor="let horario of centro.horarios">
+                      <ion-col size="4" style="padding-bottom: 0px;padding-top: 0px;">
+                        <p class="p_dias"><strong>{{ horario.infodia.dia }}</strong></p>
+                      </ion-col>
+                      <ion-col size="4" style="padding-right: 0px;padding-top: 0px;padding-bottom: 0px;">
+                        <p class="p_horas">{{ horario.horario_atencion }}</p>
+                      </ion-col>
+                    </ion-row>
+                  </ion-col>
+                </ion-row>
+              </div>
+              <div class="ion-padding-top div_mapa">
+                <p class="p_direccion"><ion-icon name="location-outline"></ion-icon>{{ centro.info_centro_medico_sucursal.direccion }}</p>
+
+                <div>
+                  <div #map [id]="'centros_medicos_' + centro.id"></div>
+                </div>
+
+                <a class="a_leer_link ion-margin-bottom" (click)="ver_clinica (centro.info_centro_medico_sucursal.id_centro_medico)">Ver clinica ></a>
+
+                {{ draw_mapa_centros_medicos (centro.id, centro.info_centro_medico_sucursal) }}
+              </div>
+            </ion-card-content>
+          </ion-card>
+          <!-- <div class="div_border_top ion-margin-top">
+            <p class="p_medium">Comentarios</p>
+            <p class="p_subtitulo_regular">Muy buena atención , limpio y ordenado.</p>
+            <p class="descripcion_p_regular">Rina Gonzalez . Hace 1 mes</p>
+            <p class="a_link_comentarios">TODOS LOS COMENTARIOS</p>
+          </div> -->
+          <div class="div_border_top">
+            <p class="p_medium">SERVICIOS</p>
+            <p class="p_subtitulo_regular" *ngIf="datos?.atiende_domicilio === '1'">Visita a domicilio</p>
+            <p class="p_subtitulo_regular" *ngIf="datos?.atiende_emergencias_24 === '1'">Atiende emergencias 24/7</p>
+          </div>
+          <!-- <div class="div_border_top">
+            <p class="p_medium">ESPECIALIDADES</p>
+            <p class="p_subtitulo_regular">Dermitologist</p>
+            <p class="p_subtitulo_regular">Trichologist</p>
+            <p class="p_subtitulo_regular">Cosmetologist</p>
+           <a class="a_link_comentarios">TODOS LOS COMENTARIOS</a>
+          </div> -->
+          <div *ngIf="datos?.articulos_publicados !== ''" class="div_border_top">
+            <p class="p_medium">Publicaciones</p>
+            <p class="p_subtitulo_regular">{{ datos?.articulos_publicados }}</p>
+            <!-- <p class="p_subtitulo_regular">Publicación en revista xyz</p>
+            <p class="p_subtitulo_regular">Otra publicación</p>
+            <p class="a_link_comentarios">TODOS LAS PUBLICACIONES</p> -->
+          </div>
+        </ion-card>
+      </ion-col>
+      
+    </ion-row>
+  </ion-grid>
+</ion-content>

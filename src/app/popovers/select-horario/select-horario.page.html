@@ -1,0 +1,30 @@
+<ion-content>
+  <ion-list>
+    <ion-radio-group (ionChange)="select ($event.detail.value)">
+      <ion-item>
+        <ion-label>6:00 AM - 9:00 AM</ion-label>
+        <ion-radio slot="start" value="6:00,7:00,8:00,9:00"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>9:00 AM - 12:00 PM</ion-label>
+        <ion-radio slot="start" value="9:00,10:00,11:00,12:00"></ion-radio>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>12:00 PM - 03:00 PM</ion-label>
+        <ion-radio slot="start" value="12:00,13:00,14:00,15:00"></ion-radio>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>03:00 PM - 06:00 PM</ion-label>
+        <ion-radio slot="start" value="15:00,16:00,17:00,18:00"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>06:00 PM - 09:00 PM</ion-label>
+        <ion-radio slot="start" value="18:00,19:00,20:00,21:00"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+</ion-content>

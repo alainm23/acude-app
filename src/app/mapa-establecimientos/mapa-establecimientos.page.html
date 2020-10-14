@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-card class="card_check">
+      <p (click)="back ()"><ion-icon name="close-outline" class="icon_close"></ion-icon>Encuentra tu profesional</p>
+      <ion-select value="brown" okText="Okay" cancelText="Dismiss" mode="ios">
+        <ion-select-option value="brown">Lima</ion-select-option>
+        <ion-select-option value="blonde">Blonde</ion-select-option>
+        <ion-select-option value="black">Black</ion-select-option>
+        <ion-select-option value="red">Red</ion-select-option>
+      </ion-select>
+    </ion-card>
+  </ion-toolbar>
+  <ion-card class="card_buscador">
+    <ion-searchbar #searchbar [(ngModel)]="search_text" placeholder="Filter Schedules"></ion-searchbar>
+  </ion-card>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-justify-content-center ion-align-items-center">
+      <ion-col size="11" size-sm="10" size-md="8" style="padding-left: 0px;padding-right: 0px;">
+        <ion-slides pager="false" [options]="slideOptsOne" (ionSlideDidChange)="slides_categoria_changed ()">
+          <ion-slide class="slider_p">
+            <p class="activo"></p>
+          </ion-slide>
+          <ion-slide *ngFor="let item of tipos_centros_medicos" class="slider_p">
+            <p class="activo">{{ item.nombre }}</p>
+          </ion-slide>
+          <ion-slide class="slider_p">
+            <p class="activo"></p>
+          </ion-slide>
+        </ion-slides>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-card class="card_mapa">
+    <p>{{ nombre }} en tu zona</p>
+    
+    <div>
+      <div #map id="map"></div>
+    </div>
+
+    <p class="ion-text-end" (click)="ver_lista ()">Ver lista ></p>
+  </ion-card>
+</ion-content>

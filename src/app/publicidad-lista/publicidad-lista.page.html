@@ -1,0 +1,47 @@
+<ion-header style="position: relative;">
+  <ion-toolbar>
+    <ion-card class="card_check">
+      <p (click)="back ()"><ion-icon name="arrow-back-outline" class="icon_close"></ion-icon>Regresar</p>
+      <ion-select value="brown" okText="Okay" cancelText="Dismiss" mode="ios">
+        <ion-select-option value="brown">Lima</ion-select-option>
+        <ion-select-option value="blonde">Blonde</ion-select-option>
+        <ion-select-option value="black">Black</ion-select-option>
+        <ion-select-option value="red">Red</ion-select-option>
+      </ion-select>
+    </ion-card>
+  </ion-toolbar>
+  <ion-slides pager="false" [options]="slideOptsOne" (ionSlideDidChange)="slides_categoria_changed ()">
+    <ion-slide>
+    </ion-slide>
+    <ion-slide>
+      <ion-card>
+        <p>Todos</p>
+      </ion-card>
+    </ion-slide>
+    <ion-slide *ngFor="let item of categorias">
+      <ion-card>
+        <p>{{ item.nombre }}</p>
+      </ion-card>
+    </ion-slide>
+    <ion-slide>
+    </ion-slide>
+  </ion-slides>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center bajar_card col_padding_eft">
+      <ion-col *ngFor="let item of publicidades" size="11" size-md="6">
+        <ion-card class="card_list" (click)="ver_detalle_publicidad (item)">
+          <ion-avatar>
+            <img [src]="'http://appmedico.demoperu.site/storage/' + item.imagen">
+          </ion-avatar>
+          <div class="div_descrip">
+            <p class="p_titulo">{{ item.titulo }}</p>
+            <p class="p_descrip">{{ item.descripcion }}</p>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

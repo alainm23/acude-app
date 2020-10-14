@@ -1,0 +1,114 @@
+<ion-header style="position: relative;">
+  <ion-toolbar>
+    <ion-card class="card_check">
+      <p (click)="back ()"><ion-icon name="arrow-back-outline" class="icon_close"></ion-icon>Favoritos</p>
+    </ion-card>
+  </ion-toolbar>
+  <ion-slides  pager="false" [options]="slideOptsOne" (ionSlideDidChange)="slides_categoria_changed ()">
+    <ion-slide>
+    </ion-slide>
+    <ion-slide>
+      <ion-card>
+        <p>Profesionales</p>
+      </ion-card>
+    </ion-slide>
+    <ion-slide>
+      <ion-card>
+        <p>Centros Medicos</p>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide>  
+    </ion-slide>
+  </ion-slides>
+</ion-header>
+
+<ion-content>
+  <ion-grid *ngIf="index === 0">
+    <ion-row class="ion-justify-content-center">
+      <ion-col *ngFor="let item of profesionales" size="12" size-sm="10" size-md="8" size-lg="6">
+        <ion-card class="card_establecimineto">
+          <div class="div_img_p">
+            <div class="div_img_circulo">
+              <img [src]="'http://appmedico.demoperu.site/storage/' + item.fotografia">
+              <!-- <div class="div_circulo_verde">
+                
+              </div> -->
+            </div>
+            <p class="p_votos"></p>
+            <p class="p_opciones"></p>
+          </div>
+          <div class="div_img_pdiv_img_p">
+            <div class="div_titulo_estrella">
+              <ion-row>
+                <ion-col size="8" class="ion-no-padding">
+                  <p class="p_titulo">{{ item.nombre_completo }}</p>
+                </ion-col>
+                <ion-col size="4" class="ion-no-padding ion-text-end">
+                  <p class="p_number_estrella"></p>
+                  <p class="p_ofta">{{ item.especialidad.nombre }}</p>
+                </ion-col>
+              </ion-row>
+            </div>
+            <div class="div_liena_azul">
+              <p>MBBS,DOMS,MS - Ophthalmology</p>
+              <p>{{ get_tiempo_experiencia (item.anio_colegiatura) }} de experiencia</p>
+            </div>
+          </div>
+          <ion-row class="ion-justify-content-center" style="width: 100%;">
+            <ion-col size="6">
+              <ion-button class="btn_salud" (click)="ver (item)">Ver información</ion-button>
+            </ion-col>
+            <ion-col size="6">
+              <ion-button class="btn_salud">
+                <img src="assets/img/Grupo1716.png">
+                Llamar</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid *ngIf="index === 1">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-sm="10" size-md="8" size-lg="6" *ngFor="let item of centros_medicos" (click)="ver_clinica (item)">
+        <ion-card class="card_establecimineto" (click)="ver (item)">
+          <div class="div_img_p">
+            <div class="div_img_circulo">
+              <img [src]="'http://appmedico.demoperu.site/storage/' + item.imagen">
+              <div class="div_circulo_verde">
+                
+              </div>
+            </div>
+            <p class="p_votos"></p>
+            <p class="p_opciones"></p>
+          </div>
+          <div class="div_img_pdiv_img_p">
+            <div class="div_titulo_estrella">
+              <ion-row>
+                <ion-col size="8" class="ion-no-padding">
+                  <p class="p_titulo">{{ item.info_c_m_favorito.nombre_comercial }}</p>
+                  <p class="p_direccion"><img src="assets/img/placeholder.png">&nbsp;{{ item.direccion }}</p>
+                </ion-col>
+                <ion-col size="4" class="ion-no-padding ion-text-end">
+                </ion-col>
+              </ion-row>
+            </div>
+            <div class="div_liena_azul">
+              <p>{{ item.info_c_m_favorito.descripcion }}</p>
+            </div>
+          </div>
+          <ion-row class="ion-justify-content-center" style="width: 100%;">
+            <ion-col size="6">
+              <!-- <ion-button class="btn_salud"></ion-button> -->
+            </ion-col>
+            <ion-col size="6">
+              <ion-button class="btn_salud">Ver clinica</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

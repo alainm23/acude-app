@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar style="--background: url('{{get_imagen ()}}');">
+    <ion-card>
+      <ion-icon (click)="back ()" name="arrow-back-outline" class="ion_blanco icon_rigth"></ion-icon>
+      <ion-title></ion-title>
+      <ion-icon (click)="share ()" name="share-social-sharp" class="ion_blanco icon_compartir"></ion-icon>
+    </ion-card>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-md="7">
+        <ion-card class="card_clinica">
+          <div class="div_flex">
+            <div class="div_flex1">
+              <h5>{{ datos?.nombre_comercial }}</h5>
+              <p><img src="assets/img/placeholder.png">{{ sucursal?.direccion }}</p>
+            </div>
+            <div class="div_flex2">
+              <img (click)="cambiar_sucursal ()" src="assets/img/Grupo1829.png">
+              <ion-icon (click)="toggle_favorito ()" [name]="favorito === true ? 'heart' : 'heart-outline'" class="icon_corazon"></ion-icon>
+            </div>
+          </div>
+          <div class="div_top_bottom">
+            <p class="p_atendido">Atendiendo</p>
+            <p class="p_hora">{{ sucursal?.horario_atencion }}</p>
+          </div>
+          <div class="div_top_bootom_border">
+            <p class="p_ubicacion_icon"><ion-icon name="location-outline"></ion-icon>{{ sucursal?.direccion }}</p>
+            
+            <div>
+              <div #map id="map"></div>
+            </div>
+
+          </div>
+          <p class="p_atendido">Atendiendo</p>
+          <ion-select [(ngModel)]="vista" interface="popover" placeholder="DOCTORES" mode="ios">
+            <ion-select-option value="0">Doctores</ion-select-option>
+            <ion-select-option value="1">Especialidades</ion-select-option>
+            <ion-select-option value="2">Servicios</ion-select-option>
+          </ion-select>
+          <ng-container *ngIf="vista === '0'">
+            <div *ngFor="let item of sucursal?.doctores" (click)="go_perfil (item.info_doctor)">
+              <div class="div_perfil_nombres">
+                <ion-avatar class="ion_avatar_circular">
+                  <img [src]="'http://appmedico.demoperu.site/storage/' + item.info_doctor.fotografia" class="img_circular">
+                </ion-avatar>
+                <div>
+                  <p class="p_titulo">{{ item.info_doctor.nombre_completo }}</p>
+                  <p class="p_subtitulo">{{ item.info_doctor.especialidad.nombre }}</p>
+                </div>
+              </div>
+              <div class="div_estrella_boton">
+                <!-- <p class="p_esterlla_number"><img src="assets/img/star.png"></p> -->
+                <!-- <ion-button class="btn_reserva">Reservar</ion-button> -->
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="vista === '1'">
+            <ion-item lines="none" *ngFor="let item of sucursal?.especialidades">
+              <ion-label>
+                {{ item.especialidad.nombre }}
+              </ion-label>
+            </ion-item>
+            <div class="linea_plomo"></div>
+          </ng-container>
+
+          <ng-container *ngIf="vista == '2'">
+            <ion-card class="card_acordion" *ngFor="let item of get_servicios (sucursal)">
+              <ion-card-header>
+                <ion-card-subtitle>{{ item }}</ion-card-subtitle>
+              </ion-card-header>
+              <!-- <ion-card-content>
+                Keep close to Nature's heart... and break clear away, once in awhile,
+                and climb a mountain or spend a week in the woods. Wash your spirit clean.
+              </ion-card-content> -->
+            </ion-card>
+            <div class="linea_plomo"></div>
+          </ng-container>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

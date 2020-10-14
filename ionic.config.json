@@ -1,5 +1,7 @@
 {
   "name": "acude-app",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

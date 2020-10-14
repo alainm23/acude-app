@@ -1,20 +1,165 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-card class="card_check">
+      <img src="assets/img/Grupo1695.png">
+      <ion-select [compareWith]="compareWith" [value]="departamento_id" okText="Ok" cancelText="Cerrar" mode="ios">
+        <ion-select-option *ngFor="let item of departamentos" [value]="item.id">
+          {{ item.nombre }}
+        </ion-select-option>
+      </ion-select>
+    </ion-card>
   </ion-toolbar>
+  <ion-card class="card_buscador">
+    <ion-input mode="ios" placeholder="Que deseas buscar?"></ion-input>
+    <ion-icon name="chevron-down-outline"></ion-icon>
+    <!-- <div class="div_tabla">
+      <ion-list>
+        <ion-item>
+          <ion-label>Pokémon Yellow</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Mega Man X</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>The Legend of Zelda</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Pac-Man</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Super Mario World</ion-label>
+        </ion-item>
+      </ion-list>
+    </div> -->
+  </ion-card>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-grid style="padding-right: 0px;padding-left: 0px;">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="11" size-md="9" class="ion-text-end ion-no-padding">
+        <p class="p_busqueda" (click)="busqueda_avanzada ()">Búsqueda avanzada</p>
+      </ion-col>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+      <ion-col size="12" size-md="9" size-lg="8">
+        <ion-card class="card_acordion">
+          <ion-card-header mode="ios" (click)="toggle_profesionales ()">
+            <img src="assets/img/Trazado1594.png">
+            <ion-card-title>Profesionales de la salud</ion-card-title>
+            <ion-icon name="chevron-forward-outline" class="icon_rigth"></ion-icon>
+          </ion-card-header>
+          <ion-card-content *ngIf="ver_profesionales">
+            <div *ngIf="profesionales_salud_cargando" class="ion-text-center ion-spinner-div">
+              <ion-spinner></ion-spinner>
+            </div>
+            <ion-list *ngIf="!profesionales_salud_cargando">
+              <ion-item (click)="filtrar_especialidades (item)" *ngFor="let item of profesionales_salud">
+                <ion-label>{{ item.nombre }}</ion-label>
+              </ion-item>
+
+              <ion-item (click)="ver_mas_profesionales ()">
+                <ion-label *ngIf="profesionales_ver_mas">Ver mas...</ion-label>
+                <ion-label *ngIf="!profesionales_ver_mas">Ver menos...</ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="12" size-md="9" size-lg="8">
+        <ion-card class="card_acordion">
+          <ion-card-header mode="ios" (click)="toggle_tipos_centros_medicos ()">
+            <img src="assets/img/OjPimX.tif.png">
+            <ion-card-title>Ver establecimientos</ion-card-title>
+            <ion-icon name="chevron-forward-outline" class="icon_rigth"></ion-icon>
+          </ion-card-header>
+          <ion-card-content *ngIf="ver_centros_medicos">
+            <div *ngIf="tipos_centros_medicos_cargando" class="ion-text-center ion-spinner-div">
+              <ion-spinner></ion-spinner>
+            </div>
+
+            <ion-list *ngIf="!tipos_centros_medicos_cargando">
+              <ion-item *ngFor="let item of tipos_centros_medicos" (click)="ver_centros (item)">
+                <ion-label>{{ item.nombre }}</ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="12" size-md="9" size-lg="8">
+        <ion-card class="card_acordion">
+          <ion-card-header mode="ios" (click)="ver_publicidad = !ver_publicidad">
+            <img src="assets/img/Grupo1905.png">
+            <ion-card-title>Promociones y eventos</ion-card-title>
+            <ion-icon name="chevron-forward-outline" class="icon_rigth"></ion-icon>
+          </ion-card-header>
+          <ion-card-content class="card_content_none3 ion-no-padding">
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ng-container *ngIf="ver_publicidad">
+    <ion-slides pager="false" [options]="slideOptsOne">
+      <ion-slide *ngFor="let item of publicidades" (click)="ver_detalle_publicidad (item)">
+        <img [src]="'http://appmedico.demoperu.site/storage/' + item.imagen">
+      </ion-slide>
+    </ion-slides>
+
+    <ion-button (click)="ver_todo_publicidad ()" class="ion-text-center">Ver todo</ion-button>
+  </ng-container>
 </ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-row>
+      <ion-col size="3" (click)="emergencia ()">
+        <img src="assets/img/Grupo1699.png">
+        <ion-label class="label_semibol">Emergencia</ion-label>
+      </ion-col>
+
+      <ion-col size="3">
+        <img src="assets/img/Grupo1716.png">
+        <ion-label class="label_regular">Telemedicina</ion-label>
+      </ion-col>
+
+      <ion-col (click)="favoritos ()" size="3">
+        <img src="assets/img/Grupo1873.png">
+        <ion-label class="label_regular">Mis favoritos</ion-label>
+      </ion-col>
+
+      <ion-col (click)="menu ()" size="3">
+        <img src="assets/img/user-4.png">
+        <ion-label class="label_regular">Mi cuenta</ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
+
+<!-- <ion-footer>
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="schedule">
+        <img src="assets/img/Grupo1699.png">
+        <ion-label class="label_semibol">Emergencia</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="speakers">
+        <img src="assets/img/Grupo1716.png">
+        <ion-label class="label_regular">Telemedicina</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="map">
+        <img src="assets/img/Grupo1873.png">
+        <ion-label class="label_regular">Mis favoritos</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="about">
+        <img src="assets/img/user-4.png">
+        <ion-label class="label_regular">Mi cuenta</ion-label>
+      </ion-tab-button>
+      <div class="div_plomo"></div>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-footer> -->
