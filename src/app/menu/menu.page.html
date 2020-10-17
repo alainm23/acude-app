@@ -30,11 +30,13 @@
   </ion-card>
   </ion-content>
 
-  <ion-footer>
-    <ion-toolbar>
+  <ion-footer class="ion-no-border ion_footer">
+    <ion-toolbar class="ion_toolbar">
       <ion-row>
-        <ion-col (click)="salir ()">
-          <ion-icon name="close-circle" class="icon_close"></ion-icon>
+        <ion-col (click)="salir ()" class="ion_tolbar">
+          <div style="width: 100%;text-align: center;">
+            <ion-icon name="close-circle" class="icon_close"></ion-icon>
+          </div>
           <ion-label class="label_cuenta">Menu</ion-label>
         </ion-col>
       </ion-row>

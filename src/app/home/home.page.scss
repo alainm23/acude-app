@@ -159,46 +159,51 @@ ion-card.card_acordion
     {
         display: none;
     }
-    .card_content_none3
-    {
-        /*display: none;*/
-    }
+    
 }
-ion-tabs
+.ion_footer
 {
-    ion-tab-bar
+    border-radius: 18px 18px 0px 0px;
+    box-shadow: 0px -4px 63px #00000012;
+    padding: 5px 0px;
+    .ion_toolbar
     {
-        box-shadow: 0px -4px 63px #00000012;
         border-radius: 18px 18px 0px 0px;
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        height: 95px;
-        ion-tab-button
+        .ion_tolbar
         {
-            height: 70px;
+            border-radius: 0px;
+            border: 0px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+            .div_tolbar
+            {
+                width: 100%;
+                text-align: center;
+            }
             .label_semibol
             {
                 font-family: PoppinsSemiBold;
                 color: #333348;
-                font-size: 9px;
+                font-size: 12px;
             }
             .label_regular
             {
                 font-family: PoppinsRegular;
                 color: #898A8F;
-                font-size: 9px;
+                font-size: 12px;
             }
-        }
-        .div_plomo
-        {
-            width: 40%;
-            margin-left: 30%;
-            margin-right: 30%;
-            margin-top: -20px;
-            height: 5px;
-            border-radius: 3px;
-            background-color: #F0F0F3;
+            .div_plomo
+            {
+                width: 40%;
+                margin-left: 30%;
+                margin-right: 30%;
+                margin-top: -20px;
+                height: 5px;
+                border-radius: 3px;
+                background-color: #F0F0F3;
+            }
         }
     }
 }
@@ -220,7 +225,18 @@ ion-slides
         }
     }  
 }
-
+.btn_saltar
+{
+  width: 100%;
+  --background: transparent;
+  --color: #3F4079;
+  --border-color: #cdd3d9;
+  --box-shadow: none;
+  text-transform: capitalize;
+  margin-top: 15px;
+  font-family: PoppinsSemiBold;
+  font-weight: bold;
+}
 @media (min-width: 411px)
 {
     ion-content
