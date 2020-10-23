@@ -1,34 +1,9 @@
 <ion-header style="position: relative;">
   <ion-toolbar>
     <ion-card class="card_check">
-      <p (click)="back ()"><ion-icon name="arrow-back-outline" class="icon_close"></ion-icon>{{ nombre }}</p>
-      <ion-select value="brown" okText="Okay" cancelText="Dismiss" mode="ios">
-        <ion-select-option value="brown">Lima</ion-select-option>
-        <ion-select-option value="blonde">Blonde</ion-select-option>
-        <ion-select-option value="black">Black</ion-select-option>
-        <ion-select-option value="red">Red</ion-select-option>
-      </ion-select>
+      <p (click)="back ()"><ion-icon name="arrow-back-outline" class="icon_close"></ion-icon>Resultados</p>
     </ion-card>
   </ion-toolbar>
-  <ion-slides pager="false" [options]="slideOptsOne">
-    <ion-slide>
-      <ion-card (click)="open_idioma_popover ($event)">
-        <p>idioma</p>
-      </ion-card>
-    </ion-slide>
-
-    <ion-slide>
-      <ion-card (click)="open_honorario_popover ($event)">
-        <p>Precio</p>
-      </ion-card>
-    </ion-slide>
-
-    <ion-slide>
-      <ion-card (click)="open_horario_popover ($event)">
-        <p>Horario</p>
-      </ion-card>
-    </ion-slide>
-  </ion-slides>
 </ion-header>
 
 <ion-content>
@@ -52,14 +27,14 @@
                 </ion-col>
                 <ion-col size="4" class="ion-no-padding ion-text-end">
                   <p class="p_number_estrella"></p>
-                  <p class="p_ofta">{{ item.especialidad.nombre }}</p>
+                  <!-- <p class="p_ofta">{{ item.especialidad.nombre }}</p> -->
                 </ion-col>
               </ion-row>
             </div>
-            <div class="div_liena_azul">
+            <div *ngIf="item.anio_colegiatura !== null" class="div_liena_azul">
               <p>MBBS,DOMS,MS - Ophthalmology</p>
               <p>{{ get_tiempo_experiencia (item.anio_colegiatura) }} de experiencia</p>
-              <p><ion-icon name="location-outline"></ion-icon>{{ item.direccion }}</p>
+              <!-- <p><ion-icon name="location-outline"></ion-icon>{{ item.direccion }}</p> -->
             </div>
           </div>
           <ion-row class="ion-justify-content-center" style="width: 100%;">

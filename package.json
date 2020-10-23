@@ -19,7 +19,7 @@
     "@angular/platform-browser": "~9.1.6",
     "@angular/platform-browser-dynamic": "~9.1.6",
     "@angular/router": "~9.1.6",
-    "@ionic-native/call-number": "^5.28.0",
+    "@ionic-native/call-number": "^5.29.0",
     "@ionic-native/camera": "^5.28.0",
     "@ionic-native/core": "^5.0.7",
     "@ionic-native/deeplinks": "^5.27.0",

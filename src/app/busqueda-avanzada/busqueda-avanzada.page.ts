@@ -1,0 +1,115 @@
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../services/api.service';
+import { NavController, ToastController } from '@ionic/angular';
+
+// Popovers
+import { SelectEspecialidadPage } from '../popovers/select-especialidad/select-especialidad.page';
+import { PopoverController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
+
+@Component({
+  selector: 'app-busqueda-avanzada',
+  templateUrl: './busqueda-avanzada.page.html',
+  styleUrls: ['./busqueda-avanzada.page.scss'],
+})
+export class BusquedaAvanzadaPage implements OnInit {
+  busco_un: string = 'profesionales';
+  profesional_tipo_seleccionado: any;
+  especialidad_seleccionada: any = null;
+  exp: any = 'null';
+  idiomas: any [] = [];
+
+  profesionales_salud_total: any [] = [];
+  constructor (private api: ApiService, 
+    private popoverController: PopoverController,
+    private storage: Storage,
+    private navController: NavController,
+    public toastController: ToastController) { }
+
+  ngOnInit() {
+    this.api.get_profesionales_salud ().subscribe ((res: any) => {
+      console.log (res);
+      this.profesionales_salud_total = res.tipos_profesionales;
+    }, error => {
+      console.log (error);
+    });
+
+    this.api.get_idiomas ().subscribe ((res: any) => {
+      Object.entries(res.idiomas).forEach ((val: any) => {
+        this.idiomas.push ({
+          id: val [0],
+          nombre: val [1],
+          checked: false
+        })
+      });
+    });
+  }
+
+  async open_especialidad_popover (e: any) {
+    const popover = await this.popoverController.create({
+      component: SelectEspecialidadPage,
+      showBackdrop: true,
+      componentProps: {
+        id: this.profesional_tipo_seleccionado.id
+      },
+      event: e
+    });
+
+    popover.onDidDismiss ().then ((response: any) => {
+      if (response.role === 'ok') {
+        console.log (response.data);
+        this.especialidad_seleccionada = response.data;
+
+        console.log (this.especialidad_seleccionada);
+      }
+    });
+
+    return await popover.present ();
+  }
+
+  async submit () {
+    let DEPARTAMENTO_SELECCIONADO = await this.storage.get ('DEPARTAMENTO_SELECCIONADO');
+    if (DEPARTAMENTO_SELECCIONADO === null) {
+      DEPARTAMENTO_SELECCIONADO = this.api.USUARIO_DATA.departamento_id;
+    }
+
+    let idespecialidad = null;
+    if (this.especialidad_seleccionada !== null) {
+      idespecialidad = this.especialidad_seleccionada.id;
+    }
+
+    let experiencia = this.exp;
+    if (experiencia === 'null') {
+      experiencia =  null;
+    } else {
+      experiencia = parseInt (experiencia);
+    }
+    
+    console.log (idespecialidad);
+
+    this.api.buscar_profesional_avanzado (
+      this.profesional_tipo_seleccionado.id,
+      DEPARTAMENTO_SELECCIONADO,
+      idespecialidad,
+      experiencia).subscribe (async (res: any) => {
+      console.log (res);
+
+      if (res.profesionales.length > 0) {
+        this.navController.navigateForward (['busqueda-avanzada-respuesta', JSON.stringify (res.profesionales)]);
+      } else {
+        const toast = await this.toastController.create({
+          message: 'No se encuentra ningun resultados',
+          duration: 2000,
+          position: 'top'
+        });
+        toast.present();
+      }
+    }, error => {
+      console.log (error);
+    });
+  }
+
+  back () {
+    this.navController.back ();
+  }
+}

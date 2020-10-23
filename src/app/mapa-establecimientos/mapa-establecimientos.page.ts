@@ -52,13 +52,8 @@ export class MapaEstablecimientosPage implements OnInit {
 
     await loading.present ();
 
-    this.api.get_tipos_centros_medicos ('tipos-centros-medicos').subscribe ((res: any) => {
-      Object.entries(res.tipos_centros_medicos).forEach ((val: any) => {
-        this.tipos_centros_medicos.push ({
-          id: val [0],
-          nombre: val [1]
-        })
-      });
+    this.api.get_tipos_centros_medicos (19).subscribe ((res: any) => {
+      this.tipos_centros_medicos = res.tipos_establecimientos;
     });
 
     this.geolocation.getCurrentPosition ().then ((resp: Geoposition) => {
@@ -90,7 +85,7 @@ export class MapaEstablecimientosPage implements OnInit {
 
     await loading.present ();
 
-    this.api.obtener_centros_medicos  (this.latitude, this.longitude, this.kilometros, this.id).subscribe ((res: any) => {
+    this.api.obtener_centros_medicos  (this.latitude, this.longitude, this.id).subscribe ((res: any) => {
       console.log ('resultados', res);
       this.sucursales = res.sucursales;
       loading.dismiss ();
@@ -98,8 +93,10 @@ export class MapaEstablecimientosPage implements OnInit {
       this.clear_markers ();
 
       res.sucursales.forEach ((cliente: any) => {
+        console.log (cliente);
+
         let marker: any = new google.maps.Marker ({
-          position: new google.maps.LatLng (+cliente.latitud, +cliente.longitud),
+          position: new google.maps.LatLng (parseInt (cliente.latitud), parseInt (cliente.longitud)),
           animation: google.maps.Animation.DROP,
           map: this.map
         });

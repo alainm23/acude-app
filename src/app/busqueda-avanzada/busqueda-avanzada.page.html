@@ -1,0 +1,95 @@
+<ion-content>
+  <ion-icon (click)="back ()" name="close-outline"></ion-icon>
+  <ion-card>
+    <h5>Busco un…</h5>
+    <ion-select [(ngModel)]="busco_un" placeholder="Select One" mode="ios">
+      <ion-select-option value="profesionales">Profesionales de la salud</ion-select-option>
+      <ion-select-option value="establecimientos">Establecimientos</ion-select-option>
+      <ion-select-option value="publicidad">Publicidad</ion-select-option>
+    </ion-select>
+
+    <ion-select [(ngModel)]="profesional_tipo_seleccionado" placeholder="Select One" mode="ios">
+      <ion-select-option *ngFor="let item of profesionales_salud_total" [value]="item">
+        {{ item.nombre }}
+      </ion-select-option>
+    </ion-select>
+    <h5 class="h5_bottom">Deseo filtrar por</h5>
+    <ion-card class="card_acordion">
+      <ion-card-header>
+        <ion-card-subtitle>
+          <span (click)="open_especialidad_popover ($event)" *ngIf="especialidad_seleccionada === null">Especialidad</span>
+          <span (click)="open_especialidad_popover ($event)" *ngIf="especialidad_seleccionada !== null">{{ especialidad_seleccionada.nombre }}</span>
+          <ion-icon (click)="open_especialidad_popover ($event)" *ngIf="especialidad_seleccionada === null" name="chevron-forward-outline" class="icon_rigth"></ion-icon>
+          <ion-icon (click)="especialidad_seleccionada = null" *ngIf="especialidad_seleccionada !== null" name="close-outline" class="icon_rigth"></ion-icon>
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content class="conten_none">
+        
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="card_acordion">
+      <ion-select [(ngModel)]="exp" placeholder="Experiencia" mode="ios">
+        <ion-select-option value="null">Ninguna</ion-select-option>
+        <ion-select-option value="3">3 años a más</ion-select-option>
+        <ion-select-option value="5">5 años a más</ion-select-option>
+        <ion-select-option value="10">10 años a más</ion-select-option>
+      </ion-select>
+    </ion-card>
+    <ion-card class="card_acordion">
+      <ion-card-header>
+        <ion-card-subtitle>Idiomas<ion-icon name="chevron-down-outline" class="icon_rigth"></ion-icon></ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="div_flex_check">
+          <div class="check_label" *ngFor="let item of idiomas">
+            <ion-checkbox [(ngModel)]="item.checked"></ion-checkbox>
+            <ion-label>{{ item.nombre }}</ion-label>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="card_acordion">
+      <ion-select [(ngModel)]="exp" placeholder="Rango de honorarios" mode="ios">
+        <ion-select-option value="50-100">De S/.50.00 - S/.100.00</ion-select-option>
+        <ion-select-option value="100-200">De S/.100.00 - S/.200.00</ion-select-option>
+        <ion-select-option value="200-1000">De S/.200.00 - mas</ion-select-option>
+      </ion-select>
+    </ion-card>
+    <ion-card class="card_acordion">
+      <ion-list>
+        <ion-item>
+          <ion-label>Atencion 24 horas</ion-label>
+          <ion-checkbox slot="start"></ion-checkbox>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Atencion emergencias</ion-label>
+          <ion-checkbox slot="start"></ion-checkbox>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Atencion telemedicina</ion-label>
+          <ion-checkbox slot="start"></ion-checkbox>
+        </ion-item>
+      </ion-list>
+      
+    </ion-card>
+    <!-- <ion-card class="card_acordion">
+      <ion-card-header>
+        <ion-card-subtitle>Localización<ion-icon name="chevron-forward-outline" class="icon_rigth"></ion-icon></ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content class="conten_none">
+        
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="card_acordion">
+      <ion-card-header>
+        <ion-card-subtitle>Localización<ion-icon name="chevron-forward-outline" class="icon_rigth"></ion-icon></ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content class="conten_none">
+        
+      </ion-card-content>
+    </ion-card> -->
+    <ion-button (click)="submit ()">Filtrar</ion-button>
+  </ion-card>
+</ion-content>

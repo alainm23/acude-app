@@ -34,25 +34,19 @@ export class PublicidadListaPage implements OnInit {
 
     await loading.present ();
     
-    this.api.get_categoria_publicidades ().subscribe ((res: any) => {
-      Object.entries(res.categorias).forEach ((val: any) => {
-        this.categorias.push ({
-          id: val [0],
-          nombre: val [1]
-        })
-      });
-
-      console.log ()
+    this.api.get_categoria_publicidades (16).subscribe ((res: any) => {
+      this.categorias = res.categorias;
+      console.log (res);
     });
 
-    this.api.get_all_listado_publicidades ().subscribe ((res: any) => {
+    this.api.get_listado_publicidades (16, 0).subscribe ((res: any) => {
       console.log (res);
       this.publicidades = res.publicidades;
       this._publicidades = res.publicidades;
       loading.dismiss ();
     });
   }
-
+  
   slides_categoria_changed () {
     this.slide_categorias.getActiveIndex ().then ((index: number) => {
       this.publicidades = this._publicidades;

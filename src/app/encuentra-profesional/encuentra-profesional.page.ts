@@ -76,31 +76,16 @@ export class EncuentraProfesionalPage implements OnInit {
 
     console.log (this.kilometros);
 
-    this.api.obtener_profesionales_ubicacion  (this.latitude, this.longitude, this.kilometros, this.route.snapshot.paramMap.get ('id')).subscribe ((res: any) => {
+    this.api.obtener_profesionales_ubicacion ('especialidad', this.route.snapshot.paramMap.get ('id'), this.latitude, this.longitude, this.kilometros).subscribe ((res: any) => {
       console.log (res);
       loading.dismiss ();
 
       this.clear_markers ();
 
-      this.consultorios = res.consultorios;
-      res.consultorios.forEach((cliente: any) => {
+      this.consultorios = res.profesionales;
+      res.profesionales.forEach((cliente: any) => {
         let marker: any = new google.maps.Marker ({
-          position: new google.maps.LatLng (+cliente.latitud, +cliente.longitud),
-          animation: google.maps.Animation.DROP,
-          map: this.map
-        });
-
-        marker.addListener ("click", () => {
-          this.navController.navigateForward (['perfil-doctor', cliente.id]);
-        });
-
-        this.markers.push (marker);
-      });
-
-      this.centros_medicos = res.centros_medicos;
-      res.centros_medicos.forEach((cliente: any) => {
-        let marker: any = new google.maps.Marker({
-          position: new google.maps.LatLng (+cliente.latitud, +cliente.longitud),
+          position: new google.maps.LatLng (parseInt (cliente.latitud) , parseInt (cliente.longitud)),
           animation: google.maps.Animation.DROP,
           map: this.map
         });
@@ -144,31 +129,26 @@ export class EncuentraProfesionalPage implements OnInit {
 
     if (this.kilometros < 1) {
       this.kilometros = 1;
-    }
+    } 
 
-    // if (this.kilometros > 20) {
-    //   this.kilometros = 20;
-    // }
+    if (this.consultorios.length >= 10) {
+      // this.kilometros = this.kilometros-value;
+    }
 
     this.draw_marks ();
   }
 
   ver_lista () {
-    let centros_medicos: string = this.centros_medicos.map((elem: any) => {
-        return elem.id_sucursal;
+    let string_cm: string = this.consultorios.map((elem: any) => {
+      return elem.id_sucursal;
     }).join (",");
-    if (centros_medicos === '') {
-      centros_medicos = 'null';
+    if (string_cm === '') {
+      string_cm = 'null';
     }
 
-    let consultorios: string = this.consultorios.map((elem: any) => {
-      return elem.id_consultorio;
-    }).join (",");
-    if (consultorios === '') {
-      consultorios = 'null';
-    }
+    console.log (string_cm);
 
-    this.navController.navigateForward (['encuentra-profesional-lista', consultorios, centros_medicos, this.nombre]);  
+    this.navController.navigateForward (['encuentra-profesional-lista', string_cm, this.nombre]);  
   }
 
   initAutocomplete () {

@@ -80,20 +80,22 @@ ion-card.card_buscador
     ion-input
     {
         font-family: PoppinsRegular;
-        --color: #C7C7C7;
-        --placeholder-color: #C7C7C7;
+        --color: #383a3e;
+        --placeholder-color: #1f1e1e;
     }
 }
-/*div.div_tabla
-{
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
-    border-radius: 0px 0px 15px 15px;
-    box-shadow: 0px 3px 6px #00000029;
-    z-index: 999999;
-    position: absolute;
-}*/
+
+// div.div_tabla
+// {
+//     width: 90%;
+//     margin-left: 5%;
+//     margin-right: 5%;
+//     border-radius: 0px 0px 15px 15px;
+//     box-shadow: 0px 3px 6px #00000029;
+//     z-index: 999999;
+//     position: absolute;
+// }
+
 .p_busqueda
 {
     font-family: PoppinsRegular;

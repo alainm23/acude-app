@@ -2,35 +2,44 @@
   <ion-toolbar>
     <ion-card class="card_check">
       <img src="assets/img/Grupo1695.png">
-      <ion-select [compareWith]="compareWith" [value]="departamento_id" okText="Ok" cancelText="Cerrar" mode="ios">
-        <ion-select-option *ngFor="let item of departamentos" [value]="item.id">
+      <ion-select (ionChange)="select_departamento ()" [(ngModel)]="departamento" okText="Ok" cancelText="Cerrar" mode="ios">
+        <ion-select-option *ngFor="let item of departamentos" [value]="item">
           {{ item.nombre }}
         </ion-select-option>
       </ion-select>
     </ion-card>
   </ion-toolbar>
   <ion-card class="card_buscador">
-    <ion-input mode="ios" placeholder="Que deseas buscar?"></ion-input>
+    <ion-input type="search" debounce=250 (ionChange)="search ()" [(ngModel)]="search_text" mode="ios" placeholder="¿Que deseas buscar?"></ion-input>
     <ion-icon name="chevron-down-outline"></ion-icon>
-    <!-- <div class="div_tabla">
-      <ion-list>
-        <ion-item>
-          <ion-label>Pokémon Yellow</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label>Mega Man X</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label>The Legend of Zelda</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label>Pac-Man</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label>Super Mario World</ion-label>
-        </ion-item>
-      </ion-list>
-    </div> -->
+  </ion-card>
+
+  <ion-card *ngIf="resultados_busqueda.length > 0" style="position: fixed; width: 90%; top: 19%; left: 2%;">
+    <ion-list>
+      <ion-list-header *ngIf="get_profesionales (resultados_busqueda).length > 0">
+        <ion-label>Profesionales de la salud</ion-label>
+      </ion-list-header>
+
+      <ion-item style="opacity: 0.7; font-size: 0.8rem;" *ngFor="let item of get_profesionales (resultados_busqueda)" (click)="ver_item_buscar (item)">
+        <ion-label>{{ item.title }}</ion-label>
+      </ion-item>
+
+      <ion-list-header *ngIf="get_establ (resultados_busqueda).length > 0">
+        <ion-label>Establecimientos</ion-label>
+      </ion-list-header>
+
+      <ion-item style="opacity: 0.7; font-size: 0.8rem;" *ngFor="let item of get_establ (resultados_busqueda)" (click)="ver_item_buscar (item)">
+        <ion-label>{{ item.title }}</ion-label>
+      </ion-item>
+
+      <ion-list-header *ngIf="get_publi (resultados_busqueda).length > 0">
+        <ion-label>Promociones & eventos</ion-label>
+      </ion-list-header>
+
+      <ion-item style="opacity: 0.7; font-size: 0.8rem;" *ngFor="let item of get_publi (resultados_busqueda)" (click)="ver_item_buscar (item)">
+        <ion-label>{{ item.title }}</ion-label>
+      </ion-item>
+    </ion-list>
   </ion-card>
 </ion-header>
 
@@ -81,6 +90,10 @@
             <ion-list *ngIf="!tipos_centros_medicos_cargando">
               <ion-item *ngFor="let item of tipos_centros_medicos" (click)="ver_centros (item)">
                 <ion-label>{{ item.nombre }}</ion-label>
+              </ion-item>
+
+              <ion-item (click)="ver_mas_establecimientos ()">
+                <ion-label>Ver mas...</ion-label>
               </ion-item>
             </ion-list>
           </ion-card-content>

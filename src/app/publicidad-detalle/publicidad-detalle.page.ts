@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, LoadingController, IonSlides } from '@ionic/angular';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 @Component({
   selector: 'app-publicidad-detalle',
@@ -26,7 +27,8 @@ export class PublicidadDetallePage implements OnInit {
     private api: ApiService,
     private route: ActivatedRoute,
     private navController: NavController,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private callNumber: CallNumber
   ) { }
 
   async ngOnInit() { 
@@ -36,13 +38,8 @@ export class PublicidadDetallePage implements OnInit {
 
     await loading.present ();
     
-    this.api.get_categoria_publicidades ().subscribe ((res: any) => {
-      Object.entries(res.categorias).forEach ((val: any) => {
-        this.categorias.push ({
-          id: val [0],
-          nombre: val [1]
-        })
-      });
+    this.api.get_categoria_publicidades (16).subscribe ((res: any) => {
+      this.categorias = res.categorias;
       console.log ('categorias', this.categorias);
 
       this.get_publicaciones_by_categoria (
@@ -103,5 +100,13 @@ export class PublicidadDetallePage implements OnInit {
         loading
       );
     });
+  }
+
+  llamar (telefono: any) {
+    if (telefono !== null) {
+      this.callNumber.callNumber (telefono, true)
+      .then (res => console.log ('Launched dialer!', res))
+      .catch (err => console.log ('Error launching dialer', err));
+    }
   }
 }

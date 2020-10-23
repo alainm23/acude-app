@@ -28,12 +28,15 @@ import { Camera } from '@ionic-native/camera/ngx';
 
 // Facebook
 import { Facebook } from '@ionic-native/facebook/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 // Popovers
 import { SelectIdiomaPageModule } from './popovers/select-idioma/select-idioma.module';
 import { SelectHonorarioPageModule } from './popovers/select-honorario/select-honorario.module';
 import { SelectHorarioPageModule } from './popovers/select-horario/select-horario.module';
 import { SelectSucursalPageModule } from './popovers/select-sucursal/select-sucursal.module';
+import { SelectEspecialidadPageModule } from './popovers/select-especialidad/select-especialidad.module';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -49,7 +52,8 @@ import { SelectSucursalPageModule } from './popovers/select-sucursal/select-sucu
     SelectIdiomaPageModule,
     SelectHonorarioPageModule,
     SelectHorarioPageModule,
-    SelectSucursalPageModule
+    SelectSucursalPageModule,
+    SelectEspecialidadPageModule
   ],
   providers: [
     StatusBar,
@@ -59,6 +63,7 @@ import { SelectSucursalPageModule } from './popovers/select-sucursal/select-sucu
     Deeplinks,
     Camera,
     Facebook,
+    CallNumber,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

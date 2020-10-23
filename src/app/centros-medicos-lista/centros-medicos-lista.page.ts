@@ -6,11 +6,11 @@ import { ApiService } from '../services/api.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-especialidad',
-  templateUrl: './especialidad.page.html',
-  styleUrls: ['./especialidad.page.scss'],
+  selector: 'app-centros-medicos-lista',
+  templateUrl: './centros-medicos-lista.page.html',
+  styleUrls: ['./centros-medicos-lista.page.scss'],
 })
-export class EspecialidadPage implements OnInit {
+export class CentrosMedicosListaPage implements OnInit {
   especialidades: any [] = [];
   _especialidades: any [] = [];
   search_text: string = '';
@@ -28,9 +28,9 @@ export class EspecialidadPage implements OnInit {
 
     await loading.present ();
 
-    this.api.get_especialidad_by_profesionales (this.route.snapshot.paramMap.get ('id')).subscribe ((res: any) => {
+    this.api.get_tipos_centros_medicos (19, -1).subscribe ((res: any) => {
       loading.dismiss ();
-      this.especialidades = res.especialidades;
+      this.especialidades = res.tipos_establecimientos;
       this._especialidades = this.especialidades;
       console.log (res);
     });
@@ -41,7 +41,7 @@ export class EspecialidadPage implements OnInit {
   }
 
   encontrar_profesional (item: any) {
-    this.navController.navigateForward (['encuentra-profesional', item.id, item.nombre]);
+    this.navController.navigateForward (['mapa-establecimientos', item.id, item.nombre]);
   }
 
   filtrar () {

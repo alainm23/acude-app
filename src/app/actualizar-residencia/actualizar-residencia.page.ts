@@ -34,13 +34,7 @@ export class ActualizarResidenciaPage implements OnInit {
 
     this.api.get_departamentos ().subscribe ((res: any) => {
       loading.dismiss ();
-
-      Object.entries (res.departamentos).forEach ((val: any) => {
-        this.departamentos.push ({
-          id: val [0],
-          nombre: val [1]
-        })
-      });
+      this.departamentos = res.departamentos;
     }, error => {
       loading.dismiss ();
       console.log (error);

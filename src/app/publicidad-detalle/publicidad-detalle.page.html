@@ -28,7 +28,7 @@
     <ion-row class="ion-justify-content-center">
       <ion-col size="10" size-md="6">
         <h1 class="ion-text-center">{{ datos?.titulo }}</h1>
-        <ion-slides pager="false" #slide_publicidades [options]="slideOpts" class="slider_img" (ionSlideDidChange)="slidesChanged ()">
+        <ion-slides pager="false" #slide_publicidades class="slider_img" (ionSlideDidChange)="slidesChanged ()">
           <ion-slide *ngFor="let item of publicidades">
             <ion-avatar>         
               <img [src]="'http://appmedico.demoperu.site/storage/' + item.imagen">
@@ -40,7 +40,7 @@
         </p>
         <div class="div_botones">
           <ion-button class="btn_mas">Mas información</ion-button>
-          <ion-button class="btn_telefono"><img src="assets/img/Grupo1716.png">Contactar</ion-button>
+          <ion-button class="btn_telefono" (click)="llamar (datos?.telefono_contacto)"><img src="assets/img/Grupo1716.png">Contactar</ion-button>
         </div>
       </ion-col>
     </ion-row>

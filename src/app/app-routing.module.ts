@@ -56,7 +56,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'encuentra-profesional-lista/:string_consultorios/:string_cm/:nombre',
+    path: 'encuentra-profesional-lista/:string_cm/:nombre',
     canActivate: [AuthGuard],
     loadChildren: () => import('./encuentra-profesional-lista/encuentra-profesional-lista.module').then( m => m.EncuentraProfesionalListaPageModule)
   },
@@ -114,6 +114,24 @@ const routes: Routes = [
     path: 'emergencia',
     canActivate: [AuthGuard],
     loadChildren: () => import('./emergencia/emergencia.module').then( m => m.EmergenciaPageModule)
+  },
+  {
+    path: 'centros-medicos-lista',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./centros-medicos-lista/centros-medicos-lista.module').then( m => m.CentrosMedicosListaPageModule)
+  },
+  {
+    path: 'busqueda-avanzada',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./busqueda-avanzada/busqueda-avanzada.module').then( m => m.BusquedaAvanzadaPageModule)
+  },
+  {
+    path: 'select-especialidad',
+    loadChildren: () => import('./popovers/select-especialidad/select-especialidad.module').then( m => m.SelectEspecialidadPageModule)
+  },
+  {
+    path: 'busqueda-avanzada-respuesta/:respuesta',
+    loadChildren: () => import('./busqueda-avanzada-respuesta/busqueda-avanzada-respuesta.module').then( m => m.BusquedaAvanzadaRespuestaPageModule)
   },
 ];
 
