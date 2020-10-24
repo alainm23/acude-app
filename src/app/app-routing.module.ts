@@ -132,7 +132,11 @@ const routes: Routes = [
   {
     path: 'busqueda-avanzada-respuesta/:respuesta',
     loadChildren: () => import('./busqueda-avanzada-respuesta/busqueda-avanzada-respuesta.module').then( m => m.BusquedaAvanzadaRespuestaPageModule)
+  },  {
+    path: 'ingreso',
+    loadChildren: () => import('./ingreso/ingreso.module').then( m => m.IngresoPageModule)
   },
+
 ];
 
 @NgModule({
