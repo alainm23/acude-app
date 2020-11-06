@@ -29,6 +29,9 @@ import { Camera } from '@ionic-native/camera/ngx';
 // Facebook
 import { Facebook } from '@ionic-native/facebook/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 
 // Popovers
 import { SelectIdiomaPageModule } from './popovers/select-idioma/select-idioma.module';
@@ -63,7 +66,10 @@ import { SelectEspecialidadPageModule } from './popovers/select-especialidad/sel
     Deeplinks,
     Camera,
     Facebook,
+    GooglePlus,
     CallNumber,
+    AndroidPermissions,
+    LocationAccuracy,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 // Facebook
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 import { Platform } from '@ionic/angular';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor (private fb : Facebook, private platform: Platform) {
+  constructor (private fb : Facebook, private platform: Platform, private googlePlus: GooglePlus) {
 
   }
 
@@ -33,7 +34,19 @@ export class AuthService {
     // return this.fireAuth.auth.signInWithCredential (credential)
   }
 
-  // fbLogin(): Promise<any> {
-    // return this.fireAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
-  // }
+  google () {
+    if(this.platform.is ('cordova')) {
+      this.googlePlus.login({})
+      .then(res => {
+        console.log(res)
+        alert (res);
+      })
+      .catch(err => {
+        console.error(err)
+        alert (err);
+      });
+    } else {
+      console.log ('No Cordova');
+    }
+  }
 }

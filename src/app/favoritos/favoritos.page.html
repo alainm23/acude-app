@@ -7,17 +7,16 @@
   <ion-slides  pager="false" [options]="slideOptsOne" (ionSlideDidChange)="slides_categoria_changed ()">
     <ion-slide>
     </ion-slide>
-    <ion-slide>
+    <ion-slide (click)="slide_to (0)">
       <ion-card>
         <p>Profesionales</p>
       </ion-card>
     </ion-slide>
-    <ion-slide>
+    <ion-slide (click)="slide_to (1)">
       <ion-card>
-        <p>Centros Medicos</p>
+        <p>Establecimientos</p>
       </ion-card>
     </ion-slide>
-
     <ion-slide>  
     </ion-slide>
   </ion-slides>
@@ -25,12 +24,12 @@
 
 <ion-content>
   <ion-grid *ngIf="index === 0">
-    <ion-row class="ion-justify-content-center">
+    <ion-row *ngIf="profesionales.length > 0" class="ion-justify-content-center">
       <ion-col *ngFor="let item of profesionales" size="12" size-sm="10" size-md="8" size-lg="6">
         <ion-card class="card_establecimineto">
           <div class="div_img_p">
             <div class="div_img_circulo">
-              <img [src]="'http://appmedico.demoperu.site/storage/' + item.fotografia">
+              <img [src]="get_foto (item.fotografia)">
               <!-- <div class="div_circulo_verde">
                 
               </div> -->
@@ -51,8 +50,8 @@
               </ion-row>
             </div>
             <div class="div_liena_azul">
-              <p>MBBS,DOMS,MS - Ophthalmology</p>
-              <p>{{ get_tiempo_experiencia (item.anio_colegiatura) }} de experiencia</p>
+              <p>{{ item.especialidad.nombre }}</p>
+              <p *ngIf="item.anio_colegiatura !== null">{{ get_tiempo_experiencia (item.anio_colegiatura) }} de experiencia</p>
             </div>
           </div>
           <ion-row class="ion-justify-content-center" style="width: 100%;">
@@ -68,15 +67,21 @@
         </ion-card>
       </ion-col>
     </ion-row>
+
+    <ion-row *ngIf="profesionales.length <= 0" class="ion-justify-content-center">
+      <ion-col class="ion-text-center">
+        <h5>No tiene ningun profesioanal favorito</h5>
+      </ion-col>
+    </ion-row>
   </ion-grid>
 
   <ion-grid *ngIf="index === 1">
-    <ion-row class="ion-justify-content-center">
+    <ion-row *ngIf="centros_medicos.length > 0" class="ion-justify-content-center">
       <ion-col size="12" size-sm="10" size-md="8" size-lg="6" *ngFor="let item of centros_medicos" (click)="ver_clinica (item)">
         <ion-card class="card_establecimineto" (click)="ver (item)">
           <div class="div_img_p">
             <div class="div_img_circulo">
-              <img [src]="'http://appmedico.demoperu.site/storage/' + item.imagen">
+              <img [src]="get_foto (item.imagen)">
               <div class="div_circulo_verde">
                 
               </div>
@@ -108,6 +113,12 @@
             </ion-col>
           </ion-row>
         </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="centros_medicos.length <= 0" class="ion-justify-content-center">
+      <ion-col class="ion-text-center">
+        <h5>No tiene ningun centro medico favorito</h5>
       </ion-col>
     </ion-row>
   </ion-grid>

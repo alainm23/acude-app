@@ -31,7 +31,6 @@ const routes: Routes = [
   },
   {
     path: 'actualizar-residencia',
-    canActivate: [AuthGuard],
     loadChildren: () => import('./actualizar-residencia/actualizar-residencia.module').then( m => m.ActualizarResidenciaPageModule)
   },
   {
@@ -132,9 +131,15 @@ const routes: Routes = [
   {
     path: 'busqueda-avanzada-respuesta/:respuesta',
     loadChildren: () => import('./busqueda-avanzada-respuesta/busqueda-avanzada-respuesta.module').then( m => m.BusquedaAvanzadaRespuestaPageModule)
-  },  {
+  },
+  {
     path: 'ingreso',
     loadChildren: () => import('./ingreso/ingreso.module').then( m => m.IngresoPageModule)
+  },
+  {
+    path: 'editar-perfil',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./editar-perfil/editar-perfil.module').then( m => m.EditarPerfilPageModule)
   },
 
 ];

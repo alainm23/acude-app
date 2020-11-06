@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, LoadingController, IonSlides } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-publicidad-lista',
@@ -24,22 +25,28 @@ export class PublicidadListaPage implements OnInit {
     private api: ApiService,
     private route: ActivatedRoute,
     private navController: NavController,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private storage: Storage
   ) { }
 
-  async ngOnInit() { 
+  async ngOnInit() {
+    let departamento_id = await this.storage.get ('DEPARTAMENTO_SELECCIONADO');
+    if (departamento_id === null) {
+      departamento_id = this.api.USUARIO_DATA.departamento_id;
+    }
+
     const loading = await this.loadingController.create({
       message: 'Procesando...',
     });
 
     await loading.present ();
     
-    this.api.get_categoria_publicidades (16).subscribe ((res: any) => {
+    this.api.get_categoria_publicidades (departamento_id).subscribe ((res: any) => {
       this.categorias = res.categorias;
       console.log (res);
     });
 
-    this.api.get_listado_publicidades (16, 0).subscribe ((res: any) => {
+    this.api.get_listado_publicidades (departamento_id, 0).subscribe ((res: any) => {
       console.log (res);
       this.publicidades = res.publicidades;
       this._publicidades = res.publicidades;

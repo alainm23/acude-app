@@ -6,6 +6,9 @@
 
 <ion-content>
   <ion-list>
+    <ion-item (click)="ninguna ()">
+      Ninguna
+    </ion-item>
     <ion-item *ngFor="let item of especialidades" (click)="select (item)">
       {{ item.nombre }}
     </ion-item>

@@ -21,6 +21,12 @@ export class AuthGuard implements CanActivate {
         this.api.USUARIO_DATA = JSON.parse (await this.storage.get ('USUARIO_DATA'));
 
         console.log (this.api.USUARIO_DATA);
+
+        if (this.api.USUARIO_DATA.departamento_id === 0) {
+          this.navController.navigateRoot ('actualizar-residencia');
+          return false;
+        }
+
         return true;
       } else {
         this.navController.navigateRoot ('onboarding');

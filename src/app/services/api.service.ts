@@ -11,9 +11,11 @@ export class ApiService {
   URL_BASE: string;
   USUARIO_ACCESS: any;
   USUARIO_DATA: any;
+
+  TITULO_ERROR: string = 'Lo sentimos';
   constructor (public http: HttpClient) {
-    // this.URL_BASE = "https://acudeapp.com";
-    this.URL_BASE = "http://appmedico.demoperu.site";
+    this.URL_BASE = "https://acudeapp.com";
+    // this.URL_BASE = "http://appmedico.demoperu.site";
   }
 
   login (email: string, password: string) {
@@ -129,7 +131,7 @@ export class ApiService {
   }
 
   get_listado_publicidades (id_departamento: number, limite: number) {
-    let url = this.URL_BASE + '/api/publicidades/mostrar/' + id_departamento + '?limite=' + limite;
+    let url = this.URL_BASE + '/api/publicidades/mostrar/' + id_departamento + '?limite=' + limite + '&orden=0';
     
     const headers = {
       'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
@@ -160,7 +162,9 @@ export class ApiService {
 
   get_listado_publicaciones_by_categoria (id: string) {
     let url = this.URL_BASE + '/api/publicidades/listado/' + id;
-    
+
+    console.log (url);
+
     const headers = {
       'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
     }
@@ -251,10 +255,19 @@ export class ApiService {
     }
 
     return this.http.get (url, { headers });
-  }
+  } 
 
-  obtener_centros_medicos (latitud: number, longitud: number, id_especialidad: string) {
-    let url = this.URL_BASE + '/api/establecimientos/' + latitud + '/' + longitud + '/' + id_especialidad + '?kilomeros=5';
+  obtener_centros_medicos (latitud: number, longitud: number, tipo_centro: string, kilometros: number=5, limite: number=10) {
+    let url = this.URL_BASE + '/api/establecimientos/' + latitud + '/' + longitud + '/' + tipo_centro;// + '?kilometros=' + kilometros;
+
+    if (kilometros !== -1) {
+      url += '&kilometros=' + kilometros;
+    }
+
+    url += '&limite=' + limite;
+    url = url.replace (new RegExp('&'), '?');
+
+    console.log (url);
 
     const headers = {
       'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
@@ -340,7 +353,7 @@ export class ApiService {
   }
 
   get_favoritos () {
-    let url = this.URL_BASE + '/api/auth/obtener-listado-favoritos/' + this.USUARIO_DATA.id;
+    let url = this.URL_BASE + '/api/soporte/obtener-listado-favoritos/' + this.USUARIO_DATA.id;
     
     const headers = {
       'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
@@ -349,13 +362,31 @@ export class ApiService {
     return this.http.get (url, { headers });
   }
 
-  get_numero_emergencia () {
-    let url = this.URL_BASE + '/api/soporte/obtener-telefono-emergencia/' + this.USUARIO_DATA.id;
+  get_numero_emergencia (departamento: number) {
+    let url = this.URL_BASE + '/api/soporte/obtener-telefono-emergencia/' + departamento;
     
     const headers = {
       'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
     }
 
     return this.http.get (url, { headers });
+  }
+
+  actualizar_usuario (form: any) {
+    let url = this.URL_BASE + '/api/auth/actualizar-usuario';
+
+    let data: any = {
+      id_user: this.USUARIO_DATA.id,
+      fName: form.fName,
+      lName: form.lName,
+      password: null,
+      imagen: form.imagen
+    };
+    
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.post (url, data, { headers });
   }
 }

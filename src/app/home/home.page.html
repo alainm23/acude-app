@@ -2,19 +2,20 @@
   <ion-toolbar>
     <ion-card class="card_check">
       <img src="assets/img/Grupo1695.png">
-      <ion-select (ionChange)="select_departamento ()" [(ngModel)]="departamento" okText="Ok" cancelText="Cerrar" mode="ios">
+      <ion-select placeholder="Seleccione un departamento" (ionChange)="select_departamento ()" interfaces="alert" [(ngModel)]="departamento" okText="Seleccionar" cancelText="Cerrar" mode="ios">
         <ion-select-option *ngFor="let item of departamentos" [value]="item">
           {{ item.nombre }}
         </ion-select-option>
       </ion-select>
     </ion-card>
   </ion-toolbar>
+  
   <ion-card class="card_buscador">
     <ion-input type="search" debounce=250 (ionChange)="search ()" [(ngModel)]="search_text" mode="ios" placeholder="¿Que deseas buscar?"></ion-input>
     <ion-icon name="chevron-down-outline"></ion-icon>
   </ion-card>
 
-  <ion-card *ngIf="resultados_busqueda.length > 0" style="position: fixed; width: 90%; top: 19%; left: 2%;">
+  <ion-card *ngIf="resultados_busqueda.length > 0 && search_text !== ''" style="position: fixed; width: 90%; top: 19%; left: 2%;">
     <ion-list>
       <ion-list-header *ngIf="get_profesionales (resultados_busqueda).length > 0">
         <ion-label>Profesionales de la salud</ion-label>
@@ -28,8 +29,9 @@
         <ion-label>Establecimientos</ion-label>
       </ion-list-header>
 
-      <ion-item style="opacity: 0.7; font-size: 0.8rem;" *ngFor="let item of get_establ (resultados_busqueda)" (click)="ver_item_buscar (item)">
-        <ion-label>{{ item.title }}</ion-label>
+      <ion-item style="opacity: 0.7; font-size: 0.8rem;" *ngFor="let item of get_establ (resultados_busqueda); let i = index" (click)="ver_item_buscar (item)">
+        <!-- <img src="assets/img/OjPimX.tif.png" alt=""> -->
+        <ion-label *ngIf="i <= 2">{{ item.title }}</ion-label>
       </ion-item>
 
       <ion-list-header *ngIf="get_publi (resultados_busqueda).length > 0">
@@ -102,7 +104,7 @@
 
       <ion-col size="12" size-md="9" size-lg="8">
         <ion-card class="card_acordion">
-          <ion-card-header mode="ios" (click)="ver_publicidad = !ver_publicidad">
+          <ion-card-header mode="ios" (click)="toggle_publicidad ()">
             <img src="assets/img/Grupo1905.png">
             <ion-card-title>Promociones y eventos</ion-card-title>
             <ion-icon name="chevron-forward-outline" class="icon_rigth"></ion-icon>
@@ -114,41 +116,45 @@
     </ion-row>
   </ion-grid>
   <ng-container *ngIf="ver_publicidad">
+    <div *ngIf="publicidad_cargando" class="ion-text-center ion-spinner-div">
+      <ion-spinner></ion-spinner>
+    </div>
+
     <ion-slides pager="false" [options]="slideOptsOne">
       <ion-slide *ngFor="let item of publicidades" (click)="ver_detalle_publicidad (item)">
         <img [src]="'http://appmedico.demoperu.site/storage/' + item.imagen">
       </ion-slide>
     </ion-slides>
 
-    <ion-button (click)="ver_todo_publicidad ()" class="ion-text-center btn_saltar">Ver todo</ion-button>
+    <ion-button *ngIf="!publicidad_cargando" (click)="ver_todo_publicidad ()" class="ion-text-center btn_saltar">Ver todo</ion-button>
   </ng-container>
 </ion-content>
 
 <ion-footer class="ion-no-border ion_footer">
   <ion-toolbar class="ion_toolbar">
     <ion-row>
-      <ion-col size="3" (click)="emergencia ()" class="ion_tolbar">
+      <ion-col size="4" (click)="emergencia ()" class="ion_tolbar">
         <div class="div_tolbar">
           <img src="assets/img/Grupo1699.png">
         </div>
         <ion-label class="label_semibol">Emergencia</ion-label>
       </ion-col>
 
-      <ion-col size="3" class="ion_tolbar">
+      <!-- <ion-col size="3" class="ion_tolbar">
         <div class="div_tolbar">
           <img src="assets/img/Grupo1716.png">
         </div>
         <ion-label class="label_regular">Telemedicina</ion-label>
-      </ion-col>
+      </ion-col> -->
 
-      <ion-col (click)="favoritos ()" size="3" class="ion_tolbar">
+      <ion-col (click)="favoritos ()" size="4" class="ion_tolbar">
         <div class="div_tolbar">
           <img src="assets/img/Grupo1873.png">
         </div>
         <ion-label class="label_regular">Mis favoritos</ion-label>
       </ion-col>
 
-      <ion-col (click)="menu ()" size="3" class="ion_tolbar">
+      <ion-col (click)="menu ()" size="4" class="ion_tolbar">
         <div class="div_tolbar">
           <img src="assets/img/user-4.png">
         </div>
@@ -157,30 +163,3 @@
     </ion-row>
   </ion-toolbar>
 </ion-footer>
-
-<!-- <ion-footer>
-  <ion-tabs>
-    <ion-tab-bar slot="bottom">
-      <ion-tab-button tab="schedule">
-        <img src="assets/img/Grupo1699.png">
-        <ion-label class="label_semibol">Emergencia</ion-label>
-      </ion-tab-button>
-
-      <ion-tab-button tab="speakers">
-        <img src="assets/img/Grupo1716.png">
-        <ion-label class="label_regular">Telemedicina</ion-label>
-      </ion-tab-button>
-
-      <ion-tab-button tab="map">
-        <img src="assets/img/Grupo1873.png">
-        <ion-label class="label_regular">Mis favoritos</ion-label>
-      </ion-tab-button>
-
-      <ion-tab-button tab="about">
-        <img src="assets/img/user-4.png">
-        <ion-label class="label_regular">Mi cuenta</ion-label>
-      </ion-tab-button>
-      <div class="div_plomo"></div>
-    </ion-tab-bar>
-  </ion-tabs>
-</ion-footer> -->

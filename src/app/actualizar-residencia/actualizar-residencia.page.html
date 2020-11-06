@@ -17,14 +17,14 @@
           </ion-select-option>
         </ion-select>
       </ion-col>
-      <ion-col size="11" size-md="9" size-lg="8">
+      <ion-col *ngIf="departamento !== null" size="11" size-md="9" size-lg="8">
         <ion-select  [(ngModel)]="provincia" (ionChange)="provinciaChange ()" placeholder="Provincia" mode="ios">
           <ion-select-option *ngFor="let item of provincias" [value]="item">
             {{ item.nombre }}
           </ion-select-option>
         </ion-select>
       </ion-col>
-      <ion-col size="11" size-md="9" size-lg="8">
+      <ion-col *ngIf="provincia !== null" size="11" size-md="9" size-lg="8">
         <ion-select [(ngModel)]="distrito" placeholder="Distrito" mode="ios">
           <ion-select-option *ngFor="let item of distritos" [value]="item">
             {{ item.nombre }}

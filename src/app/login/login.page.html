@@ -3,33 +3,18 @@
     <ion-card class="ion-no-margin">
       <img src="assets/img/logoblanco.png">
     </ion-card>
-    <p class="ion-text-center"><span>Registrar</span> / <span>Entrar</span></p>
+    <p class="ion-text-center"><span (click)="login_social ('correo')">Registrar</span> / <span (click)="go_view ('ingreso')">Entrar</span></p>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <div class="div_botones">
     <div class="div_linea_plomo"></div>
-    <ion-button class="btn_enlace btn_correo" (click)="go_view ('registro-paciente')">Correo</ion-button>
-    <ion-button class="btn_enlace btn_facebbok" (click)="facebook ()">Facebook</ion-button>
-    <ion-button class="btn_enlace btn_google">Google</ion-button>
+    <ion-button class="btn_enlace btn_correo" (click)="login_social ('correo')">Correo</ion-button>
+    <ion-button class="btn_enlace btn_facebbok" (click)="login_social ('facebook')">Facebook</ion-button>
+    <ion-button class="btn_enlace btn_google" (click)="login_social ('google')">Google</ion-button>
     <div class="div_check">
-      <ion-checkbox></ion-checkbox>
-      <ion-label>Estoy de acuerdo con los <ins>términos y Condiciones</ins></ion-label>
+      <ion-checkbox [(ngModel)]="checked"></ion-checkbox>
+      <ion-label>Estoy de acuerdo con los <ins (click)="go_link ('https://acudeapp.com/usuarios/terminos-condiciones')">términos y condiciones</ins></ion-label>
     </div>
   </div>
-  
-  <form [formGroup]="form">
-    <ion-row>
-      <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col">
-        <ion-input type="text" formControlName="email" placeholder="Nombre de usuario"></ion-input>
-      </ion-col>
-      <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col">
-        <ion-input type="password" formControlName="password" placeholder="Contraseña"></ion-input>
-      </ion-col>
-
-      <ion-col size="10" size-sm="9" size-md="8" size-lg="7" class="bajar_col">
-        <ion-button class="btn_entrar ion-no-margin" [disabled]="!form.valid" (click)="submit ()">Entrar</ion-button>
-      </ion-col>
-    </ion-row>
-  </form>
 </ion-content>

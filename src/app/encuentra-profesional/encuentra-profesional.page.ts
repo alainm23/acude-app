@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 // Services
-import { NavController, LoadingController } from '@ionic/angular';
+import { NavController, LoadingController, Platform } from '@ionic/angular';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 declare var google: any;
 
 // Geo
@@ -9,6 +11,7 @@ import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { strict } from 'assert';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-encuentra-profesional',
@@ -20,6 +23,7 @@ export class EncuentraProfesionalPage implements OnInit {
   @ViewChild ('searchbar', { read: ElementRef, static: false }) searchbar: ElementRef;
   map: any = null;
   search_text: string = '';
+  zona: string = 'tu zona';
 
   kilometros: number = 5;
   latitude: number;
@@ -34,29 +38,138 @@ export class EncuentraProfesionalPage implements OnInit {
     private geolocation: Geolocation,
     private loadingController: LoadingController,
     private api: ApiService,
+    private locationAccuracy: LocationAccuracy,
+    private androidPermissions: AndroidPermissions,
+    private platform: Platform,
+    private storage: Storage,
     private route: ActivatedRoute) {}
 
   async ngOnInit () {
     this.nombre = this.route.snapshot.paramMap.get ('nombre');
 
+    if (this.platform.is ('cordova')) {
+      this.checkGPSPermission ();
+    } else {
+      this.getLocationCoordinates ();
+    }
+  }
+
+  async checkGPSPermission () {
+    let loading = await this.loadingController.create ({
+      message: 'Procesando...'
+    });
+    
+    await loading.present ();
+
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+      .then ((result: any) => {
+        loading.dismiss ();
+
+        if (result.hasPermission) {
+          this.askToTurnOnGPS ();
+        } else {
+          this.requestGPSPermission ();
+        }
+      },
+      err => {
+        alert (err);
+      }
+    );
+  }
+
+  async askToTurnOnGPS () {
+    let loading = await this.loadingController.create ({
+      message: 'Procesando...'
+    });
+    
+    await loading.present ();
+
+    this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY)
+      .then(() => {
+        loading.dismiss ();
+        this.getLocationCoordinates ();
+      }, error => {
+        console.log ('Error requesting location permissions ' + JSON.stringify(error))
+      });
+  }
+
+  async requestGPSPermission () {
+    let loading = await this.loadingController.create ({
+      message: 'Procesando...'
+    });
+    
+    await loading.present ();
+
+    this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+      loading.dismiss ();
+      
+      if (canRequest) {
+        
+      } else {
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+          .then(() => {
+            this.askToTurnOnGPS ();
+          }, error => {
+            console.log ('requestPermission Error requesting location permissions ' + error)
+          }
+        );
+      }
+    });
+  }
+
+  async getLocationCoordinates () {
     const loading = await this.loadingController.create({
       message: 'Procesando...',
     });
 
     await loading.present ();
 
-    this.geolocation.getCurrentPosition ().then ((resp: Geoposition) => {
-      loading.dismiss ();
+    let DEPARTAMENTO_SELECCIONADO = await this.storage.get ('DEPARTAMENTO_SELECCIONADO');
+    if (DEPARTAMENTO_SELECCIONADO === null) {
+      this.geolocation.getCurrentPosition ().then ().catch ();
+      this.geolocation.getCurrentPosition ({enableHighAccuracy: true}).then ((resp: Geoposition) => {
+        loading.dismiss ();
 
-      this.latitude = -13.534499;//resp.coords.latitude;
-      this.longitude = -71.9676677; //resp.coords.longitude;
+        this.latitude = resp.coords.latitude;
+        this.longitude = resp.coords.longitude;
 
-      this.initMap (-13.534499, -71.9676677);
-      this.draw_marks ();
-      this.initAutocomplete ();
-     }).catch ((error) => {
-       console.log('Error getting location', error);
-     });
+        this.initMap (resp.coords.latitude, resp.coords.longitude);
+        this.draw_marks ();
+        this.initAutocomplete ();
+      }).catch ((error) => {
+        loading.dismiss ();  
+        console.log ('Error getting location', error);
+      });
+    } else {
+      if (DEPARTAMENTO_SELECCIONADO === this.api.USUARIO_DATA.departamento_id) {
+        this.geolocation.getCurrentPosition ().then ().catch ();
+        this.geolocation.getCurrentPosition ({enableHighAccuracy: true}).then ((resp: Geoposition) => {
+          loading.dismiss ();
+
+          this.latitude = resp.coords.latitude;
+          this.longitude = resp.coords.longitude;
+
+          this.initMap (resp.coords.latitude, resp.coords.longitude);
+          this.draw_marks ();
+          this.initAutocomplete ();
+        }).catch ((error) => {
+          loading.dismiss ();  
+          console.log ('Error getting location', error);
+        });
+      } else {
+        let DEPARTAMENTO_SELECCIONADO_DATA = JSON.parse (await this.storage.get ('DEPARTAMENTO_SELECCIONADO_DATA'));
+
+        loading.dismiss ();
+
+        this.latitude = parseFloat (DEPARTAMENTO_SELECCIONADO_DATA.latitud);
+        this.longitude = parseFloat (DEPARTAMENTO_SELECCIONADO_DATA.longitud);
+        this.zona = DEPARTAMENTO_SELECCIONADO_DATA.nombre;
+
+        this.initMap (this.latitude, this.longitude);
+        this.draw_marks ();
+        this.initAutocomplete ();
+      }
+    }
   }
 
   clear_markers () {
@@ -85,7 +198,7 @@ export class EncuentraProfesionalPage implements OnInit {
       this.consultorios = res.profesionales;
       res.profesionales.forEach((cliente: any) => {
         let marker: any = new google.maps.Marker ({
-          position: new google.maps.LatLng (parseInt (cliente.latitud) , parseInt (cliente.longitud)),
+          position: new google.maps.LatLng (parseFloat (cliente.latitud) , parseFloat (cliente.longitud)),
           animation: google.maps.Animation.DROP,
           map: this.map
         });

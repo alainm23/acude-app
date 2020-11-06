@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 // Services
-import { NavController, LoadingController, IonSlides } from '@ionic/angular';
+import { NavController, LoadingController, IonSlides, Platform } from '@ionic/angular';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 declare var google: any;
 
 // Geo
@@ -20,7 +22,7 @@ export class MapaEstablecimientosPage implements OnInit {
   @ViewChild ('searchbar', { read: ElementRef, static: false }) searchbar: ElementRef;
   map: any = null;
 
-  kilometros: number = 20;
+  kilometros: number = -1;
   latitude: number;
   longitude: number;
   search_text: string = "";
@@ -40,34 +42,110 @@ export class MapaEstablecimientosPage implements OnInit {
     private geolocation: Geolocation,
     private loadingController: LoadingController,
     private api: ApiService,
+    private locationAccuracy: LocationAccuracy,
+    private androidPermissions: AndroidPermissions,
+    private platform: Platform,
     private route: ActivatedRoute) {}
 
   async ngOnInit () {
     this.id = this.route.snapshot.paramMap.get ('id');
     this.nombre = this.route.snapshot.paramMap.get ('nombre');
 
+    this.api.get_tipos_centros_medicos (19).subscribe ((res: any) => {
+      this.tipos_centros_medicos = res.tipos_establecimientos;
+    });
+
+    if (this.platform.is ('cordova')) {
+      this.checkGPSPermission ();
+    } else {
+      this.getLocationCoordinates ();
+    }
+  }
+
+  async checkGPSPermission () {
+    let loading = await this.loadingController.create ({
+      message: 'Procesando...'
+    });
+    
+    await loading.present ();
+
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+      .then ((result: any) => {
+        loading.dismiss ();
+
+        if (result.hasPermission) {
+          this.askToTurnOnGPS ();
+        } else {
+          this.requestGPSPermission ();
+        }
+      },
+      err => {
+        alert (err);
+      }
+    );
+  }
+
+  async askToTurnOnGPS () {
+    let loading = await this.loadingController.create ({
+      message: 'Procesando...'
+    });
+    
+    await loading.present ();
+
+    this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY)
+      .then(() => {
+        loading.dismiss ();
+        this.getLocationCoordinates ();
+      }, error => {
+        console.log ('Error requesting location permissions ' + JSON.stringify(error))
+      });
+  }
+
+  async requestGPSPermission () {
+    let loading = await this.loadingController.create ({
+      message: 'Procesando...'
+    });
+    
+    await loading.present ();
+
+    this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+      loading.dismiss ();
+      
+      if (canRequest) {
+        
+      } else {
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+          .then(() => {
+            this.askToTurnOnGPS ();
+          }, error => {
+            console.log ('requestPermission Error requesting location permissions ' + error)
+          }
+        );
+      }
+    });
+  }
+
+  async getLocationCoordinates () {
     const loading = await this.loadingController.create({
       message: 'Procesando...',
     });
 
     await loading.present ();
 
-    this.api.get_tipos_centros_medicos (19).subscribe ((res: any) => {
-      this.tipos_centros_medicos = res.tipos_establecimientos;
-    });
+    this.geolocation.getCurrentPosition ().then ().catch ();
 
-    this.geolocation.getCurrentPosition ().then ((resp: Geoposition) => {
+    this.geolocation.getCurrentPosition ({enableHighAccuracy: true}).then ((resp: Geoposition) => {
       loading.dismiss ();
 
-      this.latitude = -13.534499;//resp.coords.latitude;
-      this.longitude = -71.9676677; //resp.coords.longitude;
+      this.latitude = resp.coords.latitude;
+      this.longitude = resp.coords.longitude;
 
-      this.initMap (-13.534499, -71.9676677);
+      this.initMap (resp.coords.latitude, resp.coords.longitude);
       this.draw_marks ();
       this.initAutocomplete ();
-      }).catch ((error) => {
-        console.log('Error getting location', error);
-      });
+    }).catch ((error) => {
+      console.log('Error getting location', error);
+    });
   }
 
   clear_markers () {
@@ -85,18 +163,21 @@ export class MapaEstablecimientosPage implements OnInit {
 
     await loading.present ();
 
-    this.api.obtener_centros_medicos  (this.latitude, this.longitude, this.id).subscribe ((res: any) => {
-      console.log ('resultados', res);
+    this.api.obtener_centros_medicos  (this.latitude, this.longitude, this.id, this.kilometros).subscribe ((res: any) => {
+      // console.log (res);
+
+      if (this.kilometros === -1 && res.sucursales.length > 0) {
+        this.kilometros = Math.floor (res.sucursales [0].distance);
+
+        this.map_pan_to (parseFloat (res.sucursales [0].latitud), parseFloat (res.sucursales [0].longitud));
+      }
+
       this.sucursales = res.sucursales;
       loading.dismiss ();
-
       this.clear_markers ();
-
       res.sucursales.forEach ((cliente: any) => {
-        console.log (cliente);
-
         let marker: any = new google.maps.Marker ({
-          position: new google.maps.LatLng (parseInt (cliente.latitud), parseInt (cliente.longitud)),
+          position: new google.maps.LatLng (parseFloat (cliente.latitud), parseFloat (cliente.longitud)),
           animation: google.maps.Animation.DROP,
           map: this.map
         });
@@ -144,7 +225,7 @@ export class MapaEstablecimientosPage implements OnInit {
     }
 
     if (this.kilometros > 5) {
-      this.kilometros = 5;
+      // this.kilometros = 5;
     }
 
     this.draw_marks ();
@@ -181,16 +262,21 @@ export class MapaEstablecimientosPage implements OnInit {
         let place = autocomplete.getPlace ()
         this.search_text = place.formatted_address;
 
-        let location = new google.maps.LatLng (place.geometry.location.lat (), place.geometry.location.lng ());
-
+        this.kilometros = -1;
         this.latitude = place.geometry.location.lat ();
         this.longitude = place.geometry.location.lng ();
 
-        this.map.setZoom (17);
-        this.map.panTo (location);
+        this.map_pan_to (this.latitude, this.longitude);
+
         this.draw_marks ();
       });
     });
+  }
+
+  map_pan_to (lat: number, lng: number) {
+    let location = new google.maps.LatLng (lat, lng);
+    this.map.setZoom (17);
+    this.map.panTo (location);
   }
 
   slides_categoria_changed () {

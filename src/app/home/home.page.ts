@@ -24,6 +24,8 @@ export class HomePage implements OnInit {
   ver_centros_medicos: boolean = false;
 
   publicidades: any [] = [];
+  publicidad_cargando: boolean = true;
+
   ver_profesionales: boolean = false;
   ver_publicidad: boolean = false;
 
@@ -38,6 +40,11 @@ export class HomePage implements OnInit {
   departamento: any;
   search_text: string = '';
   resultados_busqueda: any [] = [];
+
+  selectOptions = {
+    header: 'Seleccione un departamento'      
+  };
+
   constructor (
     private api: ApiService,
     private loadingController: LoadingController,
@@ -67,14 +74,6 @@ export class HomePage implements OnInit {
     }, error => {
       console.log (error);
     });
-
-    // Dinamico
-    this.api.get_listado_publicidades (16, 6).subscribe ((res: any) => {
-    // this.api.get_listado_publicidades (this.departamento.id, 6).subscribe ((res: any) => {
-      this.publicidades = res.publicidades;
-
-      console.log (res);
-    });
   }
 
   ver_mas_profesionales () {
@@ -97,10 +96,12 @@ export class HomePage implements OnInit {
   search () {
     this.resultados_busqueda = [];
 
-    this.api.buscar (this.search_text).subscribe ((res: any) => {
-      console.log (res);
-      this.resultados_busqueda = res.resultados;
-    });
+    if (this.search_text.trim () !== '') {
+      this.api.buscar (this.search_text).subscribe ((res: any) => {
+        console.log (res);
+        this.resultados_busqueda = res.resultados;
+      });
+    }
   }
 
   get_profesionales (list: any []) {
@@ -141,7 +142,7 @@ export class HomePage implements OnInit {
   }
 
   toggle_tipos_centros_medicos () {
-    if (this.profesionales_salud_cargando === true) {
+    if (this.tipos_centros_medicos_cargando === true) {
       this.api.get_tipos_centros_medicos (this.departamento.id, 4).subscribe ((res: any) => {
         this.tipos_centros_medicos_cargando = false;
 
@@ -162,6 +163,19 @@ export class HomePage implements OnInit {
     this.ver_centros_medicos = !this.ver_centros_medicos
   }
 
+  toggle_publicidad () {
+    if (this.publicidad_cargando === true) {
+      // this.api.get_listado_publicidades (16, 6).subscribe ((res: any) => {
+      this.api.get_listado_publicidades (this.departamento.id, 6).subscribe ((res: any) => {
+        this.publicidad_cargando = false;
+        this.publicidades = res.publicidades;
+      }, error => {
+        console.log (error);
+      });
+    }
+
+    this.ver_publicidad = !this.ver_publicidad
+  }
   ver_mas_establecimientos () {
     this.navController.navigateForward ('centros-medicos-lista');
   }
@@ -228,5 +242,13 @@ export class HomePage implements OnInit {
 
   select_departamento () {
     this.storage.set ('DEPARTAMENTO_SELECCIONADO', this.departamento.id);
+    this.storage.set ('DEPARTAMENTO_SELECCIONADO_DATA', JSON.stringify (this.departamento));
+
+    this.api.get_listado_publicidades (this.departamento.id, 6).subscribe ((res: any) => {
+      this.publicidad_cargando = false;
+      this.publicidades = res.publicidades;
+    }, error => {
+      console.log (error);
+    });
   }
 }

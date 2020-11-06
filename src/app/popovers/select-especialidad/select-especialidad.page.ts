@@ -38,4 +38,8 @@ export class SelectEspecialidadPage implements OnInit {
   select (item: any) {
     this.popoverController.dismiss (item, 'ok');
   }
+
+  ninguna () {
+    this.popoverController.dismiss ({}, 'clear');
+  }
 }

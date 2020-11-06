@@ -31,9 +31,9 @@
                 </ion-col>
               </ion-row>
             </div>
-            <div *ngIf="item.anio_colegiatura !== null" class="div_liena_azul">
-              <p>MBBS,DOMS,MS - Ophthalmology</p>
-              <p>{{ get_tiempo_experiencia (item.anio_colegiatura) }} de experiencia</p>
+            <div class="div_liena_azul">
+              <p>{{ item.especialidad.nombre }}</p>
+              <p *ngIf="item.anio_colegiatura !== null">{{ get_tiempo_experiencia (item.anio_colegiatura) }} de experiencia</p>
               <!-- <p><ion-icon name="location-outline"></ion-icon>{{ item.direccion }}</p> -->
             </div>
           </div>

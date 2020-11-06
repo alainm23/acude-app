@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ApiService } from '../services/api.service';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-emergencia',
@@ -15,10 +16,18 @@ export class EmergenciaPage implements OnInit {
   constructor (
     private navController: NavController,
     private api: ApiService, 
-    private callNumber: CallNumber) { }
+    private callNumber: CallNumber, 
+    private storage: Storage) { }
 
-  ngOnInit () {
-    this.api.get_numero_emergencia ().subscribe ((res: any) => {
+  async ngOnInit () {
+    let DEPARTAMENTO_SELECCIONADO = await this.storage.get ('DEPARTAMENTO_SELECCIONADO');
+    console.log ('DEPARTAMENTO_SELECCIONADO', DEPARTAMENTO_SELECCIONADO);
+
+    if (DEPARTAMENTO_SELECCIONADO === null) {
+      DEPARTAMENTO_SELECCIONADO === this.api.USUARIO_DATA.departamento_id
+    }
+
+    this.api.get_numero_emergencia (DEPARTAMENTO_SELECCIONADO).subscribe ((res: any) => {
       console.log (res);
       this.emergencias = res.emergencias;
     });

@@ -24,6 +24,34 @@
     height: 100%;
 }
 
+.col_button
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    ion-button
+    {
+        --background: #ffffff;
+        --border-color: #C7C7C7;
+        --border-radius: 50%;
+        --border-style: solid;
+        --border-width: 1px;
+        width: 18px;
+        height: 18px;
+        ion-icon
+        {
+            color: #C7C7C7;
+        }
+    }
+    .p_km
+    {
+        margin: 0px 5px;
+        font-family: PoppinsExtraBold;
+        color: #C7C7C7;
+        font-size: 13px;
+    }
+}
+
 ion-header
 {
     height: 0px;

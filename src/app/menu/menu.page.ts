@@ -3,8 +3,7 @@ import { NavController, LoadingController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { ApiService } from '../services/api.service';
 import { Storage } from '@ionic/storage';
-
-// Services
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @Component({
   selector: 'app-menu',
@@ -18,6 +17,7 @@ export class MenuPage implements OnInit {
     private alertController: AlertController,
     private api: ApiService,
     private storage: Storage,
+    private socialSharing: SocialSharing,
     private loadingController: LoadingController
   ) { }
 
@@ -28,21 +28,48 @@ export class MenuPage implements OnInit {
     this.navController.back ();
   }
 
+  go_page (page: string) {
+    this.navController.navigateForward (page)
+  }
+
+  contactar () {
+    this.socialSharing.shareViaEmail ('', '', ['soporte@acudeapp.com']).then (() => {
+      // Success!
+    }).catch ((error: any) => {
+      console.log (error);
+    });
+  }
+
+  share_app () {
+    this.socialSharing.share ('Te recomiendo usar la siguiente app https://www.acudeapp.com/').then (() => {
+
+    }).catch ((error: any) => {
+      console.log (error);
+    });
+  }
+
+  favoritos () {
+    this.navController.navigateForward ('favoritos');
+  }
+
+  ser_pro () {
+    window.open ('https://www.acudeapp.com/formulario', '_system');
+  }
+
   async cerrar_s () {
     const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Confirm!',
-      message: 'Message <strong>text</strong>!!!',
+      header: 'Confirma operación',
+      message: '¿Está seguro que desea salir de ACUDE APP?',
       buttons: [
         {
-          text: 'Cancel',
+          text: 'Cancelar',
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
             console.log('Confirm Cancel: blah');
           }
         }, {
-          text: 'Okay',
+          text: 'Si',
           handler: async () => {
             const loading = await this.loadingController.create({
               message: 'Procesando...',

@@ -2,19 +2,19 @@
   <ion-toolbar>
     <ion-card class="card_check">
       <p (click)="back ()"><ion-icon name="close-outline" class="icon_close"></ion-icon>Establecimientos</p>
-      <ion-select value="brown" okText="Okay" cancelText="Dismiss" mode="ios">
+      <!-- <ion-select value="brown" okText="Okay" cancelText="Dismiss" mode="ios">
         <ion-select-option value="brown">Lima</ion-select-option>
         <ion-select-option value="blonde">Blonde</ion-select-option>
         <ion-select-option value="black">Black</ion-select-option>
         <ion-select-option value="red">Red</ion-select-option>
-      </ion-select>
+      </ion-select> -->
     </ion-card>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-card class="card_buscador">
-    <ion-searchbar placeholder="Filter Schedules" (ionChange)="filtrar ()" [(ngModel)]="search_text"></ion-searchbar>
+    <ion-searchbar placeholder="Buscar por establecimiento de salud" (ionChange)="filtrar ()" [(ngModel)]="search_text"></ion-searchbar>
   </ion-card>
   <ion-card class="ion-no-margin card_list">
     <ion-list>

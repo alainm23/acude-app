@@ -9,6 +9,7 @@ import { Camera, PictureSourceType, CameraOptions } from '@ionic-native/camera/n
 // Forms
 import { FormGroup , FormControl, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
+import { HttpHeaderResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-registro-paciente',
@@ -47,13 +48,12 @@ export class RegistroPacientePage implements OnInit {
 
   async submit () {
     const loading = await this.loadingController.create({
-      message: 'Please wait...',
+      message: 'Procesando...',
     });
 
     await loading.present ();
 
     this.api.registrar_usuario (this.form.value).subscribe ((USUARIO_ACCESS: any) => {
-      console.log (USUARIO_ACCESS);
       this.form.reset ();
 
       this.storage.set ('USUARIO_ACCESS', JSON.stringify ({
@@ -67,6 +67,8 @@ export class RegistroPacientePage implements OnInit {
         this.api.USUARIO_DATA = USUARIO_DATA.user;
         this.api.USUARIO_DATA.departamento_id = USUARIO_DATA.departamento_id;
 
+        console.log (this.api.USUARIO_DATA);
+
         this.storage.set ('USUARIO_DATA', JSON.stringify (this.api.USUARIO_DATA));
         loading.dismiss ();
 
@@ -78,14 +80,24 @@ export class RegistroPacientePage implements OnInit {
     }, async (error: any) => {
       loading.dismiss ();
       console.log (error);
+      console.log (error.error);
+
+      let message: string = '';
+      if (error.error.errors.email !== undefined && Array.isArray(error.error.errors.email)) {
+        error.error.errors.email.forEach ((element: any) => {
+          message += element;
+        });
+      } else {
+        message: 'Ingrese los datos correctos';
+      }
 
       const alert = await this.alertController.create({
-        header: '¡Upps!',
-        message: 'Ingrese algun dato correcto',
+        header: this.api.TITULO_ERROR,
+        message: message,
         buttons: ['OK']
       });
   
-      await alert.present();
+      await alert.present ();
     });
   }
   
@@ -135,5 +147,4 @@ export class RegistroPacientePage implements OnInit {
       console.log ('Camera error', err);
     });
   }
-
 }

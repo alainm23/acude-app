@@ -3,6 +3,7 @@ import { ApiService } from '../services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, LoadingController, IonSlides } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-publicidad-detalle',
@@ -28,17 +29,23 @@ export class PublicidadDetallePage implements OnInit {
     private route: ActivatedRoute,
     private navController: NavController,
     private loadingController: LoadingController,
-    private callNumber: CallNumber
+    private callNumber: CallNumber,
+    private storage: Storage
   ) { }
 
-  async ngOnInit() { 
+  async ngOnInit() {
+    let departamento_id = await this.storage.get ('DEPARTAMENTO_SELECCIONADO');
+    if (departamento_id === null) {
+      departamento_id = this.api.USUARIO_DATA.departamento_id;
+    }
+
     const loading = await this.loadingController.create({
       message: 'Procesando...',
     });
 
     await loading.present ();
     
-    this.api.get_categoria_publicidades (16).subscribe ((res: any) => {
+    this.api.get_categoria_publicidades (departamento_id).subscribe ((res: any) => {
       this.categorias = res.categorias;
       console.log ('categorias', this.categorias);
 
@@ -56,6 +63,9 @@ export class PublicidadDetallePage implements OnInit {
       loading.dismiss ();
 
       this.get_publicidad_by_id (this.route.snapshot.paramMap.get ('id'));
+    }, error => {
+      console.log (error);
+      loading.dismiss ();
     });
   }
 

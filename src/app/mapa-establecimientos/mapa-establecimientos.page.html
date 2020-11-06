@@ -2,16 +2,16 @@
   <ion-toolbar>
     <ion-card class="card_check">
       <p (click)="back ()"><ion-icon name="close-outline" class="icon_close"></ion-icon>Encuentra tu profesional</p>
-      <ion-select value="brown" okText="Okay" cancelText="Dismiss" mode="ios">
+      <!-- <ion-select value="brown" okText="Okay" cancelText="Dismiss" mode="ios">
         <ion-select-option value="brown">Lima</ion-select-option>
         <ion-select-option value="blonde">Blonde</ion-select-option>
         <ion-select-option value="black">Black</ion-select-option>
         <ion-select-option value="red">Red</ion-select-option>
-      </ion-select>
+      </ion-select> -->
     </ion-card>
   </ion-toolbar>
   <ion-card class="card_buscador">
-    <ion-searchbar #searchbar [(ngModel)]="search_text" placeholder="Filter Schedules"></ion-searchbar>
+    <ion-searchbar #searchbar [(ngModel)]="search_text" placeholder="Buscar por ubicacion"></ion-searchbar>
   </ion-card>
 </ion-header>
 
@@ -30,6 +30,12 @@
             <p class="activo"></p>
           </ion-slide>
         </ion-slides>
+      </ion-col>
+
+      <ion-col size="4" size-sm="2" size-md="2" class="col_button">
+        <ion-button class="ion-no-padding" (click)="update_kilometros (-5)"><ion-icon name="remove-outline"></ion-icon></ion-button>
+        <p class="p_km">{{ kilometros }} km</p>
+        <ion-button class="ion-no-padding" [disabled]="sucursales.length >= 10" (click)="update_kilometros (+5)"><ion-icon name="add-outline"></ion-icon></ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
