@@ -17,10 +17,24 @@
       <ion-col size="11" size-md="9" size-lg="8" style="position: relative;">
         <ion-input type="email" placeholder="Correo" formControlName="email" class="input_genral padding_right_input"></ion-input>
       </ion-col>
+
+      <ion-col *ngIf="form.controls.email.errors?.email && form.controls.email.dirty" size="11" size-md="9" size-lg="8" class="error-col">
+        <small>* Correo electrónico invalido</small>
+      </ion-col>
+
+      <ion-col *ngIf="form.controls.email.errors?.required && form.controls.email.dirty" size="11" size-md="9" size-lg="8" class="error-col">
+        <small>* Este campo es obligatorio</small>
+      </ion-col>
+
       <ion-col size="11" size-md="9" size-lg="8" style="position: relative;">
         <ion-input type="password" placeholder="Contraseña" formControlName="password" class="input_genral padding_right_input"></ion-input>
         <ion-icon name="help-circle" class="icono_interrogativo"></ion-icon>
       </ion-col>
+
+      <ion-col *ngIf="form.controls.password.errors?.required && form.controls.password.dirty" size="11" size-md="9" size-lg="8" class="error-col">
+        <small>* Este campo es obligatorio</small>
+      </ion-col>
+
     </ion-row>
   </ion-grid>
   </form>

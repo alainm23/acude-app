@@ -38,7 +38,7 @@ export class IngresoPage implements OnInit {
 
     await loading.present ();
 
-    this.api.login (this.form.value.email, this.form.value.password).subscribe ((USUARIO_ACCESS: any) => {
+    this.api.login (this.form.value.email.trim (), this.form.value.password.trim ()).subscribe ((USUARIO_ACCESS: any) => {
       this.storage.set ('USUARIO_ACCESS', JSON.stringify (USUARIO_ACCESS));
       this.api.USUARIO_ACCESS = USUARIO_ACCESS;
 

@@ -40,6 +40,8 @@ export class RegistroPacientePage implements OnInit {
       password: password,
       confirmar_password: confirm_password 
     });
+
+    console.log (this.form.controls);
   }
 
   go_view (view: string) {

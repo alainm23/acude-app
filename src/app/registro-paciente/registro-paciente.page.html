@@ -21,20 +21,52 @@
         <ion-col size="11" size-md="9" size-lg="8">
             <ion-input formControlName="fName" placeholder="Nombres" class="input_genral"></ion-input>
         </ion-col>
+
+        <ion-col *ngIf="form.controls.fName.errors?.required && form.controls.fName.dirty" size="11" size-md="9" size-lg="8" class="error-col">
+            <small>* Este campo es obligatorio</small>
+        </ion-col>
+
         <ion-col size="11" size-md="9" size-lg="8">
             <ion-input formControlName="lName" placeholder="Apellidos" class="input_genral"></ion-input>
         </ion-col>
+
+        <ion-col *ngIf="form.controls.lName.errors?.required && form.controls.lName.dirty" size="11" size-md="9" size-lg="8" class="error-col">
+            <small>* Este campo es obligatorio</small>
+        </ion-col>
+
         <ion-col size="11" size-md="9" size-lg="8">
             <ion-input formControlName="email" placeholder="Correo" class="input_genral"></ion-input>
         </ion-col>
+
+        <ion-col *ngIf="form.controls.email.errors?.required && form.controls.email.dirty" size="11" size-md="9" size-lg="8" class="error-col">
+            <small>* Este campo es obligatorio</small>
+        </ion-col>
+        
+        <ion-col *ngIf="form.controls.email.errors?.email && form.controls.email.dirty" size="11" size-md="9" size-lg="8" class="error-col">
+            <small>* Correo electrónico invalido</small>
+        </ion-col>
+
         <ion-col size="11"sub size-md="9" size-lg="8" class="col_linea_plomo"></ion-col>
         <ion-col size="11" size-md="9" size-lg="8" style="position: relative;">
             <ion-input type="password" formControlName="password" placeholder="Crea una contraseña" class="input_genral padding_right_input"></ion-input>
             <ion-icon name="help-circle" class="icono_interrogativo"></ion-icon>
         </ion-col>
+
+        <ion-col *ngIf="form.controls.password.errors?.required && form.controls.password.dirty" size="11" size-md="9" size-lg="8" class="error-col">
+            <small>* Este campo es obligatorio</small>
+        </ion-col>
+
         <ion-col size="11" size-md="9" size-lg="8" style="position: relative;">
             <ion-input type="password" formControlName="confirmar_password" placeholder="Repite la contraseña creada" class="input_genral padding_right_input"></ion-input>
             <ion-icon name="help-circle" class="icono_interrogativo"></ion-icon>
+        </ion-col>
+        
+        <ion-col *ngIf="form.controls.confirmar_password.errors?.required && form.controls.confirmar_password.dirty" size="11" size-md="9" size-lg="8" class="error-col">
+            <small>* Este campo es obligatorio</small>
+        </ion-col>
+
+        <ion-col *ngIf="form.controls.confirmar_password.errors?.equalTo && form.controls.confirmar_password.dirty" size="11" size-md="9" size-lg="8" class="error-col">
+            <small>* Las contraseñas no coinciden</small>
         </ion-col>
         </ion-row>
         </ion-grid>

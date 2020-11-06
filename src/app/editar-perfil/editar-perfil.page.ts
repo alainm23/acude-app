@@ -22,7 +22,7 @@ export class EditarPerfilPage implements OnInit {
 
   form: FormGroup;
   imagen: string = '';
-
+    
   constructor (
     private navController: NavController,
     private loadingController: LoadingController,

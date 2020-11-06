@@ -5,9 +5,9 @@
 </ion-header>
 
 <ion-content>
-    <form [formGroup]="form">
-        <ion-grid>
-        <ion-row class="ion-justify-content-center">
+  <form [formGroup]="form">
+    <ion-grid>
+      <ion-row class="ion-justify-content-center">
         <ion-col size="12" class="col_flex">
             <ion-card>
                 <img [src]="imagen" alt="">
@@ -24,31 +24,28 @@
         </ion-col>
         
         <ion-col size="11" size-md="9" size-lg="8">
-            <ion-select formControlName="departamento" (ionChange)="departamentoChange ()" placeholder="Departamento" mode="ios">
-              <ion-select-option *ngFor="let item of departamentos" [value]="item">
-                {{ item.nombre }}
-              </ion-select-option>
-            </ion-select>
-          </ion-col>
-          <ion-col size="11" size-md="9" size-lg="8">
-            <ion-select formControlName="provincia" (ionChange)="provinciaChange ()" placeholder="Provincia" mode="ios">
-              <ion-select-option *ngFor="let item of provincias" [value]="item">
-                {{ item.nombre }}
-              </ion-select-option>
-            </ion-select>
-          </ion-col>
-          <ion-col size="11" size-md="9" size-lg="8">
-            <ion-select formControlName="distrito" placeholder="Distrito" mode="ios">
-              <ion-select-option *ngFor="let item of distritos" [value]="item">
-                {{ item.nombre }}
-              </ion-select-option>
-            </ion-select>
-          </ion-col>
-          
-        </ion-row>
-        </ion-grid>
-
-
-    </form>
-    <ion-button class="btn_enlace" [disabled]="!form.valid" (click)="submit ()">Actualizar</ion-button>
+          <ion-select formControlName="departamento" (ionChange)="departamentoChange ()" placeholder="Departamento" mode="ios">
+            <ion-select-option *ngFor="let item of departamentos" [value]="item">
+              {{ item.nombre }}
+            </ion-select-option>
+          </ion-select>
+        </ion-col>
+        <ion-col size="11" size-md="9" size-lg="8">
+          <ion-select formControlName="provincia" (ionChange)="provinciaChange ()" placeholder="Provincia" mode="ios">
+            <ion-select-option *ngFor="let item of provincias" [value]="item">
+              {{ item.nombre }}
+            </ion-select-option>
+          </ion-select>
+        </ion-col>
+        <ion-col size="11" size-md="9" size-lg="8">
+          <ion-select formControlName="distrito" placeholder="Distrito" mode="ios">
+            <ion-select-option *ngFor="let item of distritos" [value]="item">
+              {{ item.nombre }}
+            </ion-select-option>
+          </ion-select>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+  <ion-button class="btn_enlace" [disabled]="!form.valid" (click)="submit ()">Actualizar</ion-button>
 </ion-content>
