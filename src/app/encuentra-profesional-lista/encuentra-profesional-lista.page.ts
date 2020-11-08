@@ -30,7 +30,7 @@ export class EncuentraProfesionalListaPage implements OnInit {
   hora_filtro: string = '';
   slideOptsOne = {
     initialSlide: 0,
-    slidesPerView: 3,
+    slidesPerView: 2.3,
     spaceBetween: 10,
   };
   constructor (

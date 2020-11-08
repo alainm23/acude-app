@@ -32,8 +32,8 @@ export class MapaEstablecimientosPage implements OnInit {
   sucursales: any [] = [];
   slideOptsOne = {
     initialSlide: 0,
-    slidesPerView: 3,
-    spaceBetween: 10,
+    slidesPerView: 1.5,
+    spaceBetween: 0,
   };
   id: string;
   nombre: string;

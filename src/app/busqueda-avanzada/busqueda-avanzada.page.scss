@@ -56,7 +56,7 @@ ion-content
             font-family: PoppinsRegular;
             border: 1px solid #CBCBCB;
             border-radius: 10px;
-            margin-bottom: 8px;
+            margin-bottom: 15px;
             --padding-end: 20px;
         }
         .card_acordion
@@ -148,6 +148,39 @@ ion-content
             border-radius: 28px;
         }
     }
+}
+.item-chebox
+{
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    --padding-start: 0px;
+    .label-chebox
+    {
+        color: #898A8F;
+        font-family: PoppinsRegular;
+        font-size: 12px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        margin-right: 0px;
+        margin-left: 5px;
+    }
+    .hecbox-style
+    {
+        --background: #CDD3D9;
+        --background-checked: #CDD3D9;
+        --border-color: #CDD3D9;
+        --border-color-checked: #CDD3D9;
+        --border-radius: 3px;
+        --border-style: solid;
+        --border-width: 1px;
+        --checkmark-color:#898A8F;
+        margin: 0px;
+    }
+}
+.list-bottom
+{
+    margin-bottom: 20px;
 }
 @media (min-width: 768px)
 {

@@ -73,7 +73,7 @@ ion-header
 }
 ion-content
 {
-    --padding-top: 110px;
+    --padding-top: 150px;
     --background: #F5F5F5;
 }
 ion-card.card_buscador
@@ -123,7 +123,6 @@ div.div_tabla
     padding-left: 30px;
     padding-right: 30px;
     padding-bottom: 60px;
-    z-index: 99999;
     ion-list
     {
         ion-item
@@ -143,11 +142,11 @@ div.div_tabla
 {
     ion-content
     {
-        --padding-top: 170px;
+        --padding-top: 150px;
     }
     ion-card.card_buscador
     {
-        margin-top: -80px;
+        margin-top: -25px;
     }
 }
 @media (min-width: 414px)
@@ -158,38 +157,38 @@ div.div_tabla
     }
     ion-card.card_buscador
     {
-        margin-top: -60px;
+        margin-top: -30px;
     }
 }
 @media (min-width: 480px)
 {
     ion-content
     {
-        --padding-top: 185px;
+        --padding-top: 145px;
     }
     ion-card.card_buscador
     {
-        margin-top: -100px;
+        margin-top: -25px;
     }
 }
 @media (min-width: 640px)
 {
     ion-content
     {
-        --padding-top: 90px;
+        --padding-top: 145px;
     }
 }
 @media (min-width: 768px)
 {
     ion-content
     {
-        --padding-top: 245px;
+        --padding-top: 170px;
     }
     ion-card.card_buscador
     {
         width: 80%;
         margin-left: 10%;
-        margin-top: -150px;
+        margin-top: -30px;
         padding: 3px 20px;
     }
     .card_list
