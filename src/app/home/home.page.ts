@@ -148,12 +148,6 @@ export class HomePage implements OnInit {
 
         console.log (res);
         this.tipos_centros_medicos = res.tipos_establecimientos;
-        // Object.entries(res.tipos_centros_medicos).forEach ((val: any) => {
-        //   this.tipos_centros_medicos.push ({
-        //     id: val [0],
-        //     nombre: val [1]
-        //   })
-        // });
       }, error => {
         this.tipos_centros_medicos_cargando = false;
         console.log (error);
@@ -164,15 +158,15 @@ export class HomePage implements OnInit {
   }
 
   toggle_publicidad () {
-    if (this.publicidad_cargando === true) {
-      // this.api.get_listado_publicidades (16, 6).subscribe ((res: any) => {
-      this.api.get_listado_publicidades (this.departamento.id, 6).subscribe ((res: any) => {
-        this.publicidad_cargando = false;
-        this.publicidades = res.publicidades;
-      }, error => {
-        console.log (error);
-      });
-    }
+    this.publicidad_cargando = true;
+    this.api.get_listado_publicidades (this.departamento.id, 6).subscribe ((res: any) => {
+      console.log (res);
+
+      this.publicidad_cargando = false;
+      this.publicidades = res.publicidades;
+    }, error => {
+      console.log (error);
+    });
 
     this.ver_publicidad = !this.ver_publicidad
   }
@@ -244,6 +238,7 @@ export class HomePage implements OnInit {
     this.storage.set ('DEPARTAMENTO_SELECCIONADO', this.departamento.id);
     this.storage.set ('DEPARTAMENTO_SELECCIONADO_DATA', JSON.stringify (this.departamento));
 
+    this.publicidad_cargando = true;
     this.api.get_listado_publicidades (this.departamento.id, 6).subscribe ((res: any) => {
       this.publicidad_cargando = false;
       this.publicidades = res.publicidades;

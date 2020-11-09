@@ -16,7 +16,6 @@ export class BusquedaAvanzadaRespuestaPage implements OnInit {
   ngOnInit() {
     console.log (JSON.parse (this.route.snapshot.paramMap.get ('respuesta')));
     this.profesionales = JSON.parse (this.route.snapshot.paramMap.get ('respuesta'));
-    // console.log (this.profesionales);
   }
 
   get_foto (data: any) {

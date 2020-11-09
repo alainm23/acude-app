@@ -39,8 +39,8 @@ export class PerfilDoctorPage implements OnInit {
 
     this.api.obtener_informacion_completa_profesional (this.route.snapshot.paramMap.get ('id')).subscribe ((res: any) => {
       console.log (res);
-      console.log (res.data.profesional [0]);
-      this.datos = res.data.profesional [0];
+      console.log (res.data.profesional);
+      this.datos = res.data.profesional;
       if (res.data.estado_favorito === 1) {
         this.favorito = true;
       }

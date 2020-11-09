@@ -32,6 +32,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 
 // Popovers
 import { SelectIdiomaPageModule } from './popovers/select-idioma/select-idioma.module';
@@ -68,6 +69,7 @@ import { SelectEspecialidadPageModule } from './popovers/select-especialidad/sel
     Facebook,
     GooglePlus,
     CallNumber,
+    Clipboard,
     AndroidPermissions,
     LocationAccuracy,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

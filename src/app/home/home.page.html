@@ -126,7 +126,13 @@
       </ion-slide>
     </ion-slides>
 
-    <ion-button *ngIf="!publicidad_cargando" (click)="ver_todo_publicidad ()" class="ion-text-center btn_saltar">Ver todo</ion-button>
+    <ion-item *ngIf="publicidades.length <= 0 && publicidad_cargando === false" lines="none" class="ion-text-center ion-text-wrap">
+      <ion-label>
+        <p>No encontramos publicidades en su departamento</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-button *ngIf="publicidad_cargando === false && publicidades.length > 0" (click)="ver_todo_publicidad ()" class="ion-text-center btn_saltar">Ver todo</ion-button>
   </ng-container>
 </ion-content>
 

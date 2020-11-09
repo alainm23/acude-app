@@ -72,7 +72,7 @@
                 </ion-col>
               </ion-row>
             </div>
-            <div class="div_liena_azul">
+            <div *ngIf="item.especialidades.length > 0" class="div_liena_azul">
               <p><ng-container *ngFor="let e of item.especialidades">{{ e.especialidad.nombre }}</ng-container></p>
             </div>
           </div>
@@ -81,7 +81,7 @@
               <!-- <ion-button class="btn_salud"></ion-button> -->
             </ion-col>
             <ion-col size="6">
-              <ion-button class="btn_salud">Ver clinica</ion-button>
+              <ion-button class="btn_salud">Ver Establecimiento</ion-button>
             </ion-col>
           </ion-row>
         </ion-card>

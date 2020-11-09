@@ -164,11 +164,9 @@ export class MapaEstablecimientosPage implements OnInit {
     await loading.present ();
 
     this.api.obtener_centros_medicos  (this.latitude, this.longitude, this.id, this.kilometros).subscribe ((res: any) => {
-      // console.log (res);
-
+      console.log (res);
       if (this.kilometros === -1 && res.sucursales.length > 0) {
-        this.kilometros = Math.floor (res.sucursales [0].distance);
-
+        this.kilometros = Math.floor (res.radio_busqueda);
         this.map_pan_to (parseFloat (res.sucursales [0].latitud), parseFloat (res.sucursales [0].longitud));
       }
 
@@ -205,7 +203,126 @@ export class MapaEstablecimientosPage implements OnInit {
       disableDoubleClickZoom: false,
       clickableIcons: false,
       scaleControl: true,
-      mapTypeId: 'roadmap'
+      mapTypeId: 'roadmap',
+      styles: [
+        {
+            "featureType": "administrative.land_parcel",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "landscape.man_made",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "poi",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                },
+                {
+                    "lightness": 20
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "hue": "#f49935"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "road.arterial",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "hue": "#fad959"
+                }
+            ]
+        },
+        {
+            "featureType": "road.arterial",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road.local",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "road.local",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "transit",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "water",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "hue": "#a1cdfc"
+                },
+                {
+                    "saturation": 30
+                },
+                {
+                    "lightness": 49
+                }
+            ]
+        }
+      ]
     }
 
     if (this.map === null) {

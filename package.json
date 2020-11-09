@@ -22,6 +22,7 @@
     "@ionic-native/android-permissions": "^5.29.0",
     "@ionic-native/call-number": "^5.29.0",
     "@ionic-native/camera": "^5.28.0",
+    "@ionic-native/clipboard": "^5.29.0",
     "@ionic-native/core": "^5.0.7",
     "@ionic-native/deeplinks": "^5.27.0",
     "@ionic-native/facebook": "^5.28.0",
@@ -36,6 +37,7 @@
     "@ionic/storage": "^2.3.0",
     "call-number": "^1.0.1",
     "cordova-android": "^9.0.0",
+    "cordova-clipboard": "^1.3.0",
     "cordova-plugin-android-permissions": "^1.1.0",
     "cordova-plugin-camera": "git+https://github.com/apache/cordova-plugin-camera.git",
     "cordova-plugin-facebook4": "^6.4.0",
@@ -120,7 +122,8 @@
       },
       "cordova-plugin-camera": {
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
-      }
+      },
+      "cordova-clipboard": {}
     },
     "platforms": [
       "android"

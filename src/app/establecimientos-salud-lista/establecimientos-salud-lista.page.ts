@@ -34,7 +34,8 @@ export class EstablecimientosSaludListaPage implements OnInit {
   }
 
   ver (item: any) {
-    this.navController.navigateForward (['perfil-clinica', item.id]);
+    console.log (item)
+    this.navController.navigateForward (['perfil-clinica', item.id_centro_medico]);
   }
 
   back () {

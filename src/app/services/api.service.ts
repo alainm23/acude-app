@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 // Services
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class ApiService {
   USUARIO_DATA: any;
 
   TITULO_ERROR: string = 'Lo sentimos';
-  constructor (public http: HttpClient) {
+  constructor (public http: HttpClient, private fb: Facebook) {
     this.URL_BASE = "https://acudeapp.com";
     // this.URL_BASE = "http://appmedico.demoperu.site";
   }
@@ -24,6 +25,12 @@ export class ApiService {
   }
 
   logout () {
+    this.fb.getLoginStatus ().then ((res) => {
+      if (res.status === 'connected') {
+        this.fb.logout ();
+      }
+    });
+
     let url = this.URL_BASE + '/api/auth/logout';
     
     const headers = {
@@ -388,5 +395,20 @@ export class ApiService {
     }
 
     return this.http.post (url, data, { headers });
+  }
+
+  login_social (tipo: string, email: string, token_uid: string, avatar: string, nombre: string, apellido: string) {
+    let url = this.URL_BASE + '/api/auth/login-social';
+
+    let data: any = {
+      tipo: tipo,
+      email: email,
+      token_uid: token_uid,
+      avatar: avatar,
+      nombre: nombre,
+      apellido: apellido
+    };
+
+    return this.http.post (url, data);
   }
 }

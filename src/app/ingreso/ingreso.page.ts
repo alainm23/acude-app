@@ -65,8 +65,7 @@ export class IngresoPage implements OnInit {
         console.log (error);
       }); 
     }, async error => {
-      this.form.reset ();
-
+      this.form.controls ['password'].setValue ('');
       loading.dismiss ();
       // console.log (error);
 
