@@ -18,21 +18,25 @@
 <ion-content>
   <ion-grid class="ion-no-padding">
     <ion-row class="ion-justify-content-center ion-align-items-center">
-      <ion-col size="11" size-sm="10" size-md="8" style="padding-left: 0px;padding-right: 0px;">
+      <ion-col size="12" size-sm="10" size-md="8" style="padding-left: 0px;padding-right: 0px;">
         <ion-slides pager="false" [options]="slideOptsOne" (ionSlideDidChange)="slides_categoria_changed ()">
           <ion-slide class="slider_p">
-            <p class="activo"></p>
+            <p class="p-slider-favorito"></p>
           </ion-slide>
           <ion-slide *ngFor="let item of tipos_centros_medicos" class="slider_p">
-            <p class="activo">{{ item.nombre }}</p>
+            <p class="p-slider-favorito">{{ item.nombre }}</p>
           </ion-slide>
           <ion-slide class="slider_p">
-            <p class="activo"></p>
+            <p class="p-slider-favorito"></p>
           </ion-slide>
         </ion-slides>
       </ion-col>
-
-      <ion-col size="4" size-sm="2" size-md="2" class="col_button">
+    </ion-row>
+    <ion-row class="ion-justify-content-center ion-align-items-center">
+      <ion-col size="6" size-sm="4" size-md="3" style="display: flex; align-items: center;justify-content: flex-end;">
+        <p class="p_busqueda">Resultados en radio de</p>
+      </ion-col>
+      <ion-col col size="5" size-sm="2" size-md="2" class="col_button">
         <ion-button class="ion-no-padding" (click)="update_kilometros (-5)"><ion-icon name="remove-outline"></ion-icon></ion-button>
         <p class="p_km">{{ kilometros }} km</p>
         <ion-button class="ion-no-padding" [disabled]="sucursales.length >= 10" (click)="update_kilometros (+5)"><ion-icon name="add-outline"></ion-icon></ion-button>
@@ -46,6 +50,6 @@
       <div #map id="map"></div>
     </div>
 
-    <p class="ion-text-end" (click)="ver_lista ()">Ver lista ></p>
+    <p class="ion-text-end plita-top" (click)="ver_lista ()">Ver lista ></p>
   </ion-card>
 </ion-content>

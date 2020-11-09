@@ -26,7 +26,7 @@ ion-header
         --padding-end:0px;
         text-align: center;
         border-radius: 0px 0px 35px 35px;
-        height: 120px;
+        height: 140px;
         display: flex;
         align-items: center;
         font-family: MontserratSemiBold;
@@ -38,7 +38,8 @@ ion-header
             background-color: transparent;
             box-shadow: none;
             padding: 0px 20px;
-            margin-bottom: 40px;
+            margin-bottom: 25px;
+            align-items: end;
             ion-select::before
             {
                 content: url('/assets/img/Grupo1907.png');
@@ -82,6 +83,8 @@ ion-card.card_buscador
         font-family: PoppinsRegular;
         --color: #383a3e;
         --placeholder-color: #1f1e1e;
+        font-weight: bold;
+        --placeholder-font-weight: 100;
     }
 }
 
@@ -100,7 +103,7 @@ ion-card.card_buscador
 {
     font-family: PoppinsRegular;
     color: #C7C7C7;
-    margin-top: 26px;
+    margin-top: 55px;
     font-size: 14px;
 }
 ion-card.card_acordion
@@ -239,6 +242,39 @@ ion-slides
   font-family: PoppinsSemiBold;
   font-weight: bold;
 }
+.logo_acude
+{
+    width: 140px;
+    height: 33px;
+}
+.list-buscador
+{
+    margin-top: 25px;
+}
+.label-buscador
+{
+    color: #898A8F;
+    font-family: PoppinsSemiBold;
+    margin-left: 1rem;
+    margin-bottom: 0px;
+}
+.label-datos
+{
+    color: #898A8F;
+    font-family: PoppinsRegular;
+}
+.listheader-top
+{
+    margin-top: 10px;
+}
+.card-list-buscador
+{
+    position: fixed; 
+    width: 90%; 
+    top: 19%; 
+    left: 2%;
+    padding-right: 20px;
+}
 @media (min-width: 411px)
 {
     ion-content
@@ -298,6 +334,10 @@ ion-slides
             }
         }
     }
+    .card-list-buscador
+    {
+        top: 16%; 
+    }
 }
 @media (min-width: 640px)
 {
@@ -336,6 +376,12 @@ ion-slides
             height: 340px;
         }  
     }
+    .card-list-buscador
+    {
+        width: 76%;
+        top: 13%;
+        left: 10%;
+    }
 }
 @media (min-width: 1024px)
 {
@@ -356,5 +402,11 @@ ion-slides
         {
             height: 390px;
         }  
+    }
+    .card-list-buscador
+    {
+        width: 77.5%;
+        top: 8%;
+        left: 10%;
     }
 }
