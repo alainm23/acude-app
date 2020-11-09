@@ -29,6 +29,10 @@ ion-header
         display: flex;
         align-items: center;
         font-family: MontserratSemiBold;
+        ion-title
+        {
+            font-size: 1rem;
+        }
     }
 }
 ion-content
