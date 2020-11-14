@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 // Facebook
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
-import { LoadingController, NavController, Platform } from '@ionic/angular';
+import { AlertController, LoadingController, NavController, Platform } from '@ionic/angular';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { ApiService } from '../services/api.service';
@@ -20,6 +20,7 @@ export class AuthService {
     private googlePlus: GooglePlus,
     private api: ApiService,
     private storage: Storage,
+    private alertController: AlertController,
     private navController: NavController,
     private loadingController: LoadingController) {
 
@@ -78,9 +79,18 @@ export class AuthService {
         }, (error: any) => {
           loading.dismiss ();
           console.log (error);
-        }); 
+        });
       });
     });
+  }
+
+  is_valid (value: any) {
+    let returned = true;
+    if (value === '' || value === undefined || value === null) {
+      returned = false;
+    }
+
+    return returned;
   }
 
   google () {
