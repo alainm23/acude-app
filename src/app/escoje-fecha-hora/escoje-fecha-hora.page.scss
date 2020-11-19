@@ -1,0 +1,347 @@
+@font-face{
+    font-family: MontserratBold;
+    src : url('/assets/font/Montserrat-Bold.ttf')
+}
+@font-face{
+    font-family: MontserratRegular;
+    src : url('/assets/font/Montserrat-Regular.ttf')
+}
+@font-face{
+    font-family: PoppinsSemiBold;
+    src : url('/assets/font/Poppins-SemiBold.otf')
+}
+@font-face{
+    font-family: PoppinsRegular;
+    src : url('/assets/font/Poppins-Regular.otf')
+}
+@font-face{
+    font-family: PoppinsMedium;
+    src : url('/assets/font/Poppins-Medium.otf')
+}
+ion-content
+{
+    --background: #F5F5F5;
+}
+.card-verd
+{
+    --background: #23CEC3;
+    border-radius: 0px 0px 24px 24px;
+    height: 200px;
+    margin: 0px;
+    box-shadow: none;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    padding-top: 2.188rem;
+    .label-cabezera
+    {
+        color: #ffffff;
+        font-family: MontserratBold;
+        font-size: 16px;
+        display: flex;
+        .icon-flecha
+        {
+            font-size: 20px;
+            margin-right: 5px;
+        }
+    }
+    .p-mapa
+    {
+        color: #ffffff;
+        font-family: MontserratRegular;
+        margin: 0px;
+        font-size: 14px;
+    }
+}
+.card-blanco
+{
+    --background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0px 9px 38px #00000029;
+    height: auto;
+    margin-top: -110px;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: relative;
+    .div-perfil
+    {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        border-bottom: 1px solid #ECECEC;
+        padding-top: 22px;
+        padding-bottom: 17px;
+        ion-avatar
+        {
+            --border-radius: 50%;
+            width: 80px;
+            height: 80px;
+        }
+        .div-descripcion
+        {
+            margin-left: 1rem;
+            .nombre-style
+            {
+                color: #313450;
+                font-family: PoppinsSemiBold;
+                font-size: 16px;
+                margin: 0px;
+            }
+            .p-descripcion
+            {
+                color: #898A8F;
+                font-family: PoppinsRegular;
+                font-size: 13px;
+                margin: 0px;
+            }
+        }
+    }
+}
+.div-card-dia
+{
+    display: none;
+}
+.p-citas-horario
+{
+    color: #898A8F;
+    font-family: PoppinsRegular;
+    font-size: 13px;
+    padding: 0px 69px;
+    margin-top: 100px;
+    margin-bottom: 95px;
+}
+.item-toogle
+{
+    margin-top: 14px;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .p-toogle
+    {
+        font-family: PoppinsRegular;
+        font-size: 14px;
+        color: #313450;
+    }
+    ion-toggle
+    {
+        --background: #ffffff;
+        --background-checked: #ffffff;
+        --handle-background: #20BFB5;
+        --handle-background-checked: #20BFB5;
+        width: 47px;
+        height: 26px;
+        --handle-border-radius: 50%;
+        --border-radius: 13px;
+        border: 1px solid #C3C3C3;
+        border-radius: 13px;
+        margin-left: 12px;
+        margin-right: 12px;
+    }
+}
+.div-botones
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 15px;
+    margin-bottom: 45px;
+    .btn-circulo
+    {
+        --background: #ffffff;
+        --background-activated: #ffffff;
+        --border-radius: 50%;
+        --box-shadow: 0px 1px 8px #00000021;
+        --padding-start: 0px;
+        --padding-end: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 28px;
+        height: 28px;
+        .icon-btn
+        {
+            color: #313450;
+        }
+    }
+    .label-fecha
+    {
+        color: #313450;
+        font-family: PoppinsRegular;
+        font-size: 14px;
+    }
+}
+.card-horas
+{
+    border: 1px solid #D6D6D6;
+    border-radius: 10px;
+    --background: #FBFBFB;
+    box-shadow: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 30px;
+    padding-bottom:0px;
+    position: relative;
+    margin-bottom: 35px;
+    .label-horas
+    {
+        color: #313450;
+        font-family: PoppinsRegular;
+        font-size: 14px;
+        width: 20%;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .div-dia-mañana
+    {
+        border-radius: 11px;
+        padding-left: 15px;
+        padding-right: 15px;
+        color: #313450;
+        font-family: PoppinsMedium;
+        width: 98px;
+        height: 22px;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        position: absolute;
+        top: -10px;
+        left: 15px;
+        background: rgb(255,251,145);
+        background: linear-gradient(90deg, rgba(255,251,145,1) 23%, rgba(255,159,255,1) 100%);
+    }
+    .div-dia-tarde
+    {
+        border-radius: 11px;
+        padding-left: 15px;
+        padding-right: 15px;
+        color: #313450;
+        font-family: PoppinsMedium;
+        width: 98px;
+        height: 22px;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        position: absolute;
+        top: -10px;
+        left: 15px;
+        background: rgb(224,204,255);
+        background: linear-gradient(102deg, rgba(224,204,255,1) 0%, rgba(193,255,241,1) 61%);
+    }
+    .div-dia-noche
+    {
+        border-radius: 11px;
+        padding-left: 15px;
+        padding-right: 15px;
+        color: #313450;
+        font-family: PoppinsMedium;
+        width: 130px;
+        height: 22px;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        position: absolute;
+        top: -10px;
+        left: 15px;
+        background: rgb(144,228,255);
+        background: linear-gradient(99deg, rgba(144,228,255,1) 0%, rgba(159,255,245,1) 61%);
+    }
+}
+.btn-proxima
+{
+    --background: #23CEC3;
+    --background-activated: #23CEC3;
+    --border-radius: 20px;
+    --box-shadow: 0px 9px 38px #00000029;
+    --padding-start: 0px;
+    --padding-end: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 51px;
+    margin-left: 5%;
+    margin-top: -38px;
+    --color: #ffffff;
+    font-family: PoppinsMedium;
+    font-size: 14px;
+}
+.div-foofter
+{
+    height: 56px;
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8883928571428571) 50%, rgba(255,255,255,1) 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 10px;
+    .div-linea
+    {
+        border-radius: 3px;
+        background-color: #F0F0F3;
+        height: 5px;
+        width: 118px;
+    }
+}
+@media (min-width: 480px)
+{
+    .div-foofter
+    {
+        margin-top: 40px;
+    }
+}
+@media (min-width: 640px)
+{
+    .card-blanco
+    {
+        margin-left: 65px;
+        margin-right: 66px;
+    }
+    .btn-proxima
+    {
+        margin-left: 12%;
+        width: 76%;
+    }
+}
+@media (min-width: 768px)
+{
+    .card-blanco
+    {
+        margin-left: 130px;
+        margin-right: 130px;
+    }
+    .btn-proxima
+    {
+        margin-left: 18%;
+        width: 64%;
+    }
+    .div-foofter
+    {
+        margin-top: 199px;
+    }
+}
+@media (min-width: 1024px)
+{
+    .card-blanco
+    {
+        margin-left: 210px;
+        margin-right: 210px;
+    }
+    .btn-proxima
+    {
+        margin-left: 22%;
+        width: 56%;
+    }
+    .div-foofter
+    {
+        margin-top: 537px;
+    }
+}

@@ -1,0 +1,219 @@
+@font-face{
+    font-family: PoppinsSemiBold;
+    src : url('/assets/font/Poppins-SemiBold.otf')
+}
+@font-face{
+    font-family: PoppinsRegular;
+    src : url('/assets/font/Poppins-Regular.otf')
+}
+@font-face{
+    font-family: PoppinsMedium;
+    src : url('/assets/font/Poppins-Medium.otf')
+}
+@font-face{
+    font-family: PoppinsExtraBold;
+    src : url('/assets/font/Poppins-ExtraBold.otf')
+}
+@font-face{
+    font-family: HeeboRegular;
+    src : url('/assets/font/Heebo-Regular.ttf')
+}
+@font-face{
+    font-family: MontserratSemiBold;
+    src : url('/assets/font/Montserrat-SemiBold.ttf')
+}
+ion-content
+{
+    --padding-top: 30px;
+    --padding-bottom: 30px;
+    --padding-start: 20px;
+    --padding-end: 20px;
+    --background: #000000bf;
+    ion-icon
+    {
+        float: right;
+        color: #ffffff;
+        font-size: 30px;
+    }
+    ion-card
+    {
+        --background: #ffffff;
+        border-radius: 13px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 20px;
+        padding-bottom: 100px;
+        width: 100%;
+        margin: 0px;
+        margin-top: 45px;
+        height: 750px;
+        position: relative;
+        h5
+        {
+            color: #898A8F;
+            font-family: PoppinsSemiBold;
+            margin: 0px;
+            margin-bottom: 15px;
+        }
+        .btn-filtar
+        {
+            --background: #ffffff;
+            --border-radius: 28px;
+            width: 80%;
+            text-transform: none;
+            height: 55px;
+            --color: #2E5269;
+            position: absolute;
+            bottom: 16px;
+            z-index: 1;
+            left: 10%;
+            --border-color: #2E5269;
+            --border-style: solid;
+            --border-width: 1px;
+            font-family: MontserratSemiBold;
+        }
+        ion-button:hover
+        {
+            --background: #2E5269;
+            --color: #ffffff;
+            border: 1px solid #2E5269;
+            border-radius: 28px;
+        }
+    }
+}
+.div-tutolo
+{
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
+    .div-circulo
+    {
+        width: 13px;
+        height: 13px;
+        background-color: #DEDEDE;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+    .h6-subtitulo
+    {
+        color: #131313;
+        font-family: HeeboRegular;
+        font-size: 16px;
+        margin: 0px;
+    }
+}
+.div-input-cuadrado
+{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0px 28px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    .input-cuadrado
+    {
+        width: 41px;
+        height: 28px;
+        --background: #E5E5E5;
+        --color: #131313;
+        font-size: 15px;
+        --padding-end: 8px;
+        --padding-top: 0px;
+        --padding-bottom: 0px;
+        font-family: HeeboRegular;
+    }
+    .span-linea
+    {
+        color: #131313;
+        font-family: HeeboRegular;
+        font-size: 16px;
+        margin-left: 2px;
+        margin-right: 2px;
+    }
+    .span-de
+    {
+        color: #131313;
+        font-family: HeeboRegular;
+        font-size: 16px;
+        margin-left: 11px;
+        margin-right: 11px;
+    }
+}
+.btn-agregar
+{
+    --background: #ffffff;
+    --color: #2E5269;
+    --background-activated: #ffffff;
+    --color-activated: #2E5269;
+    font-family: PoppinsSemiBold;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+@media (min-width: 768px)
+{
+    ion-content
+    {
+        --padding-start: 100px;
+        --padding-end: 100px;
+        ion-icon
+        {
+            font-size: 50px;
+        }
+        ion-card
+        {
+            margin-top: 70px;
+            padding: 40px;
+            .card_acordion
+            {
+                ion-card-content
+                {
+                    .div_flex_check
+                    {
+                        .check_label
+                        {
+                            ion-label
+                            {
+                                font-size: 14px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+@media (min-width: 1024px)
+{
+    ion-content
+    {
+        --padding-start: 150px;
+        --padding-end: 150px;
+        --padding-top: 50px;
+        --padding-bottom: 50px;
+        ion-icon
+        {
+            font-size: 70px;
+        }
+        ion-card
+        {
+            margin-top: 100px;
+            padding: 70px;
+            .card_acordion
+            {
+                ion-card-content
+                {
+                    .div_flex_check
+                    {
+                        .check_label
+                        {
+                            ion-label
+                            {
+                                font-size: 14px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
