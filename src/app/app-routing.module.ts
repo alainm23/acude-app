@@ -188,6 +188,10 @@ const routes: Routes = [
     path: 'modal-fijar-horarios',
     loadChildren: () => import('./modal-fijar-horarios/modal-fijar-horarios.module').then( m => m.ModalFijarHorariosPageModule)
   },
+  {
+    path: 'recuperar-contrasena',
+    loadChildren: () => import('./recuperar-contrasena/recuperar-contrasena.module').then( m => m.RecuperarContrasenaPageModule)
+  },
 
 
 ];

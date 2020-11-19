@@ -132,10 +132,14 @@ ion-content
     border-radius: 8px;
     --padding-start: 15px;
     --padding-end: 15px;
-    --padding-top: 12px;
-    --padding-bottom: 12px;
+    --padding-top: 15px;
+    --padding-bottom: 15px;
     font-size: 14px;
     font-family: MontserratRegular;
+}
+.input_genral:hover
+{
+    border-color: #2E5269;
 }
 ion-input.padding_right_input
 {

@@ -138,6 +138,10 @@ ion-content
     font-size: 14px;
     font-family: MontserratRegular;
 }
+.input_genral:hover
+{
+    border-color: #2E5269;
+}
 ion-input.padding_right_input
 {
     --padding-end: 40px !important;
@@ -180,6 +184,10 @@ ion-select
     color: #8A8A8A;
     font-family: MontserratRegular;
     --padding-end: 20px;
+}
+ion-select:hover
+{
+    border-color: #2E5269;
 }
 ion-textarea
 {
