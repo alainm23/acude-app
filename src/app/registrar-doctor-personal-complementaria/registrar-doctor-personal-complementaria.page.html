@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">Datos personales</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h6 class="h6-titulo ion-text-center">Info personal complementaria</h6>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="11" size-md="9" size-lg="8">
+        <ion-select placeholder="Genero" mode="ios">
+          <ion-select-option value="f">Female</ion-select-option>
+          <ion-select-option value="m">Male</ion-select-option>
+        </ion-select>
+      </ion-col>
+      <ion-col size="11" size-md="9" size-lg="8" style="position: relative;">
+        <ion-input placeholder="Fecha de nacimiento" class="input_genral" type="number"></ion-input>
+        <ion-icon name="calendar-outline" class="icon-calendario"></ion-icon>
+      </ion-col>
+      <ion-col size="11" size-md="9" size-lg="8">
+        <ion-input placeholder="Lugar de nacimiento" class="input_genral" type="text"></ion-input>
+      </ion-col>
+      <ion-col size="11" size-md="9" size-lg="8">
+        <ion-select placeholder="Nacionalidad" mode="ios">
+          <ion-select-option value="f">Female</ion-select-option>
+          <ion-select-option value="m">Male</ion-select-option>
+        </ion-select>
+      </ion-col>
+      <ion-col size="11" size-md="9" size-lg="8">
+        <ion-input placeholder="Lugar de residencia" class="input_genral" type="text"></ion-input>
+      </ion-col>
+      <ion-col size="11" size-md="9" size-lg="8" class="col_linea_plomo"></ion-col>
+      <ion-col size="11" size-md="9" size-lg="8">
+        <h6 class="h6-titulo ion-text-center h6-top-bootom">Datos de contacto</h6>
+      </ion-col>
+      <ion-col size="11" size-md="9" size-lg="8">
+        <ion-input placeholder="Numero de celular" class="input_genral" type="number"></ion-input>
+      </ion-col>
+      <ion-col size="11" size-md="9" size-lg="8">
+        <ion-input placeholder="Numero de celular" class="input_genral" type="number"></ion-input>
+      </ion-col>
+      <ion-col size="11" size-md="9" size-lg="8">
+        <ion-input placeholder="Correo electrónico" class="input_genral" type="email"></ion-input>
+      </ion-col>
+      <ion-col size="11" size-md="9" size-lg="8">
+        <ion-textarea placeholder="Dirección" mode="ios" rows="3"></ion-textarea>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-button class="btn_enlace">Siguiente</ion-button>
+</ion-content>

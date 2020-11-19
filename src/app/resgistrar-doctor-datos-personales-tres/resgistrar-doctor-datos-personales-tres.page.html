@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">Info profesional</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h6 class="h6-titulo ion-text-center">Trayectoria profesional</h6>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="11" size-md="9" size-lg="8">
+        <ion-textarea placeholder="Cuéntanos sobre sus logros profesionales" mode="ios" rows="8"></ion-textarea>
+      </ion-col>
+      <ion-col size="11" size-md="9" size-lg="8" class="col_linea_plomo"></ion-col>
+      <ion-col size="11" size-md="9" size-lg="8">
+        <h6 class="h6-titulo ion-text-center h6-top-bootom">Publicaciones</h6>
+      </ion-col>
+      <ion-col size="11" size-md="9" size-lg="8">
+        <ion-select placeholder="Tipo de publicación" mode="ios">
+          <ion-select-option value="f">Female</ion-select-option>
+          <ion-select-option value="m">Male</ion-select-option>
+        </ion-select>
+      </ion-col>
+      <ion-col size="11" size-md="9" size-lg="8">
+        <ion-input placeholder="Titulo" class="input_genral" type="text"></ion-input>
+      </ion-col>
+      <ion-col size="11" size-md="9" size-lg="8">
+        <ion-input placeholder="Enlace" class="input_genral" type="text"></ion-input>
+      </ion-col>
+      <ion-col size="11" size-md="9" size-lg="8" style="height: 40px;">
+        <ion-button mode="ios" class="btn-agregar">+ Agregar publicación</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-button class="btn_enlace">Siguiente</ion-button>
+</ion-content>

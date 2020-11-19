@@ -141,6 +141,54 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () => import('./editar-perfil/editar-perfil.module').then( m => m.EditarPerfilPageModule)
   },
+  {
+    path: 'escoje-fecha-hora',
+    loadChildren: () => import('./escoje-fecha-hora/escoje-fecha-hora.module').then( m => m.EscojeFechaHoraPageModule)
+  },
+  {
+    path: 'pago',
+    loadChildren: () => import('./pago/pago.module').then( m => m.PagoPageModule)
+  },
+  {
+    path: 'reserva-exitosa',
+    loadChildren: () => import('./reserva-exitosa/reserva-exitosa.module').then( m => m.ReservaExitosaPageModule)
+  },
+  {
+    path: 'reserva-fallada',
+    loadChildren: () => import('./reserva-fallada/reserva-fallada.module').then( m => m.ReservaFalladaPageModule)
+  },
+  {
+    path: 'datos-peruano-extrajero',
+    loadChildren: () => import('./datos-peruano-extrajero/datos-peruano-extrajero.module').then( m => m.DatosPeruanoExtrajeroPageModule)
+  },  {
+    path: 'antecedentes',
+    loadChildren: () => import('./antecedentes/antecedentes.module').then( m => m.AntecedentesPageModule)
+  },
+  {
+    path: 'confirmacion',
+    loadChildren: () => import('./confirmacion/confirmacion.module').then( m => m.ConfirmacionPageModule)
+  },
+  {
+    path: 'resgistrar-doctor-datos-personales',
+    loadChildren: () => import('./resgistrar-doctor-datos-personales/resgistrar-doctor-datos-personales.module').then( m => m.ResgistrarDoctorDatosPersonalesPageModule)
+  },
+  {
+    path: 'resgistrar-doctor-datos-personales-dos',
+    loadChildren: () => import('./resgistrar-doctor-datos-personales-dos/resgistrar-doctor-datos-personales-dos.module').then( m => m.ResgistrarDoctorDatosPersonalesDosPageModule)
+  },
+  {
+    path: 'resgistrar-doctor-datos-personales-tres',
+    loadChildren: () => import('./resgistrar-doctor-datos-personales-tres/resgistrar-doctor-datos-personales-tres.module').then( m => m.ResgistrarDoctorDatosPersonalesTresPageModule)
+  },
+  {
+    path: 'registrar-doctor-personal-complementaria',
+    loadChildren: () => import('./registrar-doctor-personal-complementaria/registrar-doctor-personal-complementaria.module').then( m => m.RegistrarDoctorPersonalComplementariaPageModule)
+  },
+  {
+    path: 'modal-fijar-horarios',
+    loadChildren: () => import('./modal-fijar-horarios/modal-fijar-horarios.module').then( m => m.ModalFijarHorariosPageModule)
+  },
+
 
 ];
 

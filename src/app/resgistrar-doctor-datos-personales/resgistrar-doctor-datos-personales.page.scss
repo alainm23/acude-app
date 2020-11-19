@@ -14,13 +14,10 @@
     font-family: PoppinsMedium;
     src : url('/assets/font/Poppins-Medium.otf')
 }
-
-.error-col {
-    color: #ed5353;
-    padding-left: 1rem;
-    padding-top: 0px;
+@font-face{
+    font-family: PoppinsSemiBold;
+    src : url('/assets/font/Poppins-SemiBold.otf')
 }
-
 ion-header
 {
     height: 30px;
@@ -36,15 +33,20 @@ ion-header
         display: flex;
         align-items: center;
         font-family: MontserratSemiBold;
-        ion-title
-        {
-            font-size: 1rem;
-        }
+        font-size: 1rem;
     }
 }
 ion-content
 {
-    --padding-top: 85px;
+    --padding-top: 95px;
+}
+.h6-titulo
+{
+    color: #2E5269;
+    font-family: MontserratRegular;
+    font-size: 14px;
+    margin: 0px;
+    margin-bottom: 22px;
 }
 .col_flex
 {
@@ -62,7 +64,6 @@ ion-content
         box-shadow: 0px 2px 14px #00000029;
         margin-top: 0px;
         margin-bottom: 0px;
-        z-index: 1;
     }
     .div_absolute
     {
@@ -99,11 +100,11 @@ ion-content
     font-family: MontserratSemiBold;
     width: 80%;
     margin-top: 55px;
+    margin-bottom: 54px;
     margin-left: 10%;
     margin-right: 10%;
     height: 50px;
     position: relative;
-    margin-bottom: 40px;
 }
 .btn_enlace:hover::after
 {
@@ -132,14 +133,24 @@ ion-content
     border-radius: 8px;
     --padding-start: 15px;
     --padding-end: 15px;
-    --padding-top: 12px;
-    --padding-bottom: 12px;
+    --padding-top: 15px;
+    --padding-bottom: 15px;
     font-size: 14px;
     font-family: MontserratRegular;
 }
 ion-input.padding_right_input
 {
     --padding-end: 40px !important;
+}
+.btn-agregar
+{
+    --background: #ffffff;
+    --color: #2E5269;
+    --background-activated: #ffffff;
+    --color-activated: #2E5269;
+    font-family: PoppinsSemiBold;
+    font-size: 14px;
+    margin-bottom: 16px;
 }
 .col_linea_plomo
 {
@@ -158,6 +169,18 @@ ion-input.padding_right_input
     font-size: 20px;
     color: #989898;
 }
+ion-select
+{
+    border: 1px solid #F2F2F2;
+    box-shadow: 0px 1px 3px #00000029;
+    border-radius: 8px;
+    --padding-top: 15px;
+    --padding-bottom: 15px;
+    --placeholder-color: #8A8A8A;
+    color: #8A8A8A;
+    font-family: MontserratRegular;
+    --padding-end: 20px;
+}
 @media(min-width: 411px)
 {
     .btn_enlace
@@ -172,7 +195,7 @@ ion-input.padding_right_input
     }
     ion-content
     {
-        --padding-top: 80px;
+        --padding-top: 100px;
     }
     .col_flex
     {
@@ -270,3 +293,4 @@ ion-input.padding_right_input
     }
     
 }
+
