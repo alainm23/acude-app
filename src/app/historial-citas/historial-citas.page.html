@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>historial-citas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label>Paciente</ion-label>
+    <ion-select [(ngModel)]="paciente_seleccionado" (ionChange)="changed ($event.detail.value)">
+      <ion-select-option value="todos">
+        <h2>Todos</h2>
+      </ion-select-option>
+
+      <ion-select-option *ngFor="let item of pacientes" [value]="item.paciente">
+        <h2>{{ item.paciente.nombres + ' ' + item.paciente.apellidos }}</h2>
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-list>
+    <ion-list-header>
+      Historial de citas
+    </ion-list-header>
+
+    <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="tipo_citas">
+      <ion-segment-button value="pasadas">
+        <ion-label>Pasadas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="proximas">
+        <ion-label>Proximas</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-item *ngFor="let item of citas">
+      <ion-label>
+        <h2>Fecha: {{ item.fecha }}, Hora: {{ item.hora }}</h2>
+        <p>Doctor: {{ item.centro_medico_sede_profesional.info_doctor.nombre_completo }}</p>
+        <p>Dirección: {{ item.centro_medico_sede_profesional.info_centro_medico_sucursal.direccion }}</p>
+        <p>Tipo de Cita: {{ get_tipo_cita (item.tipo_cita) }}</p>
+        <p *ngIf="item.tipo_cita === '1'">Enlace: <a [href]="'http://' + item.enlace_sala">{{ item.enlace_sala }}</a></p>
+        <p>Paciente: {{ item.paciente?.nombres + ' ' + item.paciente?.apellidos }}</p>
+      </ion-label>
+
+      <ion-button *ngIf="validar_boton (item)" (click)="editar (item)">Reprogramar</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

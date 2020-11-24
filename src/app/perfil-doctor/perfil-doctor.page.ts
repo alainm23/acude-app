@@ -3,7 +3,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 // Services
 import { ApiService } from '../services/api.service';
 import { ActivatedRoute } from '@angular/router';
-import { NavController, LoadingController } from '@ionic/angular';
+import { NavController, LoadingController, AlertController } from '@ionic/angular';
 import * as moment from 'moment';
 declare var google: any;
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
@@ -21,13 +21,17 @@ export class PerfilDoctorPage implements OnInit {
 
   mapas = new Map <string, any> ();
   favorito: boolean = false;
+
+
+  boton_color: boolean = false;
   constructor (
     private api: ApiService,
     private route: ActivatedRoute,
     private navController: NavController,
     private loadingController: LoadingController,
     private socialSharing: SocialSharing,
-    private callNumber: CallNumber
+    private callNumber: CallNumber,
+    private alertController: AlertController
   ) { }
 
   async ngOnInit() {
@@ -38,7 +42,6 @@ export class PerfilDoctorPage implements OnInit {
     await loading.present ();
 
     this.api.obtener_informacion_completa_profesional (this.route.snapshot.paramMap.get ('id')).subscribe ((res: any) => {
-      console.log (res);
       console.log (res.data.profesional);
       this.datos = res.data.profesional;
       if (res.data.estado_favorito === 1) {
@@ -187,5 +190,76 @@ export class PerfilDoctorPage implements OnInit {
         console.log (error)
       });
     }
+  }
+
+  reservar (centro: any) {
+    let data: any = {
+      centro_medico_id: centro.id,
+      direccion: centro.info_centro_medico_sucursal_tarjeta_medico.direccion,
+      precio: centro.precio_consulta,
+      editar: false
+    };
+
+    this.navController.navigateForward (
+      ['escoje-fecha-hora', JSON.stringify ({
+        nombre_completo: this.datos.nombre_completo,
+        especialidad: this.datos.especialidad,
+        brinda_telemedicina: this.datos.brinda_telemedicina,
+        fotografia: this.datos.fotografia
+      }), JSON.stringify (data)]
+    );
+  }
+
+  async reservar_select () {
+    console.log (this.datos);
+    if (this.datos.centros_medicos_lista.length <= 1) {
+      this.reservar (this.datos.centros_medicos_lista [0]);
+    } else {
+      let inputs: any [] = [];
+      this.datos.centros_medicos_lista.forEach ((centro: any) => {
+        inputs.push ({
+          name: 'radio1',
+          type: 'radio',
+          label: centro.info_centro_medico_sucursal_tarjeta_medico.infocentro_medico_tarjeta.nombre_comercial,
+          value: centro,
+        })
+      });
+
+      const alert = await this.alertController.create({
+        header: 'Seleccione un centro de atencion',
+        inputs: inputs,
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {
+              console.log('Confirm Cancel');
+            }
+          }, {
+            text: 'Seleccionar',
+            handler: (data: any) => {
+              this.reservar (data);
+            }
+          }
+        ]
+      });
+  
+      await alert.present();
+    }
+  }
+
+  validar_disponibilidad (datos: any) {
+    let returned: boolean = false;
+
+    if (datos.centros_medicos_lista !== undefined) {
+      datos.centros_medicos_lista.forEach ((centro: any) => {
+        if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_centro_medico.tipo_reserva === '1') {
+          returned = true;
+        }
+      });
+    }
+
+    return returned;
   }
 }

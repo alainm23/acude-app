@@ -411,4 +411,94 @@ export class ApiService {
 
     return this.http.post (url, data);
   }
+
+  registrar_cita (data: any) {
+    let url = this.URL_BASE + '/api/cita/registrar-cita';
+
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.post (url, data, { headers });
+  }
+
+  actualizar_datos_pago (data: any) {
+    let url = this.URL_BASE + '/api/auth/actualizar-datos-pago';
+
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.post (url, data, { headers });
+  }
+
+  relacionados_pacientes () {
+    let url = this.URL_BASE + '/api/cita/pacientes/relacionados-pacientes/' + this.USUARIO_DATA.id;
+    
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.get (url, { headers });
+  }
+  
+  informacion_dni (dni: number) {
+    let url = this.URL_BASE + '/api/cita/pacientes/informacion-dni/' + dni;
+    
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.get (url, { headers });
+  }
+
+  registrar_paciente (data: any) {
+    let url = this.URL_BASE + '/api/cita/pacientes/registrar-paciente';
+
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.post (url, data, { headers });
+  }
+
+  registrar_antecedentes (data: any) {
+    let url = this.URL_BASE + '/api/cita/pacientes/registrar-antecedentes';
+
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.post (url, data, { headers });
+  }
+
+  historial_citas () {
+    let url = this.URL_BASE + '/api/cita/pacientes/historial-citas-user/' + this.USUARIO_DATA.id;
+    
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.get (url, { headers });
+  }
+
+  verificar_disponibilidad (id_centro_medico_profesional: number) {
+    let url = this.URL_BASE + '/api/cita/pacientes/verificar-disponibilidad/' + id_centro_medico_profesional;
+    
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.get (url, { headers });
+  }
+
+  reprogramar_cita (data: any) {
+    let url = this.URL_BASE + '/api/cita/pacientes/reprogramar-cita';
+
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.post (url, data, { headers });
+  }
 }

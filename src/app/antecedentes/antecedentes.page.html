@@ -1,30 +1,29 @@
-<!--<ion-header>
-  <ion-toolbar>
-    <ion-title>escoje-fecha-hora</ion-title>
-  </ion-toolbar>
-</ion-header>-->
-
 <ion-content>
   <ion-card class="card-verd">
-    <ion-label class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>Datos del paciente</ion-label>
-    <p class="p-mapa">Mumbai</p>
+    <ion-label (click)="back ()" class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>Datos del paciente</ion-label>
   </ion-card>
   <ion-card class="card-blanco">
-    <h6 class="h6-titulo ion-text-center">Antecedentes del paciente</h6>
-    <div class="div-input">
-      <ion-input placeholder="Estatura" type="number" class="input-genral input-mitad"></ion-input>
-      <ion-input placeholder="Peso" type="number" class="input-genral input-mitad input-left"></ion-input>
-    </div>
-    <div class="div-input-bottom">
-      <ion-input placeholder="Numero de tarjeta" type="number" class="input-genral"></ion-input>
-      <ion-input placeholder="Numero de tarjeta" type="number" class="input-genral"></ion-input>
-      <ion-input placeholder="Numero de tarjeta" type="number" class="input-genral"></ion-input>
-      <ion-input placeholder="Numero de tarjeta" type="number" class="input-genral"></ion-input>
-      <ion-input placeholder="Numero de tarjeta" type="number" class="input-genral"></ion-input>
-      <ion-input placeholder="Numero de tarjeta" type="number" class="input-genral"></ion-input>
-    </div>
+    <form [formGroup]="form">
+      <h6 class="h6-titulo ion-text-center">Antecedentes del paciente</h6>
+      <div class="div-input">
+        <ion-input formControlName="altura" placeholder="Estatura" type="tel" class="input-genral input-mitad"></ion-input>
+        <ion-input formControlName="peso" placeholder="Peso" type="tel" class="input-genral input-mitad input-left"></ion-input>
+      </div>
+      <div class="div-input-bottom">
+        <ion-textarea autoGrow=true formControlName="enfermedades" placeholder="Enfermedades" type="text" class="input-genral"></ion-textarea>
+        <ion-textarea autoGrow=true formControlName="alergias" placeholder="Alergias" type="text" class="input-genral"></ion-textarea>
+        <ion-textarea autoGrow=true formControlName="cirugias" placeholder="Cirugias" type="text" class="input-genral"></ion-textarea>
+        <ion-textarea autoGrow=true formControlName="drogas_medicamentos" placeholder="Medicamentos con droga" type="text" class="input-genral"></ion-textarea>
+        <ion-textarea autoGrow=true formControlName="fobias" placeholder="Fobias" type="text" class="input-genral"></ion-textarea>
+        <ion-textarea autoGrow=true formControlName="ansiedad" placeholder="Ansiedad" type="text" class="input-genral"></ion-textarea>
+        <ion-textarea autoGrow=true formControlName="panicos" placeholder="Panicos" type="text" class="input-genral"></ion-textarea>
+        <ion-textarea autoGrow=true formControlName="deportes" placeholder="Deportes" type="text" class="input-genral"></ion-textarea>
+        <ion-textarea autoGrow=true formControlName="otros" placeholder="Otros" type="text" class="input-genral"></ion-textarea>
+      </div>
+    </form>
   </ion-card>
-  <ion-button class="btn-proxima">Finalizar proceso</ion-button>
+  <ion-button (click)="submit ()">Omitir</ion-button>
+  <ion-button class="btn-proxima" (click)="submit ()">Finalizar proceso</ion-button>
   <div class="div-foofter">
     <div class="div-linea"></div>
   </div>

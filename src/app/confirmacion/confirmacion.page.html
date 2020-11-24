@@ -7,33 +7,39 @@
 <ion-content>
   <ion-card class="card-verd">
     <ion-label class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>Datos del paciente</ion-label>
-    <p class="p-mapa">Mumbai</p>
   </ion-card>
   <ion-card class="card-blanco">
     <h6 class="h6-titulo ion-text-center">Confrmación de cita</h6>
     <div class="div-bottom-cita">
       <h6 class="titulo-confirmacion">Paciente</h6>
-      <p class="p-nombre">Jose Manuel Jimenez Jordan</p>
-      <p class="p-descripcion-cita">B.Sc, MBBS, DDVL, MD- Dermitol...</p>
+      <p class="p-nombre">{{ data?.nombre_paciente }}</p>
+      <!-- <p class="p-descripcion-cita">B.Sc, MBBS, DDVL, MD- Dermitol...</p> -->
     </div>
     <div class="div-bottom-cita">
       <h6 class="titulo-confirmacion">Doctor</h6>
-      <p class="p-nombre">Cesar Perez Duarte</p>
-      <p class="p-descripcion-cita">Cardiologo</p>
+      <p class="p-nombre">{{ data?.doctor.nombre_completo }}</p>
+      <p class="p-descripcion-cita">{{ data?.doctor.especialidad.nombre }}</p>
     </div>
     <div class="div-bottom-cita">
       <h6 class="titulo-confirmacion">Cuando</h6>
-      <p class="p-nombre">Mañana, 9 Dic</p>
-      <p class="p-descripcion-cita">4.45PM</p>
+      <p class="p-nombre">{{ get_relative_date () }}, {{ get_date () }}</p>
+      <p class="p-descripcion-cita">{{ get_date_format ('hh:mm A') }}</p>
     </div>
     <div class="div-bottom-cita">
       <h6 class="titulo-confirmacion">Lugar de atención</h6>
-      <p class="p-nombre">Clinica san Pedro</p>
-      <p class="p-descripcion-cita">Calle los Alamos 1231, San Fernando , Lima</p>
+      <p class="p-nombre">{{ data?.sucursal_nombre }}</p>
+      <p class="p-descripcion-cita">{{ data?.sucursal_direccion }}</p>
     </div>
+
+    <div>
+      <h6 class="titulo-confirmacion">Tipo de cita</h6>
+      <p class="p-nombre">{{ get_tipo_cita (data?.tipo_cita) }}</p>
+      <p class="p-descripcion-cita" *ngIf="data?.tipo_cita === '1'">Enlace: <a [href]="'http://' + data.enlace_sala">{{ data.enlace_sala }}</a></p>
+    </div>
+
     <p class="p-descripcion-plomo">* No hay devoluciones <br>** Cambios de cita hasta 24 horas antes</p>
   </ion-card>
-  <ion-button class="btn-proxima">Regresar</ion-button>
+  <ion-button class="btn-proxima" (click)="ver_historial ()">Ver historial de citas</ion-button>
   <div class="div-foofter">
     <div class="div-linea"></div>
   </div>

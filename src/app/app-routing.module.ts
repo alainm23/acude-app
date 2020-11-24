@@ -142,15 +142,18 @@ const routes: Routes = [
     loadChildren: () => import('./editar-perfil/editar-perfil.module').then( m => m.EditarPerfilPageModule)
   },
   {
-    path: 'escoje-fecha-hora',
+    path: 'escoje-fecha-hora/:doctor/:centro',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./escoje-fecha-hora/escoje-fecha-hora.module').then( m => m.EscojeFechaHoraPageModule)
   },
   {
-    path: 'pago',
+    path: 'pago/:doctor/:data',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./pago/pago.module').then( m => m.PagoPageModule)
   },
   {
-    path: 'reserva-exitosa',
+    path: 'reserva-exitosa/:data',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./reserva-exitosa/reserva-exitosa.module').then( m => m.ReservaExitosaPageModule)
   },
   {
@@ -158,14 +161,18 @@ const routes: Routes = [
     loadChildren: () => import('./reserva-fallada/reserva-fallada.module').then( m => m.ReservaFalladaPageModule)
   },
   {
-    path: 'datos-peruano-extrajero',
+    path: 'datos-peruano-extrajero/:data',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./datos-peruano-extrajero/datos-peruano-extrajero.module').then( m => m.DatosPeruanoExtrajeroPageModule)
-  },  {
-    path: 'antecedentes',
+  },
+  {
+    path: 'antecedentes/:data',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./antecedentes/antecedentes.module').then( m => m.AntecedentesPageModule)
   },
   {
-    path: 'confirmacion',
+    path: 'confirmacion/:data',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./confirmacion/confirmacion.module').then( m => m.ConfirmacionPageModule)
   },
   {
@@ -192,6 +199,12 @@ const routes: Routes = [
     path: 'recuperar-contrasena',
     loadChildren: () => import('./recuperar-contrasena/recuperar-contrasena.module').then( m => m.RecuperarContrasenaPageModule)
   },
+  {
+    path: 'historial-citas',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./historial-citas/historial-citas.module').then( m => m.HistorialCitasPageModule)
+  },
+
 
 
 ];

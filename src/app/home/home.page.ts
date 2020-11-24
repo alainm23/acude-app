@@ -206,6 +206,10 @@ export class HomePage implements OnInit {
     this.navController.navigateForward ('busqueda-avanzada');
   }
 
+  historial () {
+    this.navController.navigateForward ('historial-citas');
+  }
+
   ver () {
     console.log ('Aquii');
   }

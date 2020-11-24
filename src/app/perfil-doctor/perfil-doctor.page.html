@@ -47,7 +47,7 @@
         </ion-card>
       </ion-col>
       <ion-col size="12" size-md="7">
-        <ion-button class="btn-proxima">Reservar cita</ion-button>
+        <ion-button class="btn-proxima" *ngIf="validar_disponibilidad (datos)" (click)="reservar_select ()">Reservar cita</ion-button>
       </ion-col>
       <ion-col size="12" size-md="7" *ngIf="datos?.adicional !== null">
         <ion-card class="card_iguales">
@@ -89,7 +89,9 @@
             <ion-card-content *ngIf="centro.visible">
               <div class="div_conuslta_nutton">
                 <p>Costo de consulta : <span>{{ centro.precio_consulta | currency:'S/. ' }}</span></p>
-                <!-- <ion-button>Reservar</ion-button> -->
+                <ion-button (click)="reservar (centro)" *ngIf="centro.info_centro_medico_sucursal_tarjeta_medico.tipo_centro_medico.tipo_reserva === '1'">
+                  Reservar
+                </ion-button>
               </div>
               <div class="div_border_bootom">
                 <ion-row>
@@ -146,7 +148,7 @@
         </ion-card>
       </ion-col>
       <ion-col size="12" size-md="7">
-        <ion-button class="btn-proxima btn-left-width">Reservar cita</ion-button>
+        <ion-button class="btn-proxima btn-left-width" *ngIf="validar_disponibilidad (datos)" (click)="reservar_select ()">Reservar cita</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

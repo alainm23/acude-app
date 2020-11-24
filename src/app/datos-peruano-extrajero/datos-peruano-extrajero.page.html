@@ -6,49 +6,124 @@
 
 <ion-content>
   <ion-card class="card-verd">
-    <ion-label class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>Datos del paciente</ion-label>
-    <p class="p-mapa">Mumbai</p>
+    <ion-label class="label-cabezera">Datos del paciente</ion-label>
   </ion-card>
   <ion-card class="card-blanco">
-    <div class="div-perfil">
+    <!-- <div class="div-perfil">
       <ion-avatar>
         <img src="assets/img/c88185bc9da4e6f2397185cab7ff2039.png">
       </ion-avatar>
       <div class="div-descripcion">
-        <h6 class="nombre-style">Cesar Perez Duarte</h6>
-        <p class="p-descripcion">B.Sc, MBBS, DDVL, MD- Dermitol...</p>
+        <h6 class="nombre-style">{{ doctor?.nombre_completo }}</h6>
+        <p class="p-descripcion">{{ doctor?.especialidad.nombre }}</p>
       </div>
-    </div>
-    <div class="div-fecha-costo">
+    </div> -->
+    <!-- <div class="div-fecha-costo">
       <div class="subdiv-fecha-costo border-right-fehca">
         <h6 class="titulo-fecha-costo">Fecha y hora</h6>
-        <p class="p-fecha-costo">Mañana, 9 Dic</p>
-        <p class="p-fecha-costo">4.45PM</p>
+        <p class="p-fecha-costo">{{ get_relative_date () }}, {{ get_date () }}</p>
+        <p class="p-fecha-costo">{{ get_date_format ('hh:mm A') }}</p>
       </div>
       <div class="subdiv-fecha-costo padding-left-costo">
         <h6 class="titulo-fecha-costo">Costo de consulta</h6>
-        <p class="p-fecha-costo">S/.100.00</p>
+        <p class="p-fecha-costo">S/. {{ data?.monto }}</p>
       </div>
-    </div>
-    <h6 class="h6-datos ion-text-center">Datos del paciente</h6>
-    <div class="item-toogle" mode="ios">
-      <p class="p-toogle">Peruano</p>
-      <ion-toggle></ion-toggle>
-      <p class="p-toogle">Extranjero</p>
-    </div>
-    <!--<ion-input placeholder="DNI" type="number" class="input-genral input-margin-bottom"></ion-input>-->
-    <div class="div-input-extrajero">
-      <ion-input placeholder="Tipo de documento" type="text" class="input-genral"></ion-input>
-      <ion-input placeholder="Numero de documento" type="number" class="input-genral"></ion-input>
-      <ion-input placeholder="Nombre" type="text" class="input-genral"></ion-input>
-      <ion-input placeholder="Sexo" type="text" class="input-genral"></ion-input>
-      <ion-input placeholder="Fecha de nacimiento" type="number" class="input-genral"></ion-input>
-      <ion-input placeholder="Numero de telefono" type="number" class="input-genral"></ion-input>
-      <ion-input placeholder="Correo electrónico" type="email" class="input-genral"></ion-input>
-    </div>
+    </div> -->
+    
+    <ion-list *ngIf="pacientes.length > 0">
+      <ion-list-header>
+        <ion-label>Seleccione un paciente</ion-label>
+      </ion-list-header>
+
+      <ion-radio-group [(ngModel)]="paciente_seleccionado">
+        <ion-item *ngFor="let item of pacientes">
+          <ion-label>
+            <h2>{{ item.paciente.nombres + ' ' + item.paciente.apellidos }}</h2>
+            <p>{{ get_tipo_paciente_string (item.paciente.tipo_paciente) }} {{ item.paciente.dni }}</p>
+          </ion-label>
+          <ion-radio slot="start" [value]="item.paciente"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            Registrar nuevo
+          </ion-label>
+          <ion-radio slot="start" value="nuevo"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+
+    <ng-container *ngIf="paciente_seleccionado === 'nuevo'">
+      <h6 class="h6-datos ion-text-center">Datos del paciente</h6>
+      <div class="item-toogle" mode="ios">
+        <p class="p-toogle">Peruano</p>
+        <ion-toggle (ionChange)="change_value ($event.detail.checked)" [(ngModel)]="es_extranjero"></ion-toggle>
+        <p class="p-toogle">Extranjero</p>
+      </div>
+
+      <form [formGroup]="form">
+        <ion-input *ngIf="es_extranjero === false" placeholder="DNI" formControlName="dni" type="number" class="input-genral input-margin-bottom">
+        </ion-input>
+    
+        <div *ngIf="es_extranjero" class="div-input-extrajero">
+          <ion-select formControlName="tipo_paciente" placeholder="Tipo de documento" interface="popover">
+            <ion-select-option value=1>Pasaporte</ion-select-option>
+            <ion-select-option value=2>CE</ion-select-option>
+          </ion-select>
+          <small *ngIf="form.controls.tipo_paciente.errors?.required && form.controls.tipo_paciente.dirty">
+            * Este campo es obligatorio
+          </small>
+
+          <ion-input placeholder="Numero de documento" formControlName="dni" type="text" class="input-genral"></ion-input>
+          <small *ngIf="form.controls.dni.errors?.required && form.controls.dni.dirty">
+            * Este campo es obligatorio
+          </small>
+
+          <ion-input placeholder="Nombres" formControlName="nombres" type="text" class="input-genral"></ion-input>
+          <small *ngIf="form.controls.nombres.errors?.required && form.controls.nombres.dirty">
+            * Este campo es obligatorio
+          </small>
+
+          <ion-input placeholder="Apellidos" formControlName="apellidos" type="text" class="input-genral"></ion-input>
+          <small *ngIf="form.controls.apellidos.errors?.required && form.controls.apellidos.dirty">
+            * Este campo es obligatorio
+          </small>
+
+          <ion-select formControlName="sexo" placeholder="Sexo" interface="popover">
+            <ion-select-option value=0>Masculino</ion-select-option>
+            <ion-select-option value=1>Femenino</ion-select-option>
+          </ion-select>
+          <small *ngIf="form.controls.sexo.errors?.required && form.controls.sexo.dirty">
+            * Este campo es obligatorio
+          </small>
+
+          <ion-datetime  cancelText="Cancelar" doneText="Seleccionar" monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic" formControlName="fecha_nacimiento" placeholder="Fecha de nacimiento"></ion-datetime>
+          <small *ngIf="form.controls.fecha_nacimiento.errors?.required && form.controls.fecha_nacimiento.dirty">
+            * Este campo es obligatorio
+          </small>
+
+          <ion-input placeholder="Numero de telefono" formControlName="telefono" type="number" class="input-genral"></ion-input>
+          <small *ngIf="form.controls.telefono.errors?.required && form.controls.telefono.dirty">
+            * Este campo es obligatorio
+          </small>
+
+          <ion-input placeholder="Correo electrónico" formControlName="correo" type="email" class="input-genral"></ion-input>
+          <small *ngIf="form.controls.correo.errors?.required && form.controls.correo.dirty">
+            * Este campo es obligatorio
+          </small>
+
+          <small *ngIf="form.controls.correo.errors?.email">
+            * Correo electronico invalido
+          </small>
+        </div>
+      </form>
+    </ng-container>
   </ion-card>
-  <ion-button class="btn-proxima">Reservar cita</ion-button>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-button class="btn-proxima" [disabled]="valid_form ()" (click)="submit ()">Continuar</ion-button>
   <div class="div-foofter">
     <div class="div-linea"></div>
   </div>
-</ion-content>
+</ion-footer>

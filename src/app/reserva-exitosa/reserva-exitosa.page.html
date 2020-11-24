@@ -6,20 +6,19 @@
 
 <ion-content>
   <ion-card class="card-verd">
-    <ion-label class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>Datos del paciente</ion-label>
-    <p class="p-mapa">Mumbai</p>
+    <ion-label class="label-cabezera">Datos del paciente</ion-label>
   </ion-card>
   <ion-card class="card-blanco">
     <h6 class="ion-text-center titulo-card">¡Reserva de cita exitosa!</h6>
     <ion-avatar>
-      <img src="assets/img/c88185bc9da4e6f2397185cab7ff2039.png">
+      <img [src]="get_foto (data.doctor)">
     </ion-avatar>
-    <h6 class="nombre-style ion-text-center">Cesar Perez Duarte</h6>
-    <p class="p-descripcion ion-text-center">B.Sc, MBBS, DDVL, MD- Dermitol...</p>
-    <p class="p-hora-dia ion-text-center">Mañana, 9 Dic</p>
-    <p class="p-hora-dia ion-text-center">4.45PM</p>
+    <h6 class="nombre-style ion-text-center">{{ data.doctor.nombre_completo }}</h6>
+    <p class="p-descripcion ion-text-center">{{ data.doctor.especialidad.nombre }}</p>
+    <p class="p-hora-dia ion-text-center">{{ get_relative_date () }}, {{ get_date () }}</p>
+    <p class="p-hora-dia ion-text-center">{{ get_date_format ('hh:mm A') }}</p>
   </ion-card>
-  <ion-button class="btn-proxima">Proceder</ion-button>
+  <ion-button class="btn-proxima" (click)="proceder ()">Proceder</ion-button>
   <div class="div-foofter">
     <div class="div-linea"></div>
   </div>

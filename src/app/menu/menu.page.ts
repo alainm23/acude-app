@@ -52,6 +52,10 @@ export class MenuPage implements OnInit {
     this.navController.navigateForward ('favoritos');
   }
 
+  go_historial () {
+    this.navController.navigateForward ('historial-citas');
+  }
+
   ser_pro () {
     window.open ('https://www.acudeapp.com/formulario', '_system');
   }

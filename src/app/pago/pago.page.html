@@ -6,39 +6,60 @@
 
 <ion-content>
   <ion-card class="card-verd">
-    <ion-label class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>Datos del paciente</ion-label>
-    <p class="p-mapa">Mumbai</p>
+    <ion-label (click)="back ()" class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>Datos del paciente</ion-label>
   </ion-card>
   <ion-card class="card-blanco">
     <div class="div-perfil">
       <ion-avatar>
-        <img src="assets/img/c88185bc9da4e6f2397185cab7ff2039.png">
+        <img [src]="get_foto (doctor)">
       </ion-avatar>
       <div class="div-descripcion">
-        <h6 class="nombre-style">Cesar Perez Duarte</h6>
-        <p class="p-descripcion">B.Sc, MBBS, DDVL, MD- Dermitol...</p>
+        <h6 class="nombre-style">{{ doctor?.nombre_completo }}</h6>
+        <p class="p-descripcion">{{ doctor?.especialidad.nombre }}</p>
       </div>
     </div>
     <div class="div-fecha-costo">
       <div class="subdiv-fecha-costo border-right-fehca">
         <h6 class="titulo-fecha-costo">Fecha y hora</h6>
-        <p class="p-fecha-costo">Mañana, 9 Dic</p>
-        <p class="p-fecha-costo">4.45PM</p>
+        <p class="p-fecha-costo">{{ get_relative_date () }}, {{ get_date () }}</p>
+        <p class="p-fecha-costo">{{ get_date_format ('hh:mm A') }}</p>
       </div>
       <div class="subdiv-fecha-costo padding-left-costo">
         <h6 class="titulo-fecha-costo">Costo de consulta</h6>
-        <p class="p-fecha-costo">S/.100.00</p>
+        <p class="p-fecha-costo">S/. {{ data?.monto }}</p>
+        <p>S/. 3.00 por el uso del servicio</p>
       </div>
     </div>
-    <ion-input placeholder="Numero de tarjeta" type="number" class="input-genral"></ion-input>
-    <ion-input placeholder="Nombre del titular" type="text" class="input-genral"></ion-input>
-    <div class="div-input">
-      <ion-input placeholder="dd/mm" type="number" class="input-genral input-mitad"></ion-input>
-      <ion-input placeholder="Código" type="number" class="input-genral input-mitad input-left"></ion-input>
-    </div>
+    <h3>Datos del titular de la tarjeta</h3>
+    <form [formGroup]="form">
+      <ion-input placeholder="Nombres" type="text" formControlName="nombre_tarjeta" class="input-genral"></ion-input>
+      <small *ngIf="form.controls.nombre_tarjeta.errors?.required && form.controls.nombre_tarjeta.dirty">
+        * Este campo es obligatorio
+      </small>
+        
+      <ion-input placeholder="Apellidos" type="text" formControlName="apellido_tarjeta" class="input-genral"></ion-input>
+      <small *ngIf="form.controls.apellido_tarjeta.errors?.required && form.controls.apellido_tarjeta.dirty">
+        * Este campo es obligatorio
+      </small>
+
+      <ion-input placeholder="Telefono" type="tel" formControlName="telefono_tarjeta" class="input-genral"></ion-input>
+      <small *ngIf="form.controls.telefono_tarjeta.errors?.required && form.controls.telefono_tarjeta.dirty">
+        * Este campo es obligatorio
+      </small>
+
+      <ion-input placeholder="Dirección" type="text" formControlName="direccion" class="input-genral"></ion-input>
+      <small *ngIf="form.controls.direccion.errors?.required && form.controls.direccion.dirty">
+        * Este campo es obligatorio
+      </small>
+
+      <ion-input placeholder="Ciudad" type="text" formControlName="ciudad" class="input-genral"></ion-input>
+      <small *ngIf="form.controls.ciudad.errors?.required && form.controls.ciudad.dirty">
+        * Este campo es obligatorio
+      </small>
+    </form>
     <p class="p-descripcion-plomo">* No hay devoluciones <br>** Cambios de cita hasta 24 horas antes</p>
   </ion-card>
-  <ion-button class="btn-proxima">Pagar</ion-button>
+  <ion-button class="btn-proxima" [disabled]="form.invalid" (click)="submit ()">Pagar</ion-button>
   <div class="div-foofter">
     <div class="div-linea"></div>
   </div>
