@@ -501,4 +501,14 @@ export class ApiService {
 
     return this.http.post (url, data, { headers });
   }
+
+  obtener_informacion_completa (id_profesional: number) {
+    let url = this.URL_BASE + '/api/profesionales/obtener-informacion-completa/' + id_profesional + '/' + this.USUARIO_DATA.id;
+    
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.get (url, { headers });
+  }
 }

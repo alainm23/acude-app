@@ -202,6 +202,7 @@ export class PerfilDoctorPage implements OnInit {
 
     this.navController.navigateForward (
       ['escoje-fecha-hora', JSON.stringify ({
+        id: this.datos.id,
         nombre_completo: this.datos.nombre_completo,
         especialidad: this.datos.especialidad,
         brinda_telemedicina: this.datos.brinda_telemedicina,

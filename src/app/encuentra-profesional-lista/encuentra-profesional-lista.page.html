@@ -67,7 +67,11 @@
               <ion-button class="btn_salud" (click)="ver (item)">Ver información</ion-button>
             </ion-col>
             <ion-col size="6">
-              <ion-button (click)="llamar (item.telefono_celular)" class="btn_salud">
+              <ion-button *ngIf="validar_disponibilidad (item)" (click)="reservar_select (item)" class="btn_salud">
+                Reservar
+              </ion-button>
+
+              <ion-button *ngIf="validar_disponibilidad (item) === false" (click)="llamar (item.telefono_celular)" class="btn_salud">
                 <img src="assets/img/Grupo1716.png">
                 Llamar
               </ion-button>

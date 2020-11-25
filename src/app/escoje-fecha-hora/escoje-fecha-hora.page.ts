@@ -26,6 +26,7 @@ export class EscojeFechaHoraPage implements OnInit {
   doctor: any;
   horarios: any [] = [];
   citas: any [] = [];
+  bloqueos: any [] = [];
   direccion: string;
   constructor (private route: ActivatedRoute,
     private pago: PagoService,
@@ -47,7 +48,6 @@ export class EscojeFechaHoraPage implements OnInit {
     await loading.present ();
     
     this.api.verificar_disponibilidad (JSON.parse (this.route.snapshot.paramMap.get ('centro')).centro_medico_id).subscribe ((res: any) => {
-      console.log (res);
       loading.dismiss ();
 
       this.citas = res.disponibilidad.citas;
@@ -56,6 +56,13 @@ export class EscojeFechaHoraPage implements OnInit {
       console.log (error);
       loading.dismiss ();
     });
+
+    this.api.obtener_informacion_completa (this.doctor.id).subscribe ((res: any) => {
+      this.bloqueos = res.data.profesional.bloqueos_hora;
+      console.log (this.bloqueos);
+    }, error => {
+      console.log (error);
+    })
   }
 
   update_day (value: number) {
@@ -114,35 +121,50 @@ export class EscojeFechaHoraPage implements OnInit {
   }
 
   get_horas (rango_inicio: number, rango_fin: number) {
+    // get_horas
+    // Entrada: 10:00 AM - 18:00 PM (string)
+    // Respuesta: 10:00, 11:00, 12:00:, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00
+    
     let list: any [] = [];
-    let hora: string = '';
+    let horario_atencion: string = ''; // la hora de atencion por ejemplo 10:00 AM - 18:00 PM
     this.horarios.forEach ((horario: any) => {
       if (horario.id_dia === this.date_selected.day ()) {
-        hora = horario.horario_atencion;
+        // Capturamos la hora de atencion del dia seleccionado por ejemplo lunes
+        horario_atencion = horario.horario_atencion;
       }
     });
 
-    let hora_inicio = hora.split (' - ') [0].split (' ') [0].split (':') [0];
-    let minuto_inicio = hora.split (' - ') [0].split (' ') [0].split (':') [1];
-    if (hora.split (' - ') [0].split (' ') [1] === 'PM') {
+    // Campturamos la hora de inicio por ejemplo de 10:00 AM - 18:00 PM campturamos las 10:00 AM 
+    let hora_inicio = horario_atencion.split (' - ') [0].split (' ') [0].split (':') [0];
+    let minuto_inicio = horario_atencion.split (' - ') [0].split (' ') [0].split (':') [1];
+    if (horario_atencion.split (' - ') [0].split (' ') [1] === 'PM') {
+      // Si es PM le sumamos mas 12 para convertir a 24 horas
      hora_inicio = (parseInt (hora_inicio) + 12).toString ();
     }
 
-    let hora_fin = hora.split (' - ') [1].split (' ') [0].split (':') [0];
-    let minuto_fin = hora.split (' - ') [1].split (' ') [0].split (':') [1];
-    if (hora.split (' - ') [1].split (' ') [1] === 'PM') {
+    // Campturamos la hora de fin por ejemplo de 10:00 AM - 18:00 PM campturamos las 18:00 PM
+    let hora_fin = horario_atencion.split (' - ') [1].split (' ') [0].split (':') [0];
+    let minuto_fin = horario_atencion.split (' - ') [1].split (' ') [0].split (':') [1];
+    if (horario_atencion.split (' - ') [1].split (' ') [1] === 'PM') {
       hora_fin = (parseInt (hora_fin) + 12).toString ();
     }
 
+    // Creamos la hora de inicio y hora de fin con moment
     let date_inicio = moment (this.date_selected).set ('hour', parseInt (hora_inicio)).set ('minute', parseInt (minuto_inicio));
     let date_fin = moment (this.date_selected).set ('hour', parseInt (hora_fin)).set ('minute', parseInt (minuto_fin));
 
+    // Capturamos la diferencia entre date_inicio y date_fin en horas
+    // Por ejemplo si la diferencia entre 10:00 AM - 18:00 PM es 8 horas
     var duration = moment.duration (date_fin.diff(date_inicio));
-    var hours = duration.asHours ();
+    var horas_diferencia = duration.asHours ();
 
-    for (let index = parseInt (hora_inicio); index <= parseInt (hora_inicio) + hours; index++) {
-      if (index > rango_inicio && index <= rango_fin) {
-        let hour = moment (this.date_selected).set ('hour', index).set ('minute', 0).format ('LT');
+    // Cremos las horas disponibles desde la hora de inicio hasta hora de inicio + las horas de diferencia
+    // De 10:00 horas hasta la 10:00 + 8 (Horas de diferencia) horas
+    // Agregamos la hora a la lista de horas para mostrar en el array
+    // Tambien validamos si la hora esta en el rango para validar si es mañana, de tarde o de noche
+    for (let hora_creada = parseInt (hora_inicio); hora_creada <= parseInt (hora_inicio) + horas_diferencia; hora_creada++) {
+      if (hora_creada > rango_inicio && hora_creada <= rango_fin) {
+        let hour = moment (this.date_selected).set ('hour', hora_creada).set ('minute', 0).format ('LT');
         list.push (hour);
       }
     }
@@ -198,6 +220,12 @@ export class EscojeFechaHoraPage implements OnInit {
 
     this.citas.forEach ((cita: any) => {
       if (cita.fecha === fecha && cita.hora === hora + ':00') {
+        invalido = true;
+      }
+    });
+
+    this.bloqueos.forEach ((bloqueo: any) => {
+      if (bloqueo.fecha === fecha && bloqueo.hora === hora + ':00') {
         invalido = true;
       }
     });
