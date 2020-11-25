@@ -60,7 +60,7 @@ ion-content
     --background: #ffffff;
     border-radius: 20px;
     box-shadow: 0px 9px 38px #00000029;
-    height: 554px;
+    height: auto;
     margin-top: -110px;
     padding-left: 10px;
     padding-right: 10px;
@@ -98,12 +98,20 @@ ion-content
             }
         }
     }
+    .titulo-tarjeta
+    {
+        color: #313450;
+        font-family: PoppinsSemiBold;
+        font-size: 18px;
+        margin-top: 0px;
+        margin-bottom: 23px;
+    }
 }
 .div-fecha-costo
 {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     .subdiv-fecha-costo
     {
         width: 50%;
@@ -117,7 +125,7 @@ ion-content
     }
     .padding-left-costo
     {
-        padding-left: 40px;
+        padding-left: 35px;
     }
 }
 .p-descripcion-plomo
@@ -127,6 +135,7 @@ ion-content
     font-size: 13px;
     margin-top: 7px;
     padding: 0px 14px;
+    margin-bottom: 55px;
 }
 .input-genral
 {

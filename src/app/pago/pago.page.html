@@ -27,10 +27,10 @@
       <div class="subdiv-fecha-costo padding-left-costo">
         <h6 class="titulo-fecha-costo">Costo de consulta</h6>
         <p class="p-fecha-costo">S/. {{ data?.monto }}</p>
-        <p>S/. 3.00 por el uso del servicio</p>
+        <p class="p-fecha-costo">S/. 3.00 por el uso del servicio</p>
       </div>
     </div>
-    <h3>Datos del titular de la tarjeta</h3>
+    <h3 class="ion-text-center titulo-tarjeta">Datos del titular de la tarjeta</h3>
     <form [formGroup]="form">
       <ion-input placeholder="Nombres" type="text" formControlName="nombre_tarjeta" class="input-genral"></ion-input>
       <small *ngIf="form.controls.nombre_tarjeta.errors?.required && form.controls.nombre_tarjeta.dirty">

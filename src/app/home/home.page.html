@@ -140,35 +140,21 @@
 </ion-content>
 
 <ion-footer class="ion-no-border ion_footer">
-  <ion-toolbar class="ion_toolbar">
-    <ion-row>
-      <ion-col size="3" (click)="emergencia ()" class="ion_tolbar">
-        <div class="div_tolbar">
-          <img src="assets/img/Grupo1699.png">
-        </div>
-        <ion-label class="label_semibol">Emergencia</ion-label>
-      </ion-col>
-
-      <ion-col (click)="historial ()" size="3" class="ion_tolbar">
-        <div class="div_tolbar">
-          <img src="assets/img/Grupo1716.png">
-        </div>
-        <ion-label class="label_regular">Historial de citas</ion-label>
-      </ion-col>
-
-      <ion-col (click)="favoritos ()" size="3" class="ion_tolbar">
-        <div class="div_tolbar">
-          <img src="assets/img/Grupo1873.png">
-        </div>
-        <ion-label class="label_regular">Mis favoritos</ion-label>
-      </ion-col>
-
-      <ion-col (click)="menu ()" size="3" class="ion_tolbar">
-        <div class="div_tolbar">
-          <img src="assets/img/user-4.png">
-        </div>
-        <ion-label class="label_regular">Mi cuenta</ion-label>
-      </ion-col>
-    </ion-row>
-  </ion-toolbar>
+  <div class="div-footer" (click)="emergencia ()">
+    <img src="assets/img/Grupo1699.png">
+    <ion-label class="label_semibol ion-text-center">Emergencia</ion-label>
+  </div>
+  <div class="div-footer" (click)="historial ()">
+    <img src="assets/img/Grupo-1921.png">
+    <ion-label class="label_regular ion-text-center">Historial de citas</ion-label>
+  </div>
+  <div class="div-footer" (click)="favoritos ()">
+    <img src="assets/img/Grupo1873.png">
+    <ion-label class="label_regular ion-text-center">Mis favoritos</ion-label>
+  </div>
+  <div class="div-footer" (click)="menu ()">
+    <img src="assets/img/user-4.png">
+    <ion-label class="label_regular ion-text-center">Mi cuenta</ion-label>
+  </div>
+  <div class="div-linea-footer"></div>
 </ion-footer>

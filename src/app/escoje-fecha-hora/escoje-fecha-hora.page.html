@@ -16,7 +16,7 @@
       <div class="div-descripcion">
         <h6 class="nombre-style">{{ doctor?.nombre_completo }}</h6>
         <p class="p-descripcion">{{ doctor?.especialidad.nombre }}</p>
-        <p>{{ direccion }}</p>
+        <p class="p-direccion">{{ direccion }}</p>
       </div>
     </div>
     <div *ngIf="doctor?.brinda_telemedicina === '1' && editar === false" class="item-toogle" mode="ios">
@@ -36,7 +36,7 @@
     <p class="p-citas-horario ion-text-center" *ngIf="date_esta_disponible () === false">
         No hay horarios disponibles para este dia
     </p>
-    <div *ngIf="date_esta_disponible ()">
+    <div *ngIf="date_esta_disponible ()" class="div-card-horas">
       <div class="card-horas" *ngIf="get_horas (0, 12).length > 0">
         <div class="div-dia-mañana">Mañana</div>
         <ion-label [class.active]="hora_selected === item" *ngFor="let item of get_horas (0, 12)" (click)="seleccionar (item)" class="label-horas">
