@@ -96,6 +96,13 @@ ion-content
                 font-size: 13px;
                 margin: 0px;
             }
+            .p-direccion
+            {
+                color: #898A8F;
+                font-family: PoppinsRegular;
+                font-size: 13px;
+                margin: 0px;
+            }
         }
     }
 }
@@ -308,6 +315,10 @@ ion-content
         height: 5px;
         width: 118px;
     }
+}
+.div-card-horas
+{
+    margin-bottom: 50px;
 }
 @media (min-width: 480px)
 {
