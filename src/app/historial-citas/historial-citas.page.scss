@@ -1,0 +1,217 @@
+@font-face{
+    font-family: MontserratBold;
+    src : url('/assets/font/Montserrat-Bold.ttf')
+}
+@font-face{
+    font-family: MontserratRegular;
+    src : url('/assets/font/Montserrat-Regular.ttf')
+}
+@font-face{
+    font-family: PoppinsSemiBold;
+    src : url('/assets/font/Poppins-SemiBold.otf')
+}
+@font-face{
+    font-family: PoppinsRegular;
+    src : url('/assets/font/Poppins-Regular.otf')
+}
+@font-face{
+    font-family: PoppinsMedium;
+    src : url('/assets/font/Poppins-Medium.otf')
+}
+@font-face{
+    font-family: PoppinsBold;
+    src : url('/assets/font/Poppins-Bold.ttf')
+}
+ion-content
+{
+    --background: #F5F5F5;
+}
+.card-verd
+{
+    --background: #23CEC3;
+    border-radius: 0px 0px 24px 24px;
+    height: 100px;
+    margin: 0px;
+    box-shadow: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    .label-cabezera
+    {
+        color: #ffffff;
+        font-family: MontserratBold;
+        font-size: 16px;
+        display: flex;
+        .icon-flecha
+        {
+            font-size: 20px;
+            margin-right: 5px;
+        }
+    }
+    .p-mapa
+    {
+        color: #ffffff;
+        font-family: MontserratRegular;
+        margin: 0px;
+        font-size: 14px;
+    }
+    .select-blanco
+    {
+        color: #ffffff;
+        font-family: PoppinsSemiBold;
+    }
+}
+.ion-segment
+{
+    width: 65%;
+    margin-left: 15%;
+    margin-top: 24px;
+    margin-bottom: 15px;
+    .segment-btn-pasada
+    {
+        --color: #23CEC3;
+        --indicator-color: #23CEC3;
+        --color-checked: #23CEC3;
+        font-family: PoppinsRegular;
+        text-transform: capitalize;
+        --padding-start: 0px;
+        --padding-end: 0px;
+        width: 0px;
+    }
+    .segment-btn-proximas
+    {
+        --color: #23CEC3;
+        --indicator-color: #23CEC3;
+        --color-checked: #23CEC3;
+        font-family: PoppinsRegular;
+        text-transform: capitalize;
+        --padding-start: 0px;
+        --padding-end: 0px;
+        width: 0px;
+    }
+    .segment-btn-pasada:hover
+    {
+        font-family: PoppinsBold;
+    }
+    .segment-btn-proximas:hover
+    {
+        font-family: PoppinsBold;
+    }
+}
+.card-pacientes
+{
+    border: 1px solid #ECECEC;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: none;
+    padding-left: 37px;
+    padding-right: 37px;
+    padding-top: 27px;
+    padding-bottom: 20px;
+    .hl-titulo-doctorres
+    {
+        color: #313450;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        font-family: PoppinsMedium;
+        font-size: 14px;
+        border-bottom: 1px solid #EFEFEF;
+        padding-bottom: 10px;
+        margin-bottom: 6px;
+    }
+}
+.div-datos
+{
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+.div-flex
+{
+    justify-content: space-between;
+}
+.p-widht-uno
+{
+    width: 60px;
+    margin-right: 6px;
+}
+.color-categorias
+{
+    color: #313450;
+    font-family: PoppinsMedium;
+    font-size: 12px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.p-nombre-categorias
+{
+    color: #898A8F;
+    font-family: PoppinsRegular;
+    font-size: 12px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.p-widht-direccion
+{
+    width: 198px;
+    line-height: 1.4;
+}
+.div-margin-bottom
+{
+    margin-bottom: 5px;
+}
+.btn-reprogramar
+{
+    --background: transparent;
+    --background-activated: transparent;
+    --color: #2E5269;
+    font-family: PoppinsSemiBold;
+    font-size: 12px;
+    --border-color: #2E5269;
+    --border-style: solid;
+    --border-width: 1px;
+    height: 35px;
+    margin: 0px;
+    width: 50%;
+    margin-left: 50%;
+    --border-radius: 20px;
+    margin-top: 12px;
+}
+@media (min-width: 640px)
+{
+    .card-pacientes
+    {
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+}
+@media (min-width: 768px)
+{
+    .card-pacientes
+    {
+        margin-left: 20px;
+        margin-right: 20px;
+        width: 44%;
+    }
+    .div-list-card
+    {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .p-widht-direccion
+    {
+        width: 195px;
+    }
+}
+@media (min-width: 1024px)
+{
+    .card-pacientes
+    {
+        margin-left: 50px;
+        margin-right: 50px;
+        width: 36%;
+    }
+}
