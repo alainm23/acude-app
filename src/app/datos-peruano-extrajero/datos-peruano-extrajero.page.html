@@ -30,25 +30,25 @@
       </div>
     </div> -->
     
-    <ion-list>
-      <ion-list-header>
-        <ion-label>Seleccione un paciente</ion-label>
+    <ion-list class="list-border-bottom">
+      <ion-list-header class="list-header-top">
+        <ion-label class="label-titulo ion-text-center">Seleccione un paciente</ion-label>
       </ion-list-header>
 
       <ion-radio-group [(ngModel)]="paciente_seleccionado">
-        <ion-item *ngFor="let item of pacientes">
-          <ion-label>
+        <ion-item *ngFor="let item of pacientes" lines="none" class="item-border-bottom">
+          <ion-label class="item-label-radio">
             <h2>{{ item.paciente.nombres + ' ' + item.paciente.apellidos }}</h2>
             <p>{{ get_tipo_paciente_string (item.paciente.tipo_paciente) }} {{ item.paciente.dni }}</p>
           </ion-label>
-          <ion-radio slot="start" [value]="item.paciente"></ion-radio>
+          <ion-radio slot="start" [value]="item.paciente" class="ion-radio-check"></ion-radio>
         </ion-item>
 
-        <ion-item>
-          <ion-label>
+        <ion-item lines="none" class="item-border-bottom">
+          <ion-label class="item-label-radio">
             Registrar nuevo
           </ion-label>
-          <ion-radio slot="start" value="nuevo"></ion-radio>
+          <ion-radio slot="start" value="nuevo" class="ion-radio-check"></ion-radio>
         </ion-item>
       </ion-radio-group>
     </ion-list>
@@ -66,7 +66,7 @@
         </ion-input>
     
         <div *ngIf="es_extranjero" class="div-input-extrajero">
-          <ion-select formControlName="tipo_paciente" placeholder="Tipo de documento" interface="popover">
+          <ion-select formControlName="tipo_paciente" placeholder="Tipo de documento" interface="popover" class="select-paciente">
             <ion-select-option value=1>Pasaporte</ion-select-option>
             <ion-select-option value=2>CE</ion-select-option>
           </ion-select>
@@ -89,7 +89,7 @@
             * Este campo es obligatorio
           </small>
 
-          <ion-select formControlName="sexo" placeholder="Sexo" interface="popover">
+          <ion-select formControlName="sexo" placeholder="Sexo" interface="popover" class="select-paciente">
             <ion-select-option value=0>Masculino</ion-select-option>
             <ion-select-option value=1>Femenino</ion-select-option>
           </ion-select>
@@ -97,7 +97,7 @@
             * Este campo es obligatorio
           </small>
 
-          <ion-datetime  cancelText="Cancelar" doneText="Seleccionar" monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic" formControlName="fecha_nacimiento" placeholder="Fecha de nacimiento"></ion-datetime>
+          <ion-datetime  cancelText="Cancelar" doneText="Seleccionar" monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic" formControlName="fecha_nacimiento" placeholder="Fecha de nacimiento" class="input-datetime"></ion-datetime>
           <small *ngIf="form.controls.fecha_nacimiento.errors?.required && form.controls.fecha_nacimiento.dirty">
             * Este campo es obligatorio
           </small>
@@ -119,10 +119,11 @@
       </form>
     </ng-container>
   </ion-card>
+  <ion-button class="btn-proxima" [disabled]="valid_form ()" (click)="submit ()">Continuar</ion-button>
+  <ion-button class="btn-omitir" (click)="submit ()"><ion-icon name="close-outline" class="icon-close"></ion-icon> Omitir</ion-button>
 </ion-content>
 
 <ion-footer class="ion-no-border">
-  <ion-button class="btn-proxima" [disabled]="valid_form ()" (click)="submit ()">Continuar</ion-button>
   <div class="div-foofter">
     <div class="div-linea"></div>
   </div>

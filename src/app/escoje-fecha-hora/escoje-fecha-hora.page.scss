@@ -153,6 +153,7 @@ ion-content
         border-radius: 13px;
         margin-left: 12px;
         margin-right: 12px;
+        --handle-width: 22px;
     }
 }
 .div-botones
@@ -277,7 +278,7 @@ ion-content
 }
 
 .no-activo {
-    opacity: 0.7;
+    opacity: 0.5;
 }
 
 .btn-proxima
