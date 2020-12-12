@@ -22,6 +22,32 @@ ion-content
 {
     --background: #F5F5F5;
 }
+
+.btn-omitir
+{
+    --background: transparent;
+    --background-activated: transparent;
+    --border-radius: 20px;
+    --box-shadow: none;
+    --padding-start: 0px;
+    --padding-end: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 51px;
+    margin-left: 5%;
+    margin-top: 20px;
+    --color: #313450;
+    font-family: PoppinsRegular;
+    font-size: 14px;
+    text-transform: capitalize;
+    .icon-close
+    {
+        color: #313450;
+    }
+}
+
 .card-verd
 {
     --background: #23CEC3;

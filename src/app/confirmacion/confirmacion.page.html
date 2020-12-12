@@ -6,7 +6,7 @@
 
 <ion-content>
   <ion-card class="card-verd">
-    <ion-label class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>Datos del paciente</ion-label>
+    <ion-label class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>Confirmacion de cita</ion-label>
   </ion-card>
   <ion-card class="card-blanco">
     <h6 class="h6-titulo ion-text-center">Confrmación de cita</h6>
@@ -32,9 +32,9 @@
     </div>
 
     <div>
-      <h6 class="titulo-confirmacion">Tipo de cita</h6>
-      <p class="p-nombre">{{ get_tipo_cita (data?.tipo_cita) }}</p>
-      <p class="p-descripcion-cita" *ngIf="data?.tipo_cita === '1'">Enlace: <a [href]="'http://' + data.enlace_sala">{{ data.enlace_sala }}</a></p>
+      <h6 class="titulo-confirmacion" style="margin-bottom: 0px;">Tipo de cita</h6>
+      <p class="p-nombre" style="margin: 0px;">{{ get_tipo_cita (data?.tipo_cita) }}</p>
+      <p class="p-descripcion-cita" style="margin: 0px;" *ngIf="data?.tipo_cita === '1'">Enlace: <a [href]="'http://' + data.enlace_sala">{{ data.enlace_sala }}</a></p>
     </div>
 
     <p class="p-descripcion-plomo">* No hay devoluciones <br>** Cambios de cita hasta 24 horas antes</p>

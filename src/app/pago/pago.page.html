@@ -6,7 +6,7 @@
 
 <ion-content>
   <ion-card class="card-verd">
-    <ion-label (click)="back ()" class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>Datos del paciente</ion-label>
+    <ion-label (click)="back ()" class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>Reservar cita</ion-label>
   </ion-card>
   <ion-card class="card-blanco">
     <div class="div-perfil">
@@ -42,7 +42,7 @@
         * Este campo es obligatorio
       </small>
 
-      <ion-input placeholder="Telefono" type="tel" formControlName="telefono_tarjeta" class="input-genral"></ion-input>
+      <ion-input placeholder="Teléfono" type="tel" formControlName="telefono_tarjeta" class="input-genral"></ion-input>
       <small *ngIf="form.controls.telefono_tarjeta.errors?.required && form.controls.telefono_tarjeta.dirty">
         * Este campo es obligatorio
       </small>

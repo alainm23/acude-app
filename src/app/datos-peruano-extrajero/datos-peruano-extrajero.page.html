@@ -1,42 +1,15 @@
-<!--<ion-header>
-  <ion-toolbar>
-    <ion-title>escoje-fecha-hora</ion-title>
-  </ion-toolbar>
-</ion-header>-->
-
 <ion-content>
   <ion-card class="card-verd">
     <ion-label class="label-cabezera">Datos del paciente</ion-label>
   </ion-card>
-  <ion-card class="card-blanco">
-    <!-- <div class="div-perfil">
-      <ion-avatar>
-        <img src="assets/img/c88185bc9da4e6f2397185cab7ff2039.png">
-      </ion-avatar>
-      <div class="div-descripcion">
-        <h6 class="nombre-style">{{ doctor?.nombre_completo }}</h6>
-        <p class="p-descripcion">{{ doctor?.especialidad.nombre }}</p>
-      </div>
-    </div> -->
-    <!-- <div class="div-fecha-costo">
-      <div class="subdiv-fecha-costo border-right-fehca">
-        <h6 class="titulo-fecha-costo">Fecha y hora</h6>
-        <p class="p-fecha-costo">{{ get_relative_date () }}, {{ get_date () }}</p>
-        <p class="p-fecha-costo">{{ get_date_format ('hh:mm A') }}</p>
-      </div>
-      <div class="subdiv-fecha-costo padding-left-costo">
-        <h6 class="titulo-fecha-costo">Costo de consulta</h6>
-        <p class="p-fecha-costo">S/. {{ data?.monto }}</p>
-      </div>
-    </div> -->
-    
-    <ion-list class="list-border-bottom">
+  <ion-card class="card-blanco">    
+    <ion-list *ngIf="pacientes.length > 0" class="list-border-bottom">
       <ion-list-header class="list-header-top">
         <ion-label class="label-titulo ion-text-center">Seleccione un paciente</ion-label>
       </ion-list-header>
 
       <ion-radio-group [(ngModel)]="paciente_seleccionado">
-        <ion-item *ngFor="let item of pacientes" lines="none" class="item-border-bottom">
+        <ion-item *ngFor="let item of pacientes" lines="none">
           <ion-label class="item-label-radio">
             <h2>{{ item.paciente.nombres + ' ' + item.paciente.apellidos }}</h2>
             <p>{{ get_tipo_paciente_string (item.paciente.tipo_paciente) }} {{ item.paciente.dni }}</p>
@@ -44,7 +17,7 @@
           <ion-radio slot="start" [value]="item.paciente" class="ion-radio-check"></ion-radio>
         </ion-item>
 
-        <ion-item lines="none" class="item-border-bottom">
+        <ion-item lines="none">
           <ion-label class="item-label-radio">
             Registrar nuevo
           </ion-label>
@@ -53,7 +26,7 @@
       </ion-radio-group>
     </ion-list>
 
-    <ng-container *ngIf="paciente_seleccionado === 'nuevo'">
+    <ng-container *ngIf="paciente_seleccionado === 'nuevo' || pacientes.length <= 0">
       <h6 class="h6-datos ion-text-center">Datos del paciente</h6>
       <div class="item-toogle" mode="ios">
         <p class="p-toogle">Peruano</p>
@@ -62,8 +35,48 @@
       </div>
 
       <form [formGroup]="form">
-        <ion-input *ngIf="es_extranjero === false" placeholder="DNI" formControlName="dni" type="number" class="input-genral input-margin-bottom">
-        </ion-input>
+        <div *ngIf="es_extranjero === false" >
+          <ion-input placeholder="DNI" maxlength="8" minlength="8" formControlName="dni" type="number" class="input-genral"></ion-input>
+
+          <div *ngIf="dni_valido">
+            <ion-input placeholder="Nombres"  formControlName="nombres" type="text" class="input-genral"></ion-input>
+            <small *ngIf="form.controls.nombres.errors?.required && form.controls.nombres.dirty">
+              * Este campo es obligatorio
+            </small>
+
+            <ion-input placeholder="Apellidos" formControlName="apellidos" type="text" class="input-genral"></ion-input>
+            <small *ngIf="form.controls.apellidos.errors?.required && form.controls.apellidos.dirty">
+              * Este campo es obligatorio
+            </small>
+
+            <ion-select formControlName="sexo" placeholder="Sexo" interface="popover" class="select-paciente">
+              <ion-select-option value=0>Masculino</ion-select-option>
+              <ion-select-option value=1>Femenino</ion-select-option>
+            </ion-select>
+            <small *ngIf="form.controls.sexo.errors?.required && form.controls.sexo.dirty">
+              * Este campo es obligatorio
+            </small>
+
+            <ion-datetime  cancelText="Cancelar" doneText="Seleccionar" monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic" formControlName="fecha_nacimiento" placeholder="Fecha de nacimiento" class="input-datetime"></ion-datetime>
+            <small *ngIf="form.controls.fecha_nacimiento.errors?.required && form.controls.fecha_nacimiento.dirty">
+              * Este campo es obligatorio
+            </small>
+
+            <ion-input placeholder="Numero de telefono" formControlName="telefono" type="number" class="input-genral"></ion-input>
+            <small *ngIf="form.controls.telefono.errors?.required && form.controls.telefono.dirty">
+              * Este campo es obligatorio
+            </small>
+
+            <ion-input placeholder="Correo electrónico" formControlName="correo" type="email" class="input-genral"></ion-input>
+            <small *ngIf="form.controls.correo.errors?.required && form.controls.correo.dirty">
+              * Este campo es obligatorio
+            </small>
+
+            <small *ngIf="form.controls.correo.errors?.email">
+              * Correo electronico invalido
+            </small>
+          </div>
+        </div>
     
         <div *ngIf="es_extranjero" class="div-input-extrajero">
           <ion-select formControlName="tipo_paciente" placeholder="Tipo de documento" interface="popover" class="select-paciente">
@@ -119,8 +132,20 @@
       </form>
     </ng-container>
   </ion-card>
-  <ion-button class="btn-proxima" [disabled]="valid_form ()" (click)="submit ()">Continuar</ion-button>
-  <ion-button class="btn-omitir" (click)="submit ()"><ion-icon name="close-outline" class="icon-close"></ion-icon> Omitir</ion-button>
+  <ng-container *ngIf="paciente_seleccionado === 'nuevo'">
+    <ion-button class="btn-proxima" *ngIf="es_extranjero === true" [disabled]="disabled_form ()" (click)="submit ()">
+      Continuar
+    </ion-button>
+    <ion-button class="btn-proxima" *ngIf="es_extranjero === false" [disabled]="disabled_dni_form ()" (click)="validar_dni ()">
+      Continuar
+    </ion-button>
+  </ng-container>
+
+  <ng-container *ngIf="paciente_seleccionado !== 'nuevo'">
+    <ion-button class="btn-proxima" [disabled]="disabled_form ()" (click)="submit ()">
+      Continuar
+    </ion-button>
+  </ng-container>
 </ion-content>
 
 <ion-footer class="ion-no-border">

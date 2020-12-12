@@ -76,18 +76,17 @@ export class PagoPage implements OnInit {
           fecha: this.data.fecha,
           hora: this.data.hora,
           cita_id: res.cita.id,
-          monto: this.data.monto
+          monto: this.data.monto,
+          direccion: this.data.direccion,
+          tipo_cita: this.data.tipo_cita
         };
 
         this.navController.navigateRoot (['reserva-exitosa', JSON.stringify (request)]);
       }, async error => {
         loading.dismiss ();
-        console.log (error);
+        console.log (JSON.parse (error.error.message));
         const alert = await this.alertController.create({
-          cssClass: 'my-custom-class',
-          header: 'Alert',
-          subHeader: 'Subtitle',
-          message: 'This is an alert message.',
+          message: 'Ha ocurrido un error en el pago. Vuelva a intentarlo.',
           buttons: ['OK']
         });
     

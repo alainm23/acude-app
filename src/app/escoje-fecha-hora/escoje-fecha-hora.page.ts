@@ -205,6 +205,7 @@ export class EscojeFechaHoraPage implements OnInit {
       let data: any = {
         monto: JSON.parse (this.route.snapshot.paramMap.get ('centro')).precio,
         id_centro_medico_profesional: JSON.parse (this.route.snapshot.paramMap.get ('centro')).centro_medico_id,
+        direccion: JSON.parse (this.route.snapshot.paramMap.get ('centro')).direccion,
         tipo_cita: tipo_cita,
         hora: this.hora_selected + ':00',
         fecha: this.date_selected.format ('YYYY[-]MM[-]DD')

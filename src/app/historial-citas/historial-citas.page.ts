@@ -18,6 +18,10 @@ export class HistorialCitasPage implements OnInit {
   constructor (private api: ApiService, private loadingCtrl: LoadingController, private navController: NavController) { }
 
   async ngOnInit () {
+    
+  }
+
+  async ionViewDidEnter () {
     const loading = await this.loadingCtrl.create({
       message: 'Procesando...',
     });
@@ -117,11 +121,16 @@ export class HistorialCitasPage implements OnInit {
     
     this.navController.navigateForward (
       ['escoje-fecha-hora', JSON.stringify ({
+        id: item.centro_medico_sede_profesional.info_doctor.id,
         nombre_completo: item.centro_medico_sede_profesional.info_doctor.nombre_completo,
         especialidad: '',
         brinda_telemedicina: item.centro_medico_sede_profesional.info_doctor.brinda_telemedicina,
         fotografia: item.centro_medico_sede_profesional.info_doctor.fotografia,
       }), JSON.stringify (data)]
     );
+  }
+
+  back () {
+    this.navController.navigateRoot ('home');
   }
 }

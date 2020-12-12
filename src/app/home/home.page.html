@@ -11,12 +11,13 @@
   </ion-toolbar>
   
   <ion-card class="card_buscador">
-    <ion-input type="search" debounce=250 (ionChange)="search ()" [(ngModel)]="search_text" mode="ios" placeholder="¿Que deseas buscar?"></ion-input>
+    <ion-input type="search" debounce=250 (ionChange)="search ()" [(ngModel)]="search_text" mode="ios" placeholder="Buscar en ACUDE"></ion-input>
     <ion-icon name="chevron-down-outline"></ion-icon>
   </ion-card>
 
   <ion-card *ngIf="resultados_busqueda.length > 0 && search_text !== ''" class="card-list-buscador">
     <ion-list class="list-buscador">
+      <button (click)="search_text = ''">X</button>
       <ion-list-header *ngIf="get_profesionales (resultados_busqueda).length > 0">
         <img src="assets/img/iconbuscar-3.png">
         <ion-label class="label-buscador">Profesionales de la salud</ion-label>
@@ -52,7 +53,7 @@
   <ion-grid style="padding-right: 0px;padding-left: 0px;">
     <ion-row class="ion-justify-content-center">
       <ion-col size="11" size-md="9" class="ion-text-end ion-no-padding">
-        <p class="p_busqueda" (click)="busqueda_avanzada ()">Búsqueda avanzada</p>
+        <p class="p_busqueda" (click)="busqueda_avanzada ()"><ion-icon name="search"></ion-icon>&nbsp;Búsqueda avanzada</p>
       </ion-col>
 
       <ion-col size="12" size-md="9" size-lg="8">
@@ -142,7 +143,7 @@
 <ion-footer class="ion-no-border ion_footer">
   <div class="div-footer" (click)="emergencia ()">
     <img src="assets/img/Grupo1699.png">
-    <ion-label class="label_semibol ion-text-center">Emergencia</ion-label>
+    <ion-label class="label_semibol ion-text-center">Ambulancia</ion-label>
   </div>
   <div class="div-footer" (click)="historial ()">
     <img src="assets/img/Grupo-1921.png">

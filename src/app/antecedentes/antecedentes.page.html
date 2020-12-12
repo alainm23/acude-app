@@ -1,6 +1,6 @@
 <ion-content>
   <ion-card class="card-verd">
-    <ion-label (click)="back ()" class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>Datos del paciente</ion-label>
+    <ion-label (click)="back ()" class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>Antecedentes del paciente</ion-label>
   </ion-card>
   <ion-card class="card-blanco">
     <form [formGroup]="form">
@@ -13,7 +13,7 @@
         <ion-textarea autoGrow=true formControlName="enfermedades" placeholder="Enfermedades" type="text" class="input-genral"></ion-textarea>
         <ion-textarea autoGrow=true formControlName="alergias" placeholder="Alergias" type="text" class="input-genral"></ion-textarea>
         <ion-textarea autoGrow=true formControlName="cirugias" placeholder="Cirugias" type="text" class="input-genral"></ion-textarea>
-        <ion-textarea autoGrow=true formControlName="drogas_medicamentos" placeholder="Medicamentos con droga" type="text" class="input-genral"></ion-textarea>
+        <ion-textarea autoGrow=true formControlName="drogas_medicamentos" placeholder="Drogas y medicamentos" type="text" class="input-genral"></ion-textarea>
         <ion-textarea autoGrow=true formControlName="fobias" placeholder="Fobias" type="text" class="input-genral"></ion-textarea>
         <ion-textarea autoGrow=true formControlName="ansiedad" placeholder="Ansiedad" type="text" class="input-genral"></ion-textarea>
         <ion-textarea autoGrow=true formControlName="panicos" placeholder="Panicos" type="text" class="input-genral"></ion-textarea>
@@ -22,8 +22,8 @@
       </div>
     </form>
   </ion-card>
-  <ion-button (click)="submit ()">Omitir</ion-button>
   <ion-button class="btn-proxima" (click)="submit ()">Finalizar proceso</ion-button>
+  <ion-button class="btn-omitir" (click)="submit ()"><ion-icon name="close-outline" class="icon-close"></ion-icon>Omitir</ion-button>
   <div class="div-foofter">
     <div class="div-linea"></div>
   </div>

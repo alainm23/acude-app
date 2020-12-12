@@ -5,8 +5,8 @@
 </ion-header>-->
 
 <ion-content>
-  <ion-card class="card-verd">
-    <ion-label (click)="back ()" class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon><span *ngIf="editar === false">Escoge fecha</span><span *ngIf="editar">Reprogramar</span></ion-label>
+  <ion-card class="card-verd ion-text">
+    <ion-label (click)="back ()" class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon><span *ngIf="editar === false">Seleccionar fecha y hora</span><span *ngIf="editar">Reprogramar</span></ion-label>
   </ion-card>
   <ion-card class="card-blanco">
     <div class="div-perfil">
@@ -19,11 +19,16 @@
         <p class="p-direccion">{{ direccion }}</p>
       </div>
     </div>
-    <div *ngIf="doctor?.brinda_telemedicina === '1' && editar === false" class="item-toogle" mode="ios">
+    <div *ngIf="editar === false" class="item-toogle" mode="ios">
       <p class="p-toogle">Cita presencial</p>
-      <ion-toggle [(ngModel)]="tipo_cita"></ion-toggle>
+      <ion-toggle [disabled]="doctor?.brinda_telemedicina === '0'" [(ngModel)]="tipo_cita"></ion-toggle>
       <p class="p-toogle">Cita virtual</p>
     </div>
+
+    <div class="ion-text-center" *ngIf="doctor?.brinda_telemedicina === '0'">
+      Por el momento el profesional no brinda el servicio de consulta virtual.
+    </div>
+
     <br *ngIf="doctor?.brinda_telemedicina !== '1'">
     <div class="div-botones">
       <ion-button (click)="update_day (-1)" [disabled]="valid_day ()" mode="ios" class="btn-circulo"><ion-icon name="chevron-back" class="icon-btn"></ion-icon></ion-button>
@@ -34,7 +39,7 @@
       <ion-button (click)="update_day (+1)"mode="ios" class="btn-circulo"><ion-icon name="chevron-forward" class="icon-btn"></ion-icon></ion-button>
     </div>
     <p class="p-citas-horario ion-text-center" *ngIf="date_esta_disponible () === false">
-        No hay horarios disponibles para este dia
+      No hay horarios disponible por el momento, ver siguiente día.
     </p>
     <div *ngIf="date_esta_disponible ()" class="div-card-horas">
       <div class="card-horas" *ngIf="get_horas (0, 12).length > 0">
@@ -58,8 +63,8 @@
     </div>
   </ion-card>
   <ion-button *ngIf="editar" class="btn-proxima" [disabled]="hora_selected === ''" (click)="reservar_cita ()">Reprogramar cita</ion-button>
-  <ion-button *ngIf="editar === false" class="btn-proxima" [disabled]="hora_selected === ''" (click)="reservar_cita ()">Reservar cita</ion-button>
-  <p class="mmm ion-text-center">Las citas son con anticipación Minima de 24 horas</p>
+  <ion-button *ngIf="editar === false" class="btn-proxima" [disabled]="hora_selected === ''" (click)="reservar_cita ()">Continuar</ion-button>
+  <p class="mmm ion-text-center">Nota importante: Las reservas deben hacerse con un mínimo de 24 hrs de anticipación.</p>
   <div class="div-foofter">
     <div class="div-linea"></div>
   </div>

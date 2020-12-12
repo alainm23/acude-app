@@ -33,7 +33,7 @@ export class EditarPerfilPage implements OnInit {
     private camera: Camera) { }
 
   async ngOnInit () {
-    this.imagen = 'http://appmedico.demoperu.site/storage/' + this.api.USUARIO_DATA.imagen;
+    this.imagen = 'https://acudeapp.com/storage/' + this.api.USUARIO_DATA.imagen;
 
     const password = new FormControl ('', Validators.required);
     const confirm_password = new FormControl ('', [Validators.required, CustomValidators.equalTo(password)]);
@@ -42,12 +42,8 @@ export class EditarPerfilPage implements OnInit {
       fName: new FormControl (this.api.USUARIO_DATA.first_name, Validators.required),
       lName: new FormControl (this.api.USUARIO_DATA.last_name, Validators.required),
       imagen: new FormControl (''),
-      departamento: new FormControl (),
-      provincia: new FormControl (),
-      distrito: new FormControl ()
+      departamento: new FormControl ()
     });
-
-    console.log (this.form.value);
 
     const loading = await this.loadingController.create({
       message: 'Procesando...',
@@ -83,27 +79,40 @@ export class EditarPerfilPage implements OnInit {
 
     this.api.actualizar_usuario (this.form.value).subscribe ((USUARIO_ACCESS: any) => {
       console.log (USUARIO_ACCESS);
-      this.form.reset ();
-
       this.storage.set ('USUARIO_ACCESS', JSON.stringify ({
         access_token: USUARIO_ACCESS.access_token
       }));
       this.api.USUARIO_ACCESS = USUARIO_ACCESS;
 
-      loading.message = 'Obteniendo datos del usuario...';
+      this.api.actualizar_distrito_usuario (this.form.value.departamento.id).subscribe (async (res: any) => {
+        loading.message = 'Obteniendo datos del usuario...';
+        this.api.get_user (USUARIO_ACCESS.access_token).subscribe (async (_: any) => {
+          // this.api.USUARIO_DATA = USUARIO_DATA.user;
+          // this.api.USUARIO_DATA.departamento_id = USUARIO_DATA.departamento_id;
 
-      this.api.get_user (USUARIO_ACCESS.access_token).subscribe ((USUARIO_DATA: any) => {
-        this.api.USUARIO_DATA = USUARIO_DATA.user;
-        this.api.USUARIO_DATA.departamento_id = USUARIO_DATA.departamento_id;
+          // this.storage.set ('USUARIO_DATA', JSON.stringify (this.api.USUARIO_DATA));
+          // loading.dismiss ();
 
-        this.storage.set ('USUARIO_DATA', JSON.stringify (this.api.USUARIO_DATA));
-        loading.dismiss ();
+          // this.navController.navigateRoot ('home');
 
-        this.navController.navigateRoot ('home');
+          loading.dismiss ();
+          this.navController.navigateRoot ('home');
+    
+          let USUARIO_DATA = JSON.parse (await this.storage.get ('USUARIO_DATA'));
+          USUARIO_DATA.departamento_id = this.form.value.departamento.id;
+          USUARIO_DATA.departamento_nombre = this.form.value.departamento.nombre;
+          this.storage.set ('USUARIO_DATA', JSON.stringify (USUARIO_DATA));
+          this.api.USUARIO_DATA = USUARIO_DATA;
+
+          this.form.reset ();
+        }, (error: any) => {
+          loading.dismiss ();
+          console.log (error);
+        }); 
       }, (error: any) => {
         loading.dismiss ();
         console.log (error);
-      }); 
+      });
     }, error => {
       console.log (error);
       loading.dismiss ();

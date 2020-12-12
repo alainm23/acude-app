@@ -18,28 +18,16 @@
             <ion-label>Nombres</ion-label>
             <ion-input formControlName="fName" placeholder="Nombres" class="input_genral"></ion-input>
         </ion-col>
+        
         <ion-col size="11" size-md="9" size-lg="8">
             <ion-label>Apellidos</ion-label>
             <ion-input formControlName="lName" placeholder="Apellidos" class="input_genral"></ion-input>
         </ion-col>
-        
+
         <ion-col size="11" size-md="9" size-lg="8">
-          <ion-select formControlName="departamento" (ionChange)="departamentoChange ()" placeholder="Departamento" mode="ios">
+          <ion-label>Departamento</ion-label>
+          <ion-select formControlName="departamento" placeholder="Departamento" mode="ios">
             <ion-select-option *ngFor="let item of departamentos" [value]="item">
-              {{ item.nombre }}
-            </ion-select-option>
-          </ion-select>
-        </ion-col>
-        <ion-col size="11" size-md="9" size-lg="8">
-          <ion-select formControlName="provincia" (ionChange)="provinciaChange ()" placeholder="Provincia" mode="ios">
-            <ion-select-option *ngFor="let item of provincias" [value]="item">
-              {{ item.nombre }}
-            </ion-select-option>
-          </ion-select>
-        </ion-col>
-        <ion-col size="11" size-md="9" size-lg="8">
-          <ion-select formControlName="distrito" placeholder="Distrito" mode="ios">
-            <ion-select-option *ngFor="let item of distritos" [value]="item">
               {{ item.nombre }}
             </ion-select-option>
           </ion-select>

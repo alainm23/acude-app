@@ -25,7 +25,7 @@ export class EncuentraProfesionalPage implements OnInit {
   search_text: string = '';
   zona: string = 'tu zona';
 
-  kilometros: number = 5;
+  kilometros: number = 10;
   latitude: number;
   longitude: number;
 
@@ -187,8 +187,6 @@ export class EncuentraProfesionalPage implements OnInit {
 
     await loading.present ();
 
-    console.log (this.kilometros);
-
     this.api.obtener_profesionales_ubicacion ('especialidad', this.route.snapshot.paramMap.get ('id'), this.latitude, this.longitude, this.kilometros).subscribe ((res: any) => {
       console.log (res);
       loading.dismiss ();
@@ -349,6 +347,23 @@ export class EncuentraProfesionalPage implements OnInit {
 
     if (this.map === null) {
       this.map = new google.maps.Map (this.mapRef.nativeElement, options);
+
+      google.maps.event.addListener(this.map, 'idle', () => {
+        var bounds = this.map.getBounds ();
+        var start = bounds.getNorthEast ();
+        var end = bounds.getSouthWest ();
+
+        var distStart = google.maps.geometry.spherical.computeDistanceBetween (this.map.getCenter (), start) / 1000.0;
+        var distEnd = google.maps.geometry.spherical.computeDistanceBetween (this.map.getCenter (), end) / 1000.0;
+
+        this.latitude = this.map.getCenter ().lat ();
+        this.longitude = this.map.getCenter ().lng ();
+
+        console.log ('K', ((distStart + distEnd) / 2));
+
+        this.kilometros = distStart;
+        this.draw_marks ();
+      });
     }
   }
 

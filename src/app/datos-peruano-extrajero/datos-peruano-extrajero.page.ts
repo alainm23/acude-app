@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 // Services
 import { ApiService } from '../services/api.service';
-import { LoadingController, NavController } from '@ionic/angular';
+import { LoadingController, NavController, AlertController } from '@ionic/angular';
 
 // Forms
 import { FormGroup , FormControl, Validators } from '@angular/forms';
@@ -17,15 +17,15 @@ import * as moment from 'moment';
 export class DatosPeruanoExtrajeroPage implements OnInit {
   pacientes: any [] = [];
   es_extranjero: boolean = false;
-  form_extranjero: FormGroup;
-  form_dni: FormGroup;
   form: FormGroup;
   paciente_seleccionado: any = null;
   data: any;
   datetime: any;
+  dni_valido: boolean = false;
   constructor (private api: ApiService,
       private loadingCtrl: LoadingController,
       private navController: NavController,
+      private alertController: AlertController,
       private route: ActivatedRoute) { }
 
   async ngOnInit () {
@@ -33,9 +33,9 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
     console.log (this.data);
 
     this.datetime = moment (this.data.fecha).set ('hour', parseInt (this.data.hora.split (':') [0])).set ('minute', parseInt (this.data.hora.split (':') [1]));
-
-    this.form_extranjero = new FormGroup ({
-      dni: new FormControl ('', [Validators.required]),
+    
+    this.form = new FormGroup ({
+      dni: new FormControl ('', [Validators.required, Validators.maxLength (8), Validators.minLength (8)]),
       nombres: new FormControl ('', Validators.required),
       apellidos: new FormControl ('', Validators.required),
       fecha_nacimiento: new FormControl ('', [Validators.required]),
@@ -44,12 +44,6 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
       telefono: new FormControl ('', [Validators.required]),
       correo: new FormControl ('', [Validators.required, Validators.email])
     });
-
-    this.form_dni = new FormGroup ({
-      dni: new FormControl ('', [Validators.required])
-    });
-
-    this.form = this.form_dni;
 
     const loading = await this.loadingCtrl.create({
       message: 'Procesando...',
@@ -60,6 +54,9 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
     this.api.relacionados_pacientes ().subscribe ((res: any) => {
       console.log ('res', res);
       this.pacientes = res.pacientes;
+      if (this.pacientes.length <= 0) {
+        this.paciente_seleccionado = 'nuevo';
+      }
       loading.dismiss ();
     }, error => {
       console.log (error)
@@ -75,32 +72,21 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
     await loading.present ();
 
     if (this.paciente_seleccionado === 'nuevo') {
-      if (this.es_extranjero) {
-        let data = this.form_extranjero.value;
-        data.sexo = parseInt (data.sexo)
-        data.tipo_paciente = parseInt (data.tipo_paciente);
-        data.id_user = this.api.USUARIO_DATA.id;
+      let data = this.form.value;
+      data.sexo = parseInt (data.sexo)
+      data.tipo_paciente = parseInt (data.tipo_paciente);
+      data.id_user = this.api.USUARIO_DATA.id;
+      data.fecha_nacimiento = data.fecha_nacimiento.substring (0, 10);
 
-        this.api.registrar_paciente (data).subscribe ((res: any) => {
-          loading.dismiss ();
-          console.log ('paciente_id', res.paciente.id);
-          this.data.id_paciente = res.paciente.id;
-          this.data.nombre_paciente = res.paciente.nombres + ' ' + res.paciente.apellidos
-          this.navController.navigateForward (['antecedentes', JSON.stringify (this.data)]);
-        }, error => {
-          loading.dismiss ();
-          console.log (error);
-        });
-      } else {
-        // Traer datos del cliente por dni
-        this.api.informacion_dni (this.form.value.dni).subscribe ((res: any) => {
-          loading.dismiss ();
-          console.log (res);
-        }, error => {
-          loading.dismiss ();
-          console.log (error);
-        });
-      }
+      this.api.registrar_paciente (data).subscribe ((res: any) => {
+        loading.dismiss ();
+        this.data.id_paciente = res.paciente.id;
+        this.data.nombre_paciente = res.paciente.nombres + ' ' + res.paciente.apellidos
+        this.navController.navigateForward (['antecedentes', JSON.stringify (this.data)]);
+      }, error => {
+        loading.dismiss ();
+        console.log (error);
+      });
     } else {
       loading.dismiss ();
       this.data.id_paciente = this.paciente_seleccionado.id;
@@ -111,10 +97,16 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
 
   change_value (event: any) {
     if (event) {
-      this.form = this.form_extranjero;
+      this.form.controls ['dni'].setValidators ([
+        Validators.required
+      ]);
     } else {
-      this.form = this.form_dni;
+      this.form.controls ['dni'].setValidators ([
+        Validators.required, Validators.maxLength (8), Validators.minLength (8)
+      ]);
     }
+
+    this.form.updateValueAndValidity ();
   }
 
   get_tipo_paciente_string (value: string) {
@@ -127,7 +119,7 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
     }
   }
 
-  valid_form () {
+  disabled_form () {
     let returned: boolean = true;
     if (this.paciente_seleccionado === null) {
       returned = true;
@@ -138,6 +130,79 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
     }
 
     return returned;
+  }
+
+  disabled_dni_form () {
+    let returned: boolean = true;
+
+    if (this.dni_valido) {
+      returned =  this.form.invalid;
+    } else {
+      returned = this.form.controls ['dni'].invalid;
+    }
+
+    return returned;
+  }
+
+  async validar_dni () {
+    const loading = await this.loadingCtrl.create({
+      message: 'Procesando...',
+    });
+
+    await loading.present ();
+
+    if (this.dni_valido) {
+      let data = this.form.value;
+      data.sexo = parseInt (data.sexo)
+      data.tipo_paciente = parseInt (data.tipo_paciente);
+      data.id_user = this.api.USUARIO_DATA.id;
+      data.fecha_nacimiento = data.fecha_nacimiento.substring (0, 10);
+
+      console.log (data);
+
+      this.api.registrar_paciente (data).subscribe ((res: any) => {
+        loading.dismiss ();
+        this.data.id_paciente = res.paciente.id;
+        this.data.nombre_paciente = res.paciente.nombres + ' ' + res.paciente.apellidos
+        this.navController.navigateForward (['antecedentes', JSON.stringify (this.data)]);
+      }, error => {
+        loading.dismiss ();
+        console.log (error);
+      });
+    } else {
+      this.api.informacion_dni (this.form.value.dni).subscribe (async (res: any) => {
+        loading.dismiss ();
+        console.log (res);
+  
+        if (res.informacion.success) {
+          this.dni_valido = true;
+  
+          this.form.controls ['nombres'].setValue (res.informacion.data.nombres);
+          this.form.controls ['apellidos'].setValue (res.informacion.data.apellido_paterno + ' ' + res.informacion.data.apellido_materno);
+          this.form.controls ['fecha_nacimiento'].setValue (res.informacion.data.fecha_nacimiento);
+          this.form.controls ['tipo_paciente'].setValue ('0');
+
+          const alert = await this.alertController.create({
+            header: 'Datos del paciente verificados',
+            message: 'Por favor complete el género, correo y telefono del paciente.',
+            buttons: ['Ok']
+          });
+      
+          await alert.present();
+        } else {
+          const alert = await this.alertController.create({
+            header: 'Paciente no encontrada',
+            message: 'Por favor ingrese un DNI disponible.',
+            buttons: ['Ok']
+          });
+      
+          await alert.present();
+        }
+      }, error => {
+        loading.dismiss ();
+        console.log (error);
+      });
+    }
   }
 
   get_date_format (format: string) {

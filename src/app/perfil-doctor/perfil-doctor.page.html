@@ -30,11 +30,12 @@
               <ion-icon (click)="toggle_favorito ()" [name]="favorito === true ? 'heart' : 'heart-outline'" class="icon_camra_cora"></ion-icon>
             </ion-col>
             <ion-col size="12" class="ion-text-center">
-              <p class="titulo_p">{{ datos?.nombre_completo }}</p>
-              <p class="subtitulo_p">{{ datos?.especialidad?.nombre }}</p>
+              <p class="titulo_p">{{ datos?.especialidad?.categoria_especialidad?.tratamiento }}&nbsp;{{ datos?.nombre_completo }}</p>
+              <p class="subtitulo_p" style="margin-bottom: 0px;">{{ datos?.especialidad?.nombre }}</p>
+              <p style="margin-top: 0px;">{{ datos?.especialidad?.categoria_especialidad?.siglas }} {{ datos?.numero_colegiatura_cmp }}</p>
             </ion-col>
             <ion-col size="6" class="ion-no-padding">
-              <p class="p_años">{{ get_tiempo_experiencia (datos?.anio_colegiatura) }} de experiencia</p>
+              <p class="p_años" *ngIf="datos?.anio_colegiatura !== null">{{ get_tiempo_experiencia (datos?.anio_colegiatura) }} de experiencia</p>
               <p class="p_años" *ngIf="datos?.brinda_telemedicina === '1'">Atiende via telemedicina</p>
             </ion-col>
             <ion-col size="6" class="ion-no-padding ion-text-end">
@@ -46,9 +47,9 @@
           </ion-row>
         </ion-card>
       </ion-col>
-      <ion-col size="12" size-md="7">
+      <!-- <ion-col size="12" size-md="7">
         <ion-button class="btn-proxima" *ngIf="validar_disponibilidad (datos)" (click)="reservar_select ()">Reservar cita</ion-button>
-      </ion-col>
+      </ion-col> -->
       <ion-col size="12" size-md="7" *ngIf="datos?.adicional !== null">
         <ion-card class="card_iguales">
           <p class="p_medium">Trayectoria</p>
@@ -69,7 +70,7 @@
                   <ion-label class="label_list">{{ datos?.telefono_celular }}</ion-label>
                 </ion-item>
                 <ion-item (click)="send_email (datos?.usercorreo?.email)" lines="none" class="item_list">
-                  <ion-icon name="person-outline"></ion-icon>
+                  <ion-icon name="mail-outline"></ion-icon>
                   <ion-label class="label_list">{{ datos?.usercorreo?.email }}</ion-label>
                 </ion-item>
               </ion-list>
@@ -84,7 +85,9 @@
             <ion-card-header (click)="toggle_consultorio (centro)">
               <ion-card-subtitle><img src="assets/img/Grupo1722.png" class="icon_verde">
                 {{ centro.info_centro_medico_sucursal_tarjeta_medico.infocentro_medico_tarjeta.nombre_comercial }}
-              <ion-icon name="close-outline" class="icon_close"></ion-icon></ion-card-subtitle>
+              <ion-icon *ngIf="centro.visible === undefined || centro.visible === false" name="chevron-forward-outline" class="icon_close"></ion-icon>
+              <ion-icon *ngIf="centro.visible === true" name="close-outline" class="icon_close"></ion-icon>
+            </ion-card-subtitle>
             </ion-card-header>
             <ion-card-content *ngIf="centro.visible">
               <div class="div_conuslta_nutton">

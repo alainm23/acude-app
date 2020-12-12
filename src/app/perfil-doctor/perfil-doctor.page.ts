@@ -200,12 +200,17 @@ export class PerfilDoctorPage implements OnInit {
       editar: false
     };
 
+    let brinda_telemedicina = '0';
+    if (this.datos.brinda_telemedicina === '1') {
+      brinda_telemedicina = '1';
+    }
+
     this.navController.navigateForward (
       ['escoje-fecha-hora', JSON.stringify ({
         id: this.datos.id,
         nombre_completo: this.datos.nombre_completo,
         especialidad: this.datos.especialidad,
-        brinda_telemedicina: this.datos.brinda_telemedicina,
+        brinda_telemedicina: brinda_telemedicina,
         fotografia: this.datos.fotografia
       }), JSON.stringify (data)]
     );
@@ -246,7 +251,7 @@ export class PerfilDoctorPage implements OnInit {
         ]
       });
   
-      await alert.present();
+      await alert.present ();
     }
   }
 

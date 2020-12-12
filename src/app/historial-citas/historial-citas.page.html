@@ -6,8 +6,8 @@
 
 <ion-content>
   <ion-card class="card-verd">
-    <ion-label class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>Historial de citas</ion-label>
-    <ion-select [(ngModel)]="paciente_seleccionado" (ionChange)="changed ($event.detail.value)" class="select-blanco">
+    <ion-label (click)="back ()" class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>Historial de citas</ion-label>
+    <ion-select [(ngModel)]="paciente_seleccionado" interface="popover" (ionChange)="changed ($event.detail.value)" class="select-blanco">
       <ion-select-option value="todos">
         <h2>Todos</h2>
       </ion-select-option>

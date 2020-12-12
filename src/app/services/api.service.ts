@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class ApiService {
   USUARIO_DATA: any;
 
   TITULO_ERROR: string = 'Lo sentimos';
-  constructor (public http: HttpClient, private fb: Facebook) {
+  constructor (public http: HttpClient, private fb: Facebook, private platform: Platform) {
     this.URL_BASE = "https://acudeapp.com";
     // this.URL_BASE = "http://appmedico.demoperu.site";
   }
@@ -25,11 +26,13 @@ export class ApiService {
   }
 
   logout () {
-    this.fb.getLoginStatus ().then ((res) => {
-      if (res.status === 'connected') {
-        this.fb.logout ();
-      }
-    });
+    if (this.platform.is ('cordova')) {
+      this.fb.getLoginStatus ().then ((res) => {
+        if (res.status === 'connected') {
+          this.fb.logout ();
+        }
+      });
+    }
 
     let url = this.URL_BASE + '/api/auth/logout';
     
@@ -51,13 +54,13 @@ export class ApiService {
   }
 
   actualizar_distrito_usuario (id_distrito: string) {
-    let url = this.URL_BASE + '/api/soporte/actualizar-distrito-usuario'
+    let url = this.URL_BASE + '/api/soporte/actualizar-departamento-usuario'
 
     const headers = {
       'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
     }
 
-    return this.http.post (url, {id_user: this.USUARIO_DATA.id, id_distrito: id_distrito}, { headers });
+    return this.http.post (url, {id_user: this.USUARIO_DATA.id, id_departamento: id_distrito}, { headers });
   }
 
   get_departamentos () {
@@ -116,7 +119,7 @@ export class ApiService {
   }
 
   obtener_profesionales_ubicacion (tipo: string, idtipo: string, latitud: number, longitud: number, kilometros: number) {
-    let url = this.URL_BASE + '/api/profesionales/' + tipo + '/' + idtipo + '/' + latitud + '/' + longitud + '/' + kilometros;
+    let url = this.URL_BASE + '/api/profesionales/' + tipo + '/' + idtipo + '/' + latitud + '/' + longitud + '/' + kilometros + '?limite=10';
 
     console.log (url);
 
@@ -504,6 +507,16 @@ export class ApiService {
 
   obtener_informacion_completa (id_profesional: number) {
     let url = this.URL_BASE + '/api/profesionales/obtener-informacion-completa/' + id_profesional + '/' + this.USUARIO_DATA.id;
+    
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.get (url, { headers });
+  }
+
+  proximas_sin_pacientes () {
+    let url = this.URL_BASE + '/api/cita/proximas-sin-pacientes/' + this.USUARIO_DATA.id;
     
     const headers = {
       'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token

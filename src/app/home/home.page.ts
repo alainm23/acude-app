@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 
 // Services
 import { ApiService } from '../services/api.service';
-import { LoadingController, NavController } from '@ionic/angular';
+import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { elementAt, filter, finalize } from 'rxjs/operators';
@@ -49,7 +49,8 @@ export class HomePage implements OnInit {
     private api: ApiService,
     private loadingController: LoadingController,
     private navController: NavController,
-    private storage: Storage
+    private storage: Storage,
+    private alertController: AlertController
   ) {}
 
   async ngOnInit () {
@@ -74,6 +75,71 @@ export class HomePage implements OnInit {
     }, error => {
       console.log (error);
     });
+
+    this.api.proximas_sin_pacientes ().subscribe (async (res: any) => {
+      console.log (res);
+
+      if (res.citas.length > 0) {
+        this.completar_cita (res.citas [0]);
+      } else if (res.citas.length > 1) {
+        // let inputs: any [] = [];
+        // res.citas.forEach ((cita: any) => {
+        //   inputs.push ({
+        //     name: 'radio1',
+        //     type: 'radio',
+        //     label: cita.centro_medico_sede_profesional.info_centro_medico_sucursal.denominacion,
+        //     value: cita,
+        //   })
+        // });
+
+        // const alert = await this.alertController.create({
+        //   header: 'Citas incompletas',
+        //   message: 'Seleccione ',
+        //   inputs: inputs,
+        //   buttons: [
+        //     {
+        //       text: 'Cancelar',
+        //       role: 'cancel',
+        //       cssClass: 'secondary',
+        //       handler: () => {
+        //         console.log('Confirm Cancel');
+        //       }
+        //     }, {
+        //       text: 'Seleccionar',
+        //       handler: (data: any) => {
+        //         console.log (data);
+        //         this.completar_cita (data);
+        //       }
+        //     }
+        //   ]
+        // });
+    
+        // await alert.present ();
+      }
+    }, error => {
+      console.log (error);
+    });
+  }
+
+  completar_cita (data: any) {
+    let request: any = {
+      doctor: {
+        id: data.centro_medico_sede_profesional.info_doctor.id,
+        nombre_completo: data.centro_medico_sede_profesional.info_doctor.nombre_completo,
+        especialidad: '',
+        brinda_telemedicina: data.centro_medico_sede_profesional.info_doctor.brinda_telemedicina,
+        fotografia: data.centro_medico_sede_profesional.info_doctor.fotografia,
+      },
+      fecha: data.fecha,
+      hora: data.hora,
+      cita_id: data.id,
+      monto: data.monto,
+      direccion: data.centro_medico_sede_profesional.info_centro_medico_sucursal.direccion,
+      tipo_cita: data.tipo_cita
+    };
+
+    console.log (request);
+    this.navController.navigateForward (['datos-peruano-extrajero', JSON.stringify (request)]);
   }
 
   ver_mas_profesionales () {

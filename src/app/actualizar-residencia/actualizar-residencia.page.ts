@@ -20,7 +20,7 @@ export class ActualizarResidenciaPage implements OnInit {
   distrito: any = null;
 
   constructor (
-    private api: ApiService, 
+    public api: ApiService, 
     private loadingController: LoadingController,
     private navController: NavController,
     private storage: Storage) { }
@@ -42,28 +42,28 @@ export class ActualizarResidenciaPage implements OnInit {
   }
 
   async departamentoChange () {
-    this.provincia = null;
-    this.distrito =  null;
+    // this.provincia = null;
+    // this.distrito =  null;
 
-    const loading = await this.loadingController.create({
-      message: 'Procesando...',
-    });
+    // const loading = await this.loadingController.create({
+    //   message: 'Procesando...',
+    // });
 
-    await loading.present ();
+    // await loading.present ();
 
-    this.api.get_provincias (this.departamento.id).subscribe ((res: any) => {
-      loading.dismiss ();
+    // this.api.get_provincias (this.departamento.id).subscribe ((res: any) => {
+    //   loading.dismiss ();
 
-      Object.entries(res.provincias).forEach ((val: any) => {
-        this.provincias.push ({
-          id: val [0],
-          nombre: val [1]
-        })
-      });
-    }, error => {
-      loading.dismiss ();
-      console.log (error);
-    });
+    //   Object.entries(res.provincias).forEach ((val: any) => {
+    //     this.provincias.push ({
+    //       id: val [0],
+    //       nombre: val [1]
+    //     })
+    //   });
+    // }, error => {
+    //   loading.dismiss ();
+    //   console.log (error);
+    // });
   }
 
   async provinciaChange () {
@@ -101,7 +101,9 @@ export class ActualizarResidenciaPage implements OnInit {
 
     await loading.present ();
 
-    this.api.actualizar_distrito_usuario (this.distrito.id).subscribe (async (res: any) => {
+    console.log ('id: ', this.departamento.id);
+    this.api.actualizar_distrito_usuario (this.departamento.id).subscribe (async (res: any) => {
+      console.log (res);
       loading.dismiss ();
       this.navController.navigateRoot ('home');
 

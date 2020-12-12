@@ -14,7 +14,7 @@ export class OnboardingPage implements OnInit {
   }
 
   saltar () {
-    this.navController.navigateRoot ('inicio-seleccionar');
+    this.navController.navigateRoot ('login');
   }
 
   next () {
