@@ -267,16 +267,14 @@ export class ApiService {
     return this.http.get (url, { headers });
   } 
 
-  obtener_centros_medicos (latitud: number, longitud: number, tipo_centro: string, kilometros: number=5, limite: number=10) {
+  obtener_centros_medicos (latitud: number, longitud: number, tipo_centro: string, kilometros: string, limite: number=10) {
     let url = this.URL_BASE + '/api/establecimientos/' + latitud + '/' + longitud + '/' + tipo_centro;// + '?kilometros=' + kilometros;
 
-    if (kilometros !== -1) {
-      url += '&kilometros=' + kilometros;
-    }
-
+    url += '&kilometros=' + kilometros;
     url += '&limite=' + limite;
     url = url.replace (new RegExp('&'), '?');
 
+    console.log (kilometros);
     console.log (url);
 
     const headers = {
@@ -523,5 +521,10 @@ export class ApiService {
     }
 
     return this.http.get (url, { headers });
+  }
+
+  recuperar_password (email: string) {
+    let url = this.URL_BASE + '/api/auth/recuperar-password';
+    return this.http.post (url, {email: email});
   }
 }

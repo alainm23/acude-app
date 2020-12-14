@@ -141,7 +141,7 @@ export class MapaEstablecimientosPage implements OnInit {
       this.longitude = resp.coords.longitude;
 
       this.initMap (resp.coords.latitude, resp.coords.longitude);
-      this.draw_marks ();
+      // this.draw_marks ();
       this.initAutocomplete ();
     }).catch ((error) => {
       console.log('Error getting location', error);
@@ -163,12 +163,12 @@ export class MapaEstablecimientosPage implements OnInit {
 
     await loading.present ();
 
-    this.api.obtener_centros_medicos  (this.latitude, this.longitude, this.id, this.kilometros).subscribe ((res: any) => {
+    this.api.obtener_centros_medicos  (this.latitude, this.longitude, this.id, this.kilometros.toString ()).subscribe ((res: any) => {
       console.log (res);
-      if (this.kilometros === -1 && res.sucursales.length > 0) {
-        this.kilometros = Math.floor (res.radio_busqueda);
-        this.map_pan_to (parseFloat (res.sucursales [0].latitud), parseFloat (res.sucursales [0].longitud));
-      }
+      // if (this.kilometros === -1 && res.sucursales.length > 0) {
+      //   this.kilometros = Math.floor (res.radio_busqueda);
+      //   this.map_pan_to (parseFloat (res.sucursales [0].latitud), parseFloat (res.sucursales [0].longitud));
+      // }
 
       this.sucursales = res.sucursales;
       loading.dismiss ();
@@ -327,6 +327,25 @@ export class MapaEstablecimientosPage implements OnInit {
 
     if (this.map === null) {
       this.map = new google.maps.Map (this.mapRef.nativeElement, options);
+
+      google.maps.event.addListener(this.map, 'idle', () => {
+        var bounds = this.map.getBounds ();
+        var start = bounds.getNorthEast ();
+        var end = bounds.getSouthWest ();
+
+        var distStart = google.maps.geometry.spherical.computeDistanceBetween (this.map.getCenter (), start) / 1000.0;
+        var distEnd = google.maps.geometry.spherical.computeDistanceBetween (this.map.getCenter (), end) / 1000.0;
+
+        this.latitude = this.map.getCenter ().lat ();
+        this.longitude = this.map.getCenter ().lng ();
+
+        console.log ('K', ((distStart + distEnd) / 2));
+        this.kilometros = ((distStart + distEnd) / 2);
+        if (this.kilometros < 1) {
+          this.kilometros = 1;
+        }
+        this.draw_marks ();
+      });
     }
   }
 
@@ -345,7 +364,7 @@ export class MapaEstablecimientosPage implements OnInit {
       // this.kilometros = 5;
     }
 
-    this.draw_marks ();
+    // this.draw_marks ();
   }
 
   ver_lista () {
@@ -379,13 +398,23 @@ export class MapaEstablecimientosPage implements OnInit {
         let place = autocomplete.getPlace ()
         this.search_text = place.formatted_address;
 
-        this.kilometros = -1;
-        this.latitude = place.geometry.location.lat ();
-        this.longitude = place.geometry.location.lng ();
+        // this.kilometros = 1;
+        // this.latitude = place.geometry.location.lat ();
+        // this.longitude = place.geometry.location.lng ();
 
-        this.map_pan_to (this.latitude, this.longitude);
+        this.map_pan_to (place.geometry.location.lat (), place.geometry.location.lng ());
 
-        this.draw_marks ();
+        // var bounds = this.map.getBounds ();
+        // var start = bounds.getNorthEast ();
+        // var end = bounds.getSouthWest ();
+
+        // var distStart = google.maps.geometry.spherical.computeDistanceBetween (this.map.getCenter (), start) / 1000.0;
+        // var distEnd = google.maps.geometry.spherical.computeDistanceBetween (this.map.getCenter (), end) / 1000.0;
+
+        // console.log ('K', ((distStart + distEnd) / 2));
+
+        // this.kilometros = distStart;
+        // this.draw_marks ();
       });
     });
   }
@@ -402,5 +431,9 @@ export class MapaEstablecimientosPage implements OnInit {
       this.id = this.tipos_centros_medicos [index].id;
       this.draw_marks ();
     });
+  }
+
+  get_kilometros (k: number) {
+    return Math.floor (k);
   }
 }

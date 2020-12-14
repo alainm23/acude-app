@@ -18,10 +18,11 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
   pacientes: any [] = [];
   es_extranjero: boolean = false;
   form: FormGroup;
-  paciente_seleccionado: any = null;
+  paciente_seleccionado: any = 'me';
   data: any;
   datetime: any;
   dni_valido: boolean = false;
+  readonly: boolean = false;
   constructor (private api: ApiService,
       private loadingCtrl: LoadingController,
       private navController: NavController,
@@ -42,7 +43,8 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
       sexo: new FormControl ('', [Validators.required]),
       tipo_paciente: new FormControl ('', [Validators.required]),
       telefono: new FormControl ('', [Validators.required]),
-      correo: new FormControl ('', [Validators.required, Validators.email])
+      correo: new FormControl ('', [Validators.required, Validators.email]),
+      uno_mismo: new FormControl (0),
     });
 
     const loading = await this.loadingCtrl.create({
@@ -55,8 +57,12 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
       console.log ('res', res);
       this.pacientes = res.pacientes;
       if (this.pacientes.length <= 0) {
-        this.paciente_seleccionado = 'nuevo';
+        this.paciente_seleccionado = 'me';
+        this.change_paciente ('me');
+      } else {
+        this.paciente_seleccionado = this.pacientes [0];
       }
+
       loading.dismiss ();
     }, error => {
       console.log (error)
@@ -71,12 +77,14 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
 
     await loading.present ();
 
+    let data = this.form.value;
+    data.sexo = parseInt (data.sexo)
+    data.tipo_paciente = parseInt (data.tipo_paciente);
+    data.id_user = this.api.USUARIO_DATA.id;
+
     if (this.paciente_seleccionado === 'nuevo') {
-      let data = this.form.value;
-      data.sexo = parseInt (data.sexo)
-      data.tipo_paciente = parseInt (data.tipo_paciente);
-      data.id_user = this.api.USUARIO_DATA.id;
       data.fecha_nacimiento = data.fecha_nacimiento.substring (0, 10);
+      data.uno_mismo = 0;
 
       this.api.registrar_paciente (data).subscribe ((res: any) => {
         loading.dismiss ();
@@ -87,15 +95,71 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
         loading.dismiss ();
         console.log (error);
       });
+      console.log (data);
+    } else if (this.paciente_seleccionado === 'me') {
+      data.fecha_nacimiento = data.fecha_nacimiento.substring (0, 10);
+      data.uno_mismo = 1;
+
+      this.api.registrar_paciente (data).subscribe ((res: any) => {
+        loading.dismiss ();
+        this.data.id_paciente = res.paciente.id;
+        this.data.nombre_paciente = res.paciente.nombres + ' ' + res.paciente.apellidos
+        this.navController.navigateForward (['antecedentes', JSON.stringify (this.data)]);
+      }, error => {
+        loading.dismiss ();
+        console.log (error);
+      });
+
+      console.log (data);
     } else {
       loading.dismiss ();
       this.data.id_paciente = this.paciente_seleccionado.id;
-      this.data.nombre_paciente = this.paciente_seleccionado.nombres + ' ' + this.paciente_seleccionado.apellidos
+      this.data.nombre_paciente = this.paciente_seleccionado.nombres + ' ' + this.paciente_seleccionado.apellidos;
       this.navController.navigateForward (['antecedentes', JSON.stringify (this.data)]);
     }
   }
 
+  validar_existe_me () {
+    var returned: boolean = true;
+
+    this.pacientes.forEach ((p: any) => {
+      if (p.paciente.uno_mismo === "1") {
+        returned = false; 
+      }
+    });
+
+    return returned;
+  }
+
+  change_paciente (event: any) {
+    if (event === 'me') {
+      this.form.controls ['dni'].setValue (null);
+      this.form.controls ['nombres'].setValue (this.api.USUARIO_DATA.first_name);
+      this.form.controls ['apellidos'].setValue (this.api.USUARIO_DATA.last_name);
+      this.form.controls ['fecha_nacimiento'].setValue (this.api.USUARIO_DATA.fecha_nacimiento);
+      this.form.controls ['sexo'].setValue (this.api.USUARIO_DATA.sexo);
+      this.form.controls ['tipo_paciente'].setValue (0);
+      this.form.controls ['telefono'].setValue (this.api.USUARIO_DATA.telefono);
+      this.form.controls ['correo'].setValue (this.api.USUARIO_DATA.email);
+      this.form.controls ['uno_mismo'].setValue (1);
+    } else {
+      this.form.reset ();
+      this.form.controls ['dni'].enable ();
+      this.form.controls ['nombres'].enable ();
+      this.form.controls ['apellidos'].enable ();
+      this.dni_valido = false;
+      this.readonly = false;
+    } 
+  }
+
   change_value (event: any) {
+    this.form.reset ();
+    this.form.controls ['dni'].enable ();
+    this.form.controls ['nombres'].enable ();
+    this.form.controls ['apellidos'].enable ();
+    this.dni_valido = false;
+    this.readonly = false;
+    
     if (event) {
       this.form.controls ['dni'].setValidators ([
         Validators.required
@@ -157,6 +221,7 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
       data.tipo_paciente = parseInt (data.tipo_paciente);
       data.id_user = this.api.USUARIO_DATA.id;
       data.fecha_nacimiento = data.fecha_nacimiento.substring (0, 10);
+      data.uno_mismo = 0;
 
       console.log (data);
 
@@ -176,11 +241,13 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
   
         if (res.informacion.success) {
           this.dni_valido = true;
-  
+
           this.form.controls ['nombres'].setValue (res.informacion.data.nombres);
           this.form.controls ['apellidos'].setValue (res.informacion.data.apellido_paterno + ' ' + res.informacion.data.apellido_materno);
           this.form.controls ['fecha_nacimiento'].setValue (res.informacion.data.fecha_nacimiento);
           this.form.controls ['tipo_paciente'].setValue ('0');
+
+          this.readonly = true;
 
           const alert = await this.alertController.create({
             header: 'Datos del paciente verificados',

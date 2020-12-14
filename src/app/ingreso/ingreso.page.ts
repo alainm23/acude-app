@@ -116,4 +116,72 @@ export class IngresoPage implements OnInit {
       });
     }
   }
+
+  async emial_alert () {
+    const alert = await this.alertController.create({
+      header: 'Recuperar contraseña',
+      message: 'Ingrese el correo electrónico con el que te registraste en la plataforma',
+      inputs: [
+        {
+          name: 'email',
+          type: 'email',
+          placeholder: 'Correo electrónico'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        }, {
+          text: 'Confirmar',
+          handler: (data: any) => {
+            if (data.email.trim () != "") {
+              this.validar_olvido_correo (data.email.trim ());
+            } else {
+              this.alert_message ('Ingrese un correo valido');
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async validar_olvido_correo (email: string) {
+    const loading = await this.loadingController.create({
+      message: 'Verificando...',
+    });
+
+    await loading.present ();
+
+    this.api.recuperar_password (email).subscribe ((res: any) => {
+      console.log (res);
+      loading.dismiss ();
+      this.alert_message ('Acabamos de enviarte un email a <b>' + email +'</b> con los pasos necesarios para restablezcas tu contraseña. (Revisa también tu bandeja de no deseado)');
+    }, error => {
+      loading.dismiss ();
+      console.log (error);
+      this.alert_message ('Lo sentimos el correo ingresado no esta registrado en el sistema.');
+    })
+  }
+
+  async alert_message (message: string) {
+    const alert = await this.alertController.create({
+      header: 'Confirm!',
+      message: message,
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 }

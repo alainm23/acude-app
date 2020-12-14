@@ -361,7 +361,7 @@ export class EncuentraProfesionalPage implements OnInit {
 
         console.log ('K', ((distStart + distEnd) / 2));
 
-        this.kilometros = distStart;
+        this.kilometros = ((distStart + distEnd) / 2);
         this.draw_marks ();
       });
     }
@@ -428,5 +428,9 @@ export class EncuentraProfesionalPage implements OnInit {
         this.draw_marks ();
       });
     });
+  }
+
+  get_kilometros (k: number) {
+    return Math.floor (k);
   }
 }
