@@ -449,6 +449,29 @@ ion-card.card_establecimineto
         --background: #2E5269;
         --color: #ffffff;
     }
+    .btn_salud_llmar
+    {
+        width: 100%;
+        --background: #FE9067;
+        --color: #ffffff;
+        --border-radius: 25px;
+        font-family: PoppinsSemiBold;
+        font-size: 12px;
+        height: 35px;
+        margin-top: 20px;
+        margin-bottom: 0px;
+        img
+        {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+    }
+    .btn_salud_llmar:hover
+    {
+        --background: #FE9067;
+        --color: #ffffff;
+    }
 }
 .titulo-favorito
 {

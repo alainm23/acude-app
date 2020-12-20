@@ -44,13 +44,13 @@ ion-tabs
 ion-card
 {
     margin: 0px;
-    margin-top: 130px;
+    margin-top: 217px;
     --background: #ffffff;
     border-radius: 20px 20px 0px 0px;
     box-shadow: 0px -3px 29px #3C3C3C57;
     padding-left: 30px;
     padding-right: 30px;
-    padding-top: 126px;
+    padding-top: 30px;
     padding-bottom: 0px;
     img
     {
@@ -99,7 +99,7 @@ ion-card
             }
             .icon_close
             {
-                color: #23CEC3;
+                color: #FE9067;
                 font-size: 22px;
             }
         }
@@ -109,14 +109,14 @@ ion-card
 {
     ion-card
     {
-        margin-top: 155px;
+        margin-top: 273px;
     }
 }
 @media (min-width: 411px)
 {
     ion-card
     {
-        margin-top: 212px;
+        margin-top: 297px;
         padding-bottom: 2px;
     }
 }
@@ -124,14 +124,14 @@ ion-card
 {
     ion-card
     {
-        margin-top: 352px;
+        margin-top: 389px;
     }
 }
 @media (min-width: 414px)
 {
     ion-card
     {
-        margin-top: 215px;
+        margin-top: 326px;
         padding-bottom: 8px;
     }
 }
@@ -139,7 +139,7 @@ ion-card
 {
     ion-card
     {
-        margin-top: 325px;
+        margin-top: 435px;
         padding-bottom: 5px;
     }
     ion-tabs
@@ -167,7 +167,7 @@ ion-card
     }
     ion-card
     {
-        margin-top: 455px;
+        margin-top: 560px;
         padding-bottom: 17px;
     }
 }
@@ -175,6 +175,6 @@ ion-card
 {
     ion-card
     {
-        margin-top: 755px;
+        margin-top: 855px;
     }
 }

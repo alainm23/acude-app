@@ -128,7 +128,7 @@ ion-content
 .p_busqueda
 {
     font-family: PoppinsRegular;
-    color: #C7C7C7;
+    color: #875FB6;
     font-size: 14px;
     z-index: 999999;
     margin-top: 20px;
@@ -298,6 +298,29 @@ ion-card.card_establecimineto
     .btn_salud:hover
     {
         --background: #2E5269;
+        --color: #ffffff;
+    }
+    .btn_salud_llmar
+    {
+        width: 100%;
+        --background: #FE9067;
+        --color: #ffffff;
+        --border-radius: 25px;
+        font-family: PoppinsSemiBold;
+        font-size: 12px;
+        height: 35px;
+        margin-top: 20px;
+        margin-bottom: 0px;
+        img
+        {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+    }
+    .btn_salud_llmar:hover
+    {
+        --background: #FE9067;
         --color: #ffffff;
     }
 }
