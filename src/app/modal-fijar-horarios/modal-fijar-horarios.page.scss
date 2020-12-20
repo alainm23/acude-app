@@ -57,27 +57,22 @@ ion-content
         }
         .btn-filtar
         {
-            --background: #ffffff;
+            --background: #FC8E69;
             --border-radius: 28px;
             width: 80%;
             text-transform: none;
             height: 55px;
-            --color: #2E5269;
+            --color: #ffffff;
             position: absolute;
             bottom: 16px;
             z-index: 1;
             left: 10%;
-            --border-color: #2E5269;
-            --border-style: solid;
-            --border-width: 1px;
             font-family: MontserratSemiBold;
         }
         ion-button:hover
         {
-            --background: #2E5269;
+            --background: #FC8E69;
             --color: #ffffff;
-            border: 1px solid #2E5269;
-            border-radius: 28px;
         }
     }
 }

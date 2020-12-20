@@ -26,7 +26,7 @@ ion-header
     position: relative;
     ion-toolbar
     {
-        --background: #23cec3;
+        --background: #18DDD0;
         --color: #ffffff;
         --padding-start: 0px;
         --padding-end:0px;
@@ -115,7 +115,7 @@ ion-content
 .p_busqueda
 {
     font-family: PoppinsRegular;
-    color: #C7C7C7;
+    color: #875FB6;
     font-size: 14px;
     margin: 15px 0px;
 }
@@ -124,25 +124,22 @@ ion-content
     display: flex;
     align-items: center;
     justify-content: center;
-    ion-button
+    .btn-add-res
     {
-        --background: #ffffff;
-        --border-color: #C7C7C7;
+        --background: #FE9067;
         --border-radius: 50%;
-        --border-style: solid;
-        --border-width: 1px;
         width: 25px;
         height: 25px;
         ion-icon
         {
-            color: #C7C7C7;
+            color: #ffffff;
         }
     }
     .p_km
     {
         margin: 0px 5px;
         font-family: PoppinsExtraBold;
-        color: #C7C7C7;
+        color: #875FB6;
         font-size: 13px;
     }
 }
@@ -165,7 +162,15 @@ ion-card.card_mapa
     }
     .plista-top
     {
-        margin-top: 25px;
+        margin-top: 18px;
+        float: right;
+        --background: #FE9067;
+        --background-activated: #FE9067;
+        --border-radius: 25px;
+        --color: #ffffff;
+        --color-activated: #ffffff;
+        font-family: PoppinsSemiBold;
+        width: 35%;
     }
 }
 @media (min-width: 411px)

@@ -20,7 +20,7 @@ ion-header
     height: 0px;
     ion-toolbar
     {
-        --background: #23cec3;
+        --background: #18DDD0;
         --color: #ffffff;
         --padding-start: 0px;
         --padding-end:0px;
@@ -102,9 +102,15 @@ ion-card.card_buscador
 .p_busqueda
 {
     font-family: PoppinsRegular;
-    color: #C7C7C7;
+    color: #875FB6;
     margin-top: 55px;
     font-size: 14px;
+    display: flex;
+    align-items: center;
+    .img-sercha-morado
+    {
+        margin-right: 8px;
+    }
 }
 ion-card.card_acordion
 {
@@ -116,7 +122,7 @@ ion-card.card_acordion
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        background-color: #23CEC3;
+        background-color: #18DDD0;
         border-radius: 10px;
         color: #ffffff;
         padding: 0px 15px;
@@ -274,6 +280,25 @@ ion-slides
     top: 19%; 
     left: 2%;
     padding-right: 20px;
+}
+.p-econtramos
+{
+    color: #875FB6;
+    font-family: PoppinsMedium;
+}
+.btn-close-home
+{
+    float: right;
+    background-color: #875FB6;
+    border: 1px solid #ffffff;
+    border-radius: 50%;
+    color: #ffffff;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
 }
 @media (min-width: 411px)
 {

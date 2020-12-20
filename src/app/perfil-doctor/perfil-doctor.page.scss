@@ -25,7 +25,7 @@ ion-header
     height: 0px;
     ion-toolbar
     {
-        --background: #23cec3;
+        --background: #18DDD0;
         display: flex;
         justify-content: center;
         align-items: flex-start;
@@ -257,12 +257,9 @@ ion-icon.icon_camra_cora
            }
            ion-button
            {
-                --background: #ffffff;
-                --border-color: #2E5269;
+                --background: #FC8E69;
                 --border-radius: 20px;
-                --border-style: solid;
-                --border-width: 1px;
-                --color: #2E5269;
+                --color: #ffffff;
                 margin: 0px;
                 font-size: 12px;
                 font-family: PoppinsSemiBold;
@@ -344,8 +341,8 @@ ion-icon.icon_camra_cora
 }
 .btn-proxima
 {
-    --background: #23CEC3;
-    --background-activated: #23CEC3;
+    --background: #FE9067;
+    --background-activated: #FE9067;
     --border-radius: 20px;
     --box-shadow: 0px 9px 38px #00000029;
     --padding-start: 0px;
@@ -367,6 +364,10 @@ ion-icon.icon_camra_cora
     margin-top: -38px !important;
     z-index: 9999999999;
     position: absolute;
+}
+.img-like-activo
+{
+    display: none;
 }
 @media (min-width: 375px)
 {

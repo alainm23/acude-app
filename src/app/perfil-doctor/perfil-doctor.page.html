@@ -27,7 +27,11 @@
             <ion-col size="4" class="col_flex">
               <p style="opacity:0"  class="ion-no-margin p_iconos"><img src="assets/img/star.png" style="margin-right: 5px;">4.2</p>
               <ion-icon style="opacity:0" name="videocam-outline" class="icon_camra_cora icon_rigth"></ion-icon>
-              <ion-icon (click)="toggle_favorito ()" [name]="favorito === true ? 'heart' : 'heart-outline'" class="icon_camra_cora"></ion-icon>
+              <div>
+                <img src="assets/img/D6dSLWtif.png" class="img-like">
+                <img src="assets/img/D6dSLWtif-activo.png" class="img-like-activo">
+              </div>
+              <!--<ion-icon (click)="toggle_favorito ()" [name]="favorito === true ? 'heart' : 'heart-outline'" class="icon_camra_cora"></ion-icon>-->
             </ion-col>
             <ion-col size="12" class="ion-text-center">
               <p class="subtitulo_p" style="margin-bottom: 0px; margin-top: 1rem;">{{ datos?.especialidad?.nombre }}</p>

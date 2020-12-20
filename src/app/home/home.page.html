@@ -17,9 +17,9 @@
 
   <ion-card *ngIf="resultados_busqueda.length > 0 && search_text !== ''" class="card-list-buscador">
     <ion-list class="list-buscador">
-      <button (click)="search_text = ''">X</button>
+      <button (click)="search_text = ''" class="btn-close-home">X</button>
       <ion-list-header *ngIf="get_profesionales (resultados_busqueda).length > 0">
-        <img src="assets/img/iconbuscar-3.png">
+        <img src="assets/img/W5AznXtif-acitvo.png">
         <ion-label class="label-buscador">Profesionales de la salud</ion-label>
       </ion-list-header>
 
@@ -28,7 +28,7 @@
       </ion-item>
 
       <ion-list-header *ngIf="get_establ (resultados_busqueda).length > 0" class="listheader-top">
-        <img src="assets/img/iconbuscar-2.png">
+        <img src="assets/img/WKxjGJtif-activo.png">
         <ion-label class="label-buscador">Establecimientos</ion-label>
       </ion-list-header>
 
@@ -38,7 +38,7 @@
       </ion-item>
 
       <ion-list-header *ngIf="get_publi (resultados_busqueda).length > 0" class="listheader-top">
-        <img src="assets/img/iconbuscar-1.png">
+        <img src="assets/img/BbAouvtif-activo.png">
         <ion-label class="label-buscador">Promociones & eventos</ion-label>
       </ion-list-header>
 
@@ -52,14 +52,14 @@
 <ion-content>
   <ion-grid style="padding-right: 0px;padding-left: 0px;">
     <ion-row class="ion-justify-content-center">
-      <ion-col size="11" size-md="9" class="ion-text-end ion-no-padding">
-        <p class="p_busqueda" (click)="busqueda_avanzada ()"><ion-icon name="search"></ion-icon>&nbsp;Búsqueda avanzada</p>
+      <ion-col size="10" size-md="9" class="ion-text-start ion-no-padding">
+        <p class="p_busqueda" (click)="busqueda_avanzada ()"><img src="assets/img/iconmoradoserch.png" class="img-sercha-morado">&nbsp;Realizar búsqueda avanzada</p>
       </ion-col>
 
       <ion-col size="12" size-md="9" size-lg="8">
         <ion-card class="card_acordion">
           <ion-card-header mode="ios" (click)="toggle_profesionales ()">
-            <img src="assets/img/Trazado1594.png">
+            <img src="assets/img/W5AznXtif.png">
             <ion-card-title>Profesionales de la salud</ion-card-title>
             <ion-icon name="chevron-forward-outline" class="icon_rigth"></ion-icon>
           </ion-card-header>
@@ -84,7 +84,7 @@
       <ion-col size="12" size-md="9" size-lg="8">
         <ion-card class="card_acordion">
           <ion-card-header mode="ios" (click)="toggle_tipos_centros_medicos ()">
-            <img src="assets/img/OjPimX.tif.png">
+            <img src="assets/img/WKxjGJtif.png">
             <ion-card-title>Ver establecimientos</ion-card-title>
             <ion-icon name="chevron-forward-outline" class="icon_rigth"></ion-icon>
           </ion-card-header>
@@ -109,7 +109,7 @@
       <ion-col size="12" size-md="9" size-lg="8">
         <ion-card class="card_acordion">
           <ion-card-header mode="ios" (click)="toggle_publicidad ()">
-            <img src="assets/img/Grupo1905.png">
+            <img src="assets/img/BbAouvtif.png">
             <ion-card-title>Promociones y eventos</ion-card-title>
             <ion-icon name="chevron-forward-outline" class="icon_rigth"></ion-icon>
           </ion-card-header>
@@ -132,7 +132,7 @@
 
     <ion-item *ngIf="publicidades.length <= 0 && publicidad_cargando === false" lines="none" class="ion-text-center ion-text-wrap">
       <ion-label>
-        <p>No encontramos publicidades en su departamento</p>
+        <p class="p-econtramos">No encontramos publicidades en su departamento</p>
       </ion-label>
     </ion-item>
 
@@ -142,19 +142,19 @@
 
 <ion-footer class="ion-no-border ion_footer">
   <div class="div-footer" (click)="emergencia ()">
-    <img src="assets/img/Grupo1699.png">
+    <img src="assets/img/VL4lzFtif.png">
     <ion-label class="label_semibol ion-text-center">Ambulancia</ion-label>
   </div>
   <div class="div-footer" (click)="historial ()">
-    <img src="assets/img/Grupo-1921.png">
-    <ion-label class="label_regular ion-text-center">Historial de citas</ion-label>
+    <img src="assets/img/KNojertif.png">
+    <ion-label class="label_regular ion-text-center">Historial</ion-label>
   </div>
   <div class="div-footer" (click)="favoritos ()">
-    <img src="assets/img/Grupo1873.png">
-    <ion-label class="label_regular ion-text-center">Mis favoritos</ion-label>
+    <img src="assets/img/D6dSLWtif.png">
+    <ion-label class="label_regular ion-text-center">Favoritos</ion-label>
   </div>
   <div class="div-footer" (click)="menu ()">
-    <img src="assets/img/user-4.png">
+    <img src="assets/img/glTnSntif.png">
     <ion-label class="label_regular ion-text-center">Mi cuenta</ion-label>
   </div>
   <div class="div-linea-footer"></div>

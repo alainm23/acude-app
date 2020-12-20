@@ -26,7 +26,7 @@ ion-header
     height: 30px;
     ion-toolbar
     {
-        --background: #23cec3;
+        --background: #18DDD0;
         --color: #ffffff;
         --padding-start: 0px;
         --padding-end:0px;
@@ -88,12 +88,11 @@ ion-content
 }
 .btn_enlace
 {
-    --background: #ffffff;
-    --border-color:#2E5269;
+    --background: #FC8E69;
+    --background-activated: #FC8E69;
     --border-radius: 28px;
-    --border-style: solid;
-    --border-width: 1px;
-    --color: #2E5269;
+    --color: #ffffff;
+    --color-activated: #ffffff;
     --box-shadow: none;
     text-transform: none;
     font-family: MontserratSemiBold;
@@ -104,22 +103,6 @@ ion-content
     height: 50px;
     position: relative;
     margin-bottom: 40px;
-}
-.btn_enlace:hover::after
-{
-    content: 'Siguinte';
-    font-family: MontserratSemiBold;
-    background: #2E5269;
-    color: #ffffff;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    border-radius: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 .input_genral
 {
@@ -157,7 +140,7 @@ ion-input.padding_right_input
 {
     position: absolute;
     right: 20px;
-    top: 17px;
+    top: 22px;
     z-index: 999999;
     font-size: 20px;
     color: #989898;

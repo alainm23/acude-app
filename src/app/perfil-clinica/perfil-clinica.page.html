@@ -19,8 +19,12 @@
               <p><img src="assets/img/placeholder.png">{{ sucursal?.direccion }}</p>
             </div>
             <div class="div_flex2">
-              <img (click)="cambiar_sucursal ($event)" src="assets/img/Grupo1829.png">
-              <ion-icon (click)="toggle_favorito ()" [name]="favorito === true ? 'heart' : 'heart-outline'" class="icon_corazon"></ion-icon>
+              <img (click)="cambiar_sucursal ($event)" src="assets/img/grupo-1829.png">
+              <!--<ion-icon (click)="toggle_favorito ()" [name]="favorito === true ? 'heart' : 'heart-outline'" class="icon_corazon"></ion-icon>-->
+              <div class="div-like">
+                <img src="assets/img/D6dSLWtif.png" class="img-like">
+                <img src="assets/img/D6dSLWtif-activo.png" class="img-like-activo">
+              </div>
             </div>
           </div>
           <div class="div_top_bottom">
