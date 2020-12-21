@@ -12,70 +12,70 @@ src : url('/assets/font/Montserrat-Medium.ttf')
 }
 ion-slides
 {
-height: 68%;;
---bullet-background: #cdd3d9;
---bullet-background-active: #2e5269;
+    height: 68%;;
+    --bullet-background: #CDD3D9;
+    --bullet-background-active: #875fb6;
 }
 .swiper-pagination-bullet
 {
-background: var(--bullet-background);
+    background: var(--bullet-background);
 }
 ion-slide
 {
-ion-card
-{
-    box-shadow: none;
-    border-radius: 0px;
-    ion-card-content
+    ion-card
     {
-    color: #2E5269;
-    font-family: MontserratMedium;
-    font-weight: bold;
-    font-size: 14px;
+        box-shadow: none;
+        border-radius: 0px;
+        ion-card-content
+        {
+        color: #2E5269;
+        font-family: MontserratMedium;
+        font-weight: bold;
+        font-size: 14px;
+        }
     }
-}
 }
 .btn_siguinete
 {
-width: 100%;
---background: #ffffff;
---color: #2e5269;
---border-color: #cdd3d9;
---border-style: solid;
---border-width: 1px;
---border-radius: 30px;
---box-shadow: none;
-text-transform: capitalize;
---padding-top: 20px;
---padding-bottom: 20px;
-margin: 0px;
-margin-top: 30px;
-margin-bottom: 30px;
-font-family: MontserratMedium;
-font-weight: bold;
+    width: 100%;
+    --background: #fe9067;
+    --color: #ffffff;
+    --border-color: #cdd3d9;
+    --border-style: solid;
+    --border-width: 1px;
+    --border-radius: 30px;
+    --box-shadow: none;
+    text-transform: capitalize;
+    --padding-top: 20px;
+    --padding-bottom: 20px;
+    margin: 0px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-family: MontserratMedium;
+    font-weight: bold;
 }
 .btn_siguinete:hover
 {
---background: #2e5269;
---color: #ffffff;
+    --background: #fe9067;
+    --color: #ffffff;
 }
 .div_plomo
 {
-width: 100%;
-height: 4px;
-background-color: #F0F0F3;
+    width: 100%;
+    height: 4px;
+    background-color: #F0F0F3;
 }
 .btn_saltar
 {
-width: 100%;
---background: #ffffff;
---color: #23CEC3;
---border-color: #cdd3d9;
---box-shadow: none;
-text-transform: capitalize;
-margin-top: 15px;
-font-family: MontserratMedium;
-font-weight: bold;
+    width: 100%;
+    --background: #ffffff;
+    --color: #18DDD0;
+    --border-color: #cdd3d9;
+    --box-shadow: none;
+    text-transform: capitalize;
+    margin-top: 15px;
+    font-family: MontserratMedium;
+    font-weight: bold;
 }
 @media (min-width: 411px)
 {

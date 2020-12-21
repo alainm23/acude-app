@@ -22,9 +22,9 @@
         <p class="p_busqueda">Resultados en radio de</p>
       </ion-col>
       <ion-col size="5" size-sm="2" size-md="2" class="col_button">
-        <!-- <ion-button class="ion-no-padding" (click)="update_kilometros (-5)"><ion-icon name="remove-outline"></ion-icon></ion-button> -->
+        <!--<ion-button class="ion-no-padding btn-add-res" (click)="update_kilometros (-5)"><ion-icon name="remove-outline"></ion-icon></ion-button> -->
         <p class="p_km">{{ get_kilometros (kilometros) }} km</p>
-        <!-- <ion-button class="ion-no-padding" [disabled]="consultorios.length + centros_medicos.length >= 20" (click)="update_kilometros (+5)"><ion-icon name="add-outline"></ion-icon></ion-button> -->
+        <!--<ion-button class="ion-no-padding btn-add-res" [disabled]="consultorios.length + centros_medicos.length >= 20" (click)="update_kilometros (+5)"><ion-icon name="add-outline"></ion-icon></ion-button> -->
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -35,6 +35,6 @@
       <div #map id="map"></div>
     </div>
 
-    <p class="ion-text-end plista-top" (click)="ver_lista ()">Ver lista ></p>
+    <ion-button class="plista-top" (click)="ver_lista ()">lista ></ion-button>
   </ion-card>
 </ion-content>

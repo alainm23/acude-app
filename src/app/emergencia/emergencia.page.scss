@@ -93,7 +93,7 @@ ion-content
         }
         .btn_llamar
         {
-            --background: #23CEC3;
+            --background: #FE9067;
             --color: #ffffff;
             font-family: MontserratSemiBold;
             text-transform: none;
@@ -111,9 +111,9 @@ ion-content
         }
         .btn_llamar:hover
         {
-            --background: #ffffff;
-            --color: #23CEC3;
-            border: 1px solid #23CEC3;
+            --background: #FE9067;
+            --color: #ffffff;
+            border: 1px solid #18DDD0;
             border-radius: 28px;
         }
     }

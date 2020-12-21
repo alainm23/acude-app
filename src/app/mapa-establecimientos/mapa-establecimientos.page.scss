@@ -48,7 +48,7 @@
     {
         margin: 0px 10px;
         font-family: PoppinsExtraBold;
-        color: #C7C7C7;
+        color: #875FB6;
         font-size: 13px;
     }
 }
@@ -59,7 +59,7 @@ ion-header
     position: relative;
     ion-toolbar
     {
-        --background: #23cec3;
+        --background: #18DDD0;
         --color: #ffffff;
         --padding-start: 0px;
         --padding-end:0px;
@@ -167,7 +167,7 @@ ion-content
 ion-card.card_mapa
 {
     border-radius: 20px;
-    height: 86%;
+    height: 100%;
     margin: 0px;
     padding: 10px 20px;
     p
@@ -192,7 +192,7 @@ ion-slides
         {
             width: 100%;
             text-align: center;
-            color: #23CEC3;
+            color: #875FB6;
             font-family: PoppinsRegular;
             font-size: 13px;
         } 
@@ -205,14 +205,22 @@ ion-slides
 .p_busqueda
 {
     font-family: PoppinsRegular;
-    color: #C7C7C7;
+    color: #875FB6;
     font-size: 14px;
     margin-top: 0px;
     margin-bottom: 25px;
 }
 .plita-top
 {
-    margin-top: 30px;
+    margin-top: 20px;
+    float: right;
+    --background: #FE9067;
+    --background-activated: #FE9067;
+    --border-radius: 25px;
+    --color: #ffffff;
+    --color-activated: #ffffff;
+    font-family: PoppinsSemiBold;
+    width: 35%;
 }
 @media (min-width: 411px)
 {

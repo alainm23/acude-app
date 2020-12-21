@@ -24,7 +24,7 @@ ion-content
 }
 .card-verd
 {
-    --background: #23CEC3;
+    --background: #18DDD0;
     border-radius: 0px 0px 24px 24px;
     height: 200px;
     margin: 0px;
@@ -143,8 +143,8 @@ ion-content
     {
         --background: #ffffff;
         --background-checked: #ffffff;
-        --handle-background: #20BFB5;
-        --handle-background-checked: #20BFB5;
+        --handle-background: #18DDD0;
+        --handle-background-checked: #18DDD0;
         width: 47px;
         height: 26px;
         --handle-border-radius: 50%;
@@ -272,7 +272,7 @@ ion-content
 }
 
 .active {
-    background: #23CEC3;
+    background: #FE9067;
     border-radius: 6px;
     color:#ffffff !important;
 }
@@ -283,8 +283,8 @@ ion-content
 
 .btn-proxima
 {
-    --background: #23CEC3;
-    --background-activated: #23CEC3;
+    --background: #FE9067;
+    --background-activated: #FE9067;
     --border-radius: 20px;
     --box-shadow: 0px 9px 38px #00000029;
     --padding-start: 0px;
