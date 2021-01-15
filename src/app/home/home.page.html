@@ -17,7 +17,7 @@
 
   <ion-card *ngIf="resultados_busqueda.length > 0 && search_text !== ''" class="card-list-buscador">
     <ion-list class="list-buscador">
-      <button (click)="search_text = ''" class="btn-close-home">X</button>
+      <ion-button (click)="search_text = ''" class="btn-close-home"><ion-icon name="close-outline"></ion-icon></ion-button>
       <ion-list-header *ngIf="get_profesionales (resultados_busqueda).length > 0">
         <img src="assets/img/W5AznXtif-acitvo.png">
         <ion-label class="label-buscador">Profesionales de la salud</ion-label>

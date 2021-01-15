@@ -64,10 +64,10 @@
             </div>
           </div>
           <ion-row class="ion-justify-content-center" style="width: 100%;">
-            <ion-col size="6">
+            <ion-col size="6" class="padding-cero-left">
               <ion-button class="btn_salud" (click)="ver (item)">Ver información</ion-button>
             </ion-col>
-            <ion-col size="6">
+            <ion-col size="6" class="padding-cero-right">
               <ion-button *ngIf="validar_disponibilidad (item)" (click)="reservar_select (item)" class="btn_salud">
                 Reservar
               </ion-button>

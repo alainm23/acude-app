@@ -289,7 +289,7 @@ ion-card.card_establecimineto
         --border-radius: 25px;
         font-family: PoppinsSemiBold;
         font-size: 12px;
-        height: 35px;
+        height: 40px;
         margin-top: 20px;
         margin-bottom: 0px;
     }
@@ -306,7 +306,7 @@ ion-card.card_establecimineto
         --border-radius: 25px;
         font-family: PoppinsSemiBold;
         font-size: 12px;
-        height: 35px;
+        height: 40px;
         margin-top: 20px;
         margin-bottom: 0px;
         img
@@ -320,6 +320,14 @@ ion-card.card_establecimineto
     {
         --background: #FE9067;
         --color: #ffffff;
+    }
+    .padding-cero-left
+    {
+        padding-left: 0px;
+    }
+    .padding-cero-right
+    {
+        padding-right: 0px;
     }
 }
 @media (min-width: 411px)

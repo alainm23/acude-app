@@ -14,7 +14,6 @@
 .ion-spinner-div {
     padding-top: 2rem;
 }
-
 ion-header
 {
     height: 0px;
@@ -289,16 +288,17 @@ ion-slides
 .btn-close-home
 {
     float: right;
-    background-color: #875FB6;
-    border: 1px solid #ffffff;
-    border-radius: 50%;
-    color: #ffffff;
-    width: 20px;
-    height: 20px;
+    --background: #875FB6;
+    --border-radius: 50%;
+    --color: #ffffff;
+    width: 22px;
+    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 14px;
+    --padding-start: 0px;
+    --padding-end: 0px;
 }
 @media (min-width: 411px)
 {
