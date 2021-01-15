@@ -158,7 +158,7 @@ export class IngresoPage implements OnInit {
     this.api.recuperar_password (email).subscribe ((res: any) => {
       console.log (res);
       loading.dismiss ();
-      this.alert_message ('Acabamos de enviarte un email a <b>' + email +'</b> con los pasos necesarios para restablezcas tu contraseña. (Revisa también tu bandeja de no deseado)');
+      this.alert_message ('Acabamos de enviarle un email a <b>' + email +'</b> con los pasos necesarios para que restablezcas tu contraseña. (Revisa también tu bandeja de no deseado)');
     }, error => {
       loading.dismiss ();
       console.log (error);
@@ -168,7 +168,7 @@ export class IngresoPage implements OnInit {
 
   async alert_message (message: string) {
     const alert = await this.alertController.create({
-      header: 'Confirm!',
+      header: 'Usuario encontrado',
       message: message,
       buttons: [
         {

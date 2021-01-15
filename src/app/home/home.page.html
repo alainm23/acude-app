@@ -60,7 +60,7 @@
         <ion-card class="card_acordion">
           <ion-card-header mode="ios" (click)="toggle_profesionales ()">
             <img src="assets/img/W5AznXtif.png">
-            <ion-card-title>Profesionales de la salud</ion-card-title>
+            <ion-card-title>Profesionales</ion-card-title>
             <ion-icon name="chevron-forward-outline" class="icon_rigth"></ion-icon>
           </ion-card-header>
           <ion-card-content *ngIf="ver_profesionales">
@@ -85,7 +85,7 @@
         <ion-card class="card_acordion">
           <ion-card-header mode="ios" (click)="toggle_tipos_centros_medicos ()">
             <img src="assets/img/WKxjGJtif.png">
-            <ion-card-title>Ver establecimientos</ion-card-title>
+            <ion-card-title>Establecimientos</ion-card-title>
             <ion-icon name="chevron-forward-outline" class="icon_rigth"></ion-icon>
           </ion-card-header>
           <ion-card-content *ngIf="ver_centros_medicos">
@@ -95,7 +95,7 @@
 
             <ion-list *ngIf="!tipos_centros_medicos_cargando">
               <ion-item *ngFor="let item of tipos_centros_medicos" (click)="ver_centros (item)">
-                <ion-label>{{ item.nombre }}</ion-label>
+                <ion-label>{{ get_fotmat_string (item.nombre) }}</ion-label>
               </ion-item>
 
               <ion-item (click)="ver_mas_establecimientos ()">
@@ -126,13 +126,13 @@
 
     <ion-slides pager="false" [options]="slideOptsOne">
       <ion-slide *ngFor="let item of publicidades" (click)="ver_detalle_publicidad (item)">
-        <img [src]="'http://appmedico.demoperu.site/storage/' + item.imagen">
+        <img [src]="'https://www.acudeapp.com/storage/' + item.imagen">
       </ion-slide>
     </ion-slides>
 
     <ion-item *ngIf="publicidades.length <= 0 && publicidad_cargando === false" lines="none" class="ion-text-center ion-text-wrap">
       <ion-label>
-        <p class="p-econtramos">No encontramos publicidades en su departamento</p>
+        <p class="p-econtramos ion-text-wrap">No encontramos publicidades en su ciudad</p>
       </ion-label>
     </ion-item>
 
@@ -147,15 +147,15 @@
   </div>
   <div class="div-footer" (click)="historial ()">
     <img src="assets/img/KNojertif.png">
-    <ion-label class="label_regular ion-text-center">Historial</ion-label>
+    <ion-label class="label_semibol ion-text-center">Historial</ion-label>
   </div>
   <div class="div-footer" (click)="favoritos ()">
     <img src="assets/img/D6dSLWtif.png">
-    <ion-label class="label_regular ion-text-center">Favoritos</ion-label>
+    <ion-label class="label_semibol ion-text-center">Favoritos</ion-label>
   </div>
   <div class="div-footer" (click)="menu ()">
     <img src="assets/img/glTnSntif.png">
-    <ion-label class="label_regular ion-text-center">Mi cuenta</ion-label>
+    <ion-label class="label_semibol ion-text-center">Mi cuenta</ion-label>
   </div>
   <div class="div-linea-footer"></div>
 </ion-footer>

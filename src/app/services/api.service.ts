@@ -17,7 +17,6 @@ export class ApiService {
   TITULO_ERROR: string = 'Lo sentimos';
   constructor (public http: HttpClient, private fb: Facebook, private platform: Platform) {
     this.URL_BASE = "https://acudeapp.com";
-    // this.URL_BASE = "http://appmedico.demoperu.site";
   }
 
   login (email: string, password: string) {
@@ -120,9 +119,7 @@ export class ApiService {
 
   obtener_profesionales_ubicacion (tipo: string, idtipo: string, latitud: number, longitud: number, kilometros: number) {
     let url = this.URL_BASE + '/api/profesionales/' + tipo + '/' + idtipo + '/' + latitud + '/' + longitud + '/' + kilometros + '?limite=10';
-
-    console.log (url);
-
+    
     const headers = {
       'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
     }
@@ -218,7 +215,7 @@ export class ApiService {
   }
 
   buscar_profesional_avanzado (tipo_profesional: string, departamento: number,
-      idespecialidad: string=null, experiencia: number=null, idiomas: string=null,
+      idespecialidad: string=null, experiencia_min: number=null, experiencia_max:number=null, idiomas: string=null,
       honorario_minimo: number=null, honorario_maximo: number=null,
       atiende_domicilio: number=null, emergencias: number=null, telemedicina: number=null) {
     let opcionales = '';
@@ -226,8 +223,12 @@ export class ApiService {
       opcionales += '&idespecialidad=' + idespecialidad;
     }
 
-    if (experiencia !== null) {
-      opcionales += '&experiencia=' + experiencia;
+    if (experiencia_min !== null) {
+      opcionales += '&experiencia_min=' + experiencia_min;
+    }
+
+    if (experiencia_max !== null) {
+      opcionales += '&experiencia_max=' + experiencia_max;
     }
 
     if (idiomas !== null) {

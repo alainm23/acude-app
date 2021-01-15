@@ -47,41 +47,47 @@
 
           <div *ngIf="dni_valido">
             <ion-input [readonly]="readonly" placeholder="Nombres"  formControlName="nombres" type="text" class="input-genral"></ion-input>
-            <small *ngIf="form.controls.nombres.errors?.required && form.controls.nombres.dirty">
+            <small class="error-col" *ngIf="form.controls.nombres.errors?.required">
               * Este campo es obligatorio
             </small>
+            
 
             <ion-input [readonly]="readonly" placeholder="Apellidos" formControlName="apellidos" type="text" class="input-genral"></ion-input>
-            <small *ngIf="form.controls.apellidos.errors?.required && form.controls.apellidos.dirty">
+            <small class="error-col" *ngIf="form.controls.apellidos.errors?.required">
               * Este campo es obligatorio
             </small>
+            
 
             <ion-select formControlName="sexo" placeholder="Sexo" interface="popover" class="select-paciente">
               <ion-select-option value=0>Masculino</ion-select-option>
               <ion-select-option value=1>Femenino</ion-select-option>
             </ion-select>
-            <small *ngIf="form.controls.sexo.errors?.required && form.controls.sexo.dirty">
+            <small class="error-col" *ngIf="form.controls.sexo.errors?.required">
               * Este campo es obligatorio
             </small>
+            
 
             <ion-datetime  cancelText="Cancelar" doneText="Seleccionar" monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic" formControlName="fecha_nacimiento" placeholder="Fecha de nacimiento" class="input-datetime"></ion-datetime>
-            <small *ngIf="form.controls.fecha_nacimiento.errors?.required && form.controls.fecha_nacimiento.dirty">
+            <small class="error-col" *ngIf="form.controls.fecha_nacimiento.errors?.required">
               * Este campo es obligatorio
             </small>
+            
 
             <ion-input placeholder="Numero de telefono" formControlName="telefono" type="number" class="input-genral"></ion-input>
-            <small *ngIf="form.controls.telefono.errors?.required && form.controls.telefono.dirty">
+            <small class="error-col" *ngIf="form.controls.telefono.errors?.required">
               * Este campo es obligatorio
             </small>
+            
 
             <ion-input placeholder="Correo electrónico" formControlName="correo" type="email" class="input-genral"></ion-input>
-            <small *ngIf="form.controls.correo.errors?.required && form.controls.correo.dirty">
+            <small class="error-col" *ngIf="form.controls.correo.errors?.required">
               * Este campo es obligatorio
             </small>
-
-            <small *ngIf="form.controls.correo.errors?.email">
+            
+            <small class="error-col" *ngIf="form.controls.correo.errors?.email">
               * Correo electronico invalido
             </small>
+            
           </div>
         </div>
     
@@ -90,51 +96,59 @@
             <ion-select-option value=1>Pasaporte</ion-select-option>
             <ion-select-option value=2>CE</ion-select-option>
           </ion-select>
-          <small *ngIf="form.controls.tipo_paciente.errors?.required && form.controls.tipo_paciente.dirty">
+          <small class="error-col" *ngIf="form.controls.tipo_paciente.errors?.required">
             * Este campo es obligatorio
           </small>
+          
 
           <ion-input placeholder="Numero de documento" formControlName="dni" type="text" class="input-genral"></ion-input>
-          <small *ngIf="form.controls.dni.errors?.required && form.controls.dni.dirty">
+          <small class="error-col" *ngIf="form.controls.dni.errors?.required">
             * Este campo es obligatorio
           </small>
+          
 
           <ion-input placeholder="Nombres" formControlName="nombres" type="text" class="input-genral"></ion-input>
-          <small *ngIf="form.controls.nombres.errors?.required && form.controls.nombres.dirty">
+          <small class="error-col" *ngIf="form.controls.nombres.errors?.required">
             * Este campo es obligatorio
           </small>
+          
 
           <ion-input placeholder="Apellidos" formControlName="apellidos" type="text" class="input-genral"></ion-input>
-          <small *ngIf="form.controls.apellidos.errors?.required && form.controls.apellidos.dirty">
+          <small class="error-col" *ngIf="form.controls.apellidos.errors?.required">
             * Este campo es obligatorio
           </small>
+          
 
           <ion-select formControlName="sexo" placeholder="Sexo" interface="popover" class="select-paciente">
             <ion-select-option value=0>Masculino</ion-select-option>
             <ion-select-option value=1>Femenino</ion-select-option>
           </ion-select>
-          <small *ngIf="form.controls.sexo.errors?.required && form.controls.sexo.dirty">
+          <small class="error-col" *ngIf="form.controls.sexo.errors?.required">
             * Este campo es obligatorio
           </small>
+          
 
           <ion-datetime  cancelText="Cancelar" doneText="Seleccionar" monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic" formControlName="fecha_nacimiento" placeholder="Fecha de nacimiento" class="input-datetime"></ion-datetime>
-          <small *ngIf="form.controls.fecha_nacimiento.errors?.required && form.controls.fecha_nacimiento.dirty">
+          <small class="error-col" *ngIf="form.controls.fecha_nacimiento.errors?.required">
             * Este campo es obligatorio
           </small>
-
+          
+          
           <ion-input placeholder="Numero de telefono" formControlName="telefono" type="number" class="input-genral"></ion-input>
-          <small *ngIf="form.controls.telefono.errors?.required && form.controls.telefono.dirty">
+          <small class="error-col" *ngIf="form.controls.telefono.errors?.required">
             * Este campo es obligatorio
           </small>
+          
 
           <ion-input placeholder="Correo electrónico" formControlName="correo" type="email" class="input-genral"></ion-input>
-          <small *ngIf="form.controls.correo.errors?.required && form.controls.correo.dirty">
+          <small class="error-col" *ngIf="form.controls.correo.errors?.required">
             * Este campo es obligatorio
           </small>
 
-          <small *ngIf="form.controls.correo.errors?.email">
+          <small class="error-col" *ngIf="form.controls.correo.errors?.email">
             * Correo electronico invalido
           </small>
+          
         </div>
       </form>
     </ng-container>
@@ -142,46 +156,53 @@
     <ng-container *ngIf="paciente_seleccionado === 'me'">
       <form [formGroup]="form">
         <ion-input placeholder="DNI"  formControlName="dni" type="tel" class="input-genral"></ion-input>
-        <small *ngIf="form.controls.dni.errors?.required && form.controls.dni.dirty">
+        <small class="error-col" *ngIf="form.controls.dni.errors?.required">
           * Este campo es obligatorio
         </small>
+        
 
         <ion-input placeholder="Nombres"  formControlName="nombres" type="text" class="input-genral"></ion-input>
-        <small *ngIf="form.controls.nombres.errors?.required && form.controls.nombres.dirty">
+        <small class="error-col" *ngIf="form.controls.nombres.errors?.required">
           * Este campo es obligatorio
         </small>
+        
 
         <ion-input placeholder="Apellidos" formControlName="apellidos" type="text" class="input-genral"></ion-input>
-        <small *ngIf="form.controls.apellidos.errors?.required && form.controls.apellidos.dirty">
+        <small class="error-col" *ngIf="form.controls.apellidos.errors?.required">
           * Este campo es obligatorio
         </small>
+        
 
         <ion-select formControlName="sexo" placeholder="Sexo" interface="popover" class="select-paciente">
           <ion-select-option value=0>Masculino</ion-select-option>
           <ion-select-option value=1>Femenino</ion-select-option>
         </ion-select>
-        <small *ngIf="form.controls.sexo.errors?.required && form.controls.sexo.dirty">
+        <small class="error-col" *ngIf="form.controls.sexo.errors?.required">
           * Este campo es obligatorio
         </small>
+        
 
         <ion-datetime  cancelText="Cancelar" doneText="Seleccionar" monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic" formControlName="fecha_nacimiento" placeholder="Fecha de nacimiento" class="input-datetime"></ion-datetime>
-        <small *ngIf="form.controls.fecha_nacimiento.errors?.required && form.controls.fecha_nacimiento.dirty">
+        <small class="error-col" *ngIf="form.controls.fecha_nacimiento.errors?.required">
           * Este campo es obligatorio
         </small>
+        
 
         <ion-input placeholder="Numero de telefono" formControlName="telefono" type="number" class="input-genral"></ion-input>
-        <small *ngIf="form.controls.telefono.errors?.required && form.controls.telefono.dirty">
+        <small class="error-col" *ngIf="form.controls.telefono.errors?.required">
           * Este campo es obligatorio
         </small>
+        
 
         <ion-input placeholder="Correo electrónico" formControlName="correo" type="email" class="input-genral"></ion-input>
-        <small *ngIf="form.controls.correo.errors?.required && form.controls.correo.dirty">
+        <small class="error-col" *ngIf="form.controls.correo.errors?.required">
           * Este campo es obligatorio
         </small>
 
-        <small *ngIf="form.controls.correo.errors?.email">
+        <small class="error-col" *ngIf="form.controls.correo.errors?.email">
           * Correo electronico invalido
         </small>
+        
       </form>
     </ng-container>
   </ion-card>

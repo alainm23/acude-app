@@ -24,6 +24,20 @@ ion-content
     position: relative;
     --padding-bottom: 56px;
 }
+
+.error-col {
+    color: #ed5353;
+    padding-left: 1rem;
+    padding-top: 0px;
+}
+
+ion-datetime,
+ion-select,
+ion-input {
+    margin-top: 12px;
+    margin-bottom: 0px !important;
+}
+
 .card-verd
 {
     --background: #18DDD0;

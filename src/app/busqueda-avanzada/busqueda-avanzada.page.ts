@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵConsole } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { NavController, ToastController, LoadingController } from '@ionic/angular';
 
@@ -16,7 +16,7 @@ export class BusquedaAvanzadaPage implements OnInit {
   busco_un: string = 'profesionales';
   profesional_tipo_seleccionado: any = null;
   especialidad_seleccionada: any = null;
-  exp: any = '';
+  exp: any = 'null';
   idiomas: any [] = [];
 
   profesionales_salud_total: any [] = [];
@@ -100,20 +100,26 @@ export class BusquedaAvanzadaPage implements OnInit {
       idespecialidad = this.especialidad_seleccionada.id;
     }
 
-    let experiencia = this.exp;
-    if (experiencia === 'null') {
-      experiencia =  null;
+    let experiencia_min = null;
+    let experiencia_max = null;
+    if (this.exp === 'null') {
+      experiencia_max = null;
+      experiencia_min = null;
     } else {
-      experiencia = parseInt (experiencia);
+      experiencia_min = parseInt (this.exp.split ("-") [0]);
+      experiencia_max = parseInt (this.exp.split ("-") [1]);
     }
-    
-    console.log (idespecialidad);
+
+    console.log (this.exp);
+    console.log (experiencia_min);
+    console.log (experiencia_max);
 
     this.api.buscar_profesional_avanzado (
       this.profesional_tipo_seleccionado.id,
       DEPARTAMENTO_SELECCIONADO,
       idespecialidad,
-      experiencia).subscribe (async (res: any) => {
+      experiencia_min,
+      experiencia_max).subscribe (async (res: any) => {
       loading.dismiss ();
       console.log (res);
 

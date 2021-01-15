@@ -27,11 +27,14 @@
       </ion-card-content>
     </ion-card>
     <ion-card class="card_acordion">
+      <ion-card-header>
+        <ion-card-subtitle>Experiencia</ion-card-subtitle>
+      </ion-card-header>
       <ion-select okText="Seleccionar" cancelText="Cerrar" [(ngModel)]="exp" placeholder="Experiencia" mode="ios">
-        <ion-select-option value="null">Experiencia</ion-select-option>
-        <ion-select-option value="3">3 años a más</ion-select-option>
-        <ion-select-option value="5">5 años a más</ion-select-option>
-        <ion-select-option value="10">10 años a más</ion-select-option>
+        <ion-select-option value="null">Ninguna</ion-select-option>
+        <ion-select-option value="0-5">Hasta 5 años</ion-select-option>
+        <ion-select-option value="6-10">De 6 a 10 años</ion-select-option>
+        <ion-select-option value="11-100">De 10 a mas</ion-select-option>
       </ion-select>
     </ion-card>
     <ion-card class="card_acordion">
@@ -48,7 +51,11 @@
       </ion-card-content>
     </ion-card>
     <ion-card class="card_acordion">
+      <ion-card-header>
+        <ion-card-subtitle>Rango de honorarios</ion-card-subtitle>
+      </ion-card-header>
       <ion-select okText="Seleccionar" cancelText="Cerrar" [(ngModel)]="exp" placeholder="Rango de honorarios" mode="ios">
+        <ion-select-option value="">Ninguna</ion-select-option>
         <ion-select-option value="0-99">Hasta S/.99.00</ion-select-option>
         <ion-select-option value="100-200">De S/.100.00 - S/.200.00</ion-select-option>
         <ion-select-option value="200-1000">De S/.200.00 - mas</ion-select-option>

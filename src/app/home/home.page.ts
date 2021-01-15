@@ -316,4 +316,9 @@ export class HomePage implements OnInit {
       console.log (error);
     });
   }
+
+  get_fotmat_string (text: string) {
+    text = text.toLowerCase ();
+    return (text.charAt(0).toUpperCase() + text.slice (1));
+  }
 }

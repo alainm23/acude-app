@@ -26,8 +26,9 @@
       </div>
       <div class="subdiv-fecha-costo padding-left-costo">
         <h6 class="titulo-fecha-costo">Costo de consulta</h6>
-        <p class="p-fecha-costo">S/. {{ data?.monto }}</p>
-        <p class="p-fecha-costo">S/. 3.00 por el uso del servicio</p>
+        <p class="p-fecha-costo">S/. {{ get_pago_formula (data?.monto) }}</p>
+        <!-- <p class="p-fecha-costo">S/. {{ get_pago_uso () }} por el uso del servicio</p> -->
+        <p style="font-size: 12px; font-family: PoppinsMedium; line-height: 1;">Incluye el servicio e impuestos.</p>
       </div>
     </div>
     <h3 class="ion-text-center titulo-tarjeta">Datos del titular de la tarjeta</h3>

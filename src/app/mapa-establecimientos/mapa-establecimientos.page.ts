@@ -32,11 +32,13 @@ export class MapaEstablecimientosPage implements OnInit {
   sucursales: any [] = [];
   slideOptsOne = {
     initialSlide: 0,
-    slidesPerView: 1.5,
+    slidesPerView: 3,
     spaceBetween: 0,
   };
   id: string;
   nombre: string;
+  image: any;
+  position_marker: any = null;
   constructor (
     private navController: NavController,
     private geolocation: Geolocation,
@@ -48,6 +50,15 @@ export class MapaEstablecimientosPage implements OnInit {
     private route: ActivatedRoute) {}
 
   async ngOnInit () {
+    // define our custom marker image
+    this.image = new google.maps.MarkerImage(
+      'http://plebeosaur.us/etc/map/bluedot_retina.png',
+      null, // size
+      null, // origin
+      new google.maps.Point (8, 8), // anchor (move to center of marker)
+      new google.maps.Size (17, 17) // scaled size (required for Retina display icon)
+    );
+
     this.id = this.route.snapshot.paramMap.get ('id');
     this.nombre = this.route.snapshot.paramMap.get ('nombre');
 
@@ -328,6 +339,18 @@ export class MapaEstablecimientosPage implements OnInit {
     if (this.map === null) {
       this.map = new google.maps.Map (this.mapRef.nativeElement, options);
 
+      if (this.position_marker === null) {
+        this.position_marker = new google.maps.Marker({
+          flat: true,
+          icon: this.image,
+          map: this.map,
+          optimized: false,
+          position: point,
+          title: 'I might be here',
+          visible: true
+        });
+      }
+
       google.maps.event.addListener(this.map, 'idle', () => {
         var bounds = this.map.getBounds ();
         var start = bounds.getNorthEast ();
@@ -339,7 +362,6 @@ export class MapaEstablecimientosPage implements OnInit {
         this.latitude = this.map.getCenter ().lat ();
         this.longitude = this.map.getCenter ().lng ();
 
-        console.log ('K', ((distStart + distEnd) / 2));
         this.kilometros = ((distStart + distEnd) / 2);
         if (this.kilometros < 1) {
           this.kilometros = 1;
@@ -415,6 +437,10 @@ export class MapaEstablecimientosPage implements OnInit {
 
         // this.kilometros = distStart;
         // this.draw_marks ();
+
+        if (this.position_marker !== null) {
+          this.position_marker.setPosition (new google.maps.LatLng (place.geometry.location.lat (), place.geometry.location.lng ()));
+        }
       });
     });
   }
