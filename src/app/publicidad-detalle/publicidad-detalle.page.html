@@ -11,14 +11,10 @@
     </ion-card>
   </ion-toolbar>
   <ion-slides #slide_categorias pager="false" [options]="slideOptsOne" (ionSlideDidChange)="slides_categoria_changed ()">
-    <ion-slide>
-    </ion-slide>
     <ion-slide *ngFor="let item of categorias">
       <ion-card>
         <p>{{ item.nombre }}</p>
       </ion-card>
-    </ion-slide>
-    <ion-slide>
     </ion-slide>
   </ion-slides>
 </ion-header>

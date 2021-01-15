@@ -14,7 +14,7 @@ export class FavoritosPage implements OnInit {
   @ViewChild (IonSlides, { static: false }) slide: IonSlides;
   slideOptsOne = {
     initialSlide: 0,
-    slidesPerView: 3,
+    slidesPerView: 2,
     spaceBetween: 10,
   };
   profesionales: any [] = [];
