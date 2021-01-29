@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { NavController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
+import { ApiService } from '../services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 
@@ -12,12 +13,14 @@ import * as moment from 'moment';
 export class ReservaExitosaPage implements OnInit {
   data: any;
   date: any;
-  constructor (private route: ActivatedRoute, private navController: NavController) { }
+  constructor (
+    private route: ActivatedRoute,
+    private navController: NavController,
+    private loadingCtrl: LoadingController,
+    private api: ApiService) { }
 
   ngOnInit() {
     this.data = JSON.parse (this.route.snapshot.paramMap.get ('data'));
-    console.log (this.data);
-
     this.date = moment (this.data.fecha).set ('hour', parseInt (this.data.hora.split (':') [0])).set ('minute', parseInt (this.data.hora.split (':') [1]));
   }
 
@@ -51,5 +54,33 @@ export class ReservaExitosaPage implements OnInit {
 
   proceder () {
     this.navController.navigateForward (['datos-peruano-extrajero', this.route.snapshot.paramMap.get ('data')]);
+  }
+
+  async omitir () {
+    const loading = await this.loadingCtrl.create({
+      message: 'Procesando...',
+    });
+
+    await loading.present ();
+
+    let data: any = {};
+    data.id_paciente = this.data.id_paciente;
+    data.id_cita = this.data.cita_id;
+
+    console.log (data);
+
+    // this.api.registrar_antecedentes (data).subscribe ((res:any) => {
+    //   loading.dismiss ();
+    //   console.log (res);
+      
+    //   this.data.sucursal_nombre = res.cita.centro_medico_sede_profesional.info_centro_medico_sucursal.denominacion;
+    //   this.data.sucursal_direccion = res.cita.centro_medico_sede_profesional.info_centro_medico_sucursal.direccion;
+    //   this.data.tipo_cita = res.cita.tipo_cita;
+    //   this.data.enlace_sala = res.cita.enlace_sala;
+    //   this.navController.navigateForward (['confirmacion', JSON.stringify (this.data)]);
+    // }, error => {
+    //   loading.dismiss ();
+    //   console.log (error);
+    // });
   }
 }

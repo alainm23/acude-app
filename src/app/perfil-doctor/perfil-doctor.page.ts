@@ -221,36 +221,51 @@ export class PerfilDoctorPage implements OnInit {
       this.reservar (this.datos.centros_medicos_lista [0]);
     } else {
       let inputs: any [] = [];
+      let size: number = 0;
       this.datos.centros_medicos_lista.forEach ((centro: any) => {
-        inputs.push ({
-          name: 'radio1',
-          type: 'radio',
-          label: centro.info_centro_medico_sucursal_tarjeta_medico.infocentro_medico_tarjeta.nombre_comercial,
-          value: centro,
-        })
+        if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_centro_medico.tipo_reserva === '1') {
+          size++;
+        }
       });
 
-      const alert = await this.alertController.create({
-        header: 'Seleccione un centro de atencion',
-        inputs: inputs,
-        buttons: [
-          {
-            text: 'Cancelar',
-            role: 'cancel',
-            cssClass: 'secondary',
-            handler: () => {
-              console.log('Confirm Cancel');
-            }
-          }, {
-            text: 'Seleccionar',
-            handler: (data: any) => {
-              this.reservar (data);
-            }
+      if (size <= 1) {
+        this.datos.centros_medicos_lista.forEach ((centro: any) => {
+          if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_centro_medico.tipo_reserva === '1') {
+            this.reservar (centro);
           }
-        ]
-      });
+        });
+      } else {
+        this.datos.centros_medicos_lista.forEach ((centro: any) => {
+          inputs.push ({
+            name: 'radio1',
+            type: 'radio',
+            label: centro.info_centro_medico_sucursal_tarjeta_medico.infocentro_medico_tarjeta.nombre_comercial,
+            value: centro,
+          })
+        });
   
-      await alert.present ();
+        const alert = await this.alertController.create({
+          header: 'Seleccione un centro de atencion',
+          inputs: inputs,
+          buttons: [
+            {
+              text: 'Cancelar',
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: () => {
+                console.log('Confirm Cancel');
+              }
+            }, {
+              text: 'Seleccionar',
+              handler: (data: any) => {
+                this.reservar (data);
+              }
+            }
+          ]
+        });
+    
+        await alert.present ();
+      }
     }
   }
 

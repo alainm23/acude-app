@@ -200,7 +200,7 @@ const routes: Routes = [
     loadChildren: () => import('./recuperar-contrasena/recuperar-contrasena.module').then( m => m.RecuperarContrasenaPageModule)
   },
   {
-    path: 'historial-citas',
+    path: 'historial-citas/:mostrar_alerta',
     canActivate: [AuthGuard],
     loadChildren: () => import('./historial-citas/historial-citas.module').then( m => m.HistorialCitasPageModule)
   },

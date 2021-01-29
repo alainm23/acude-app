@@ -54,7 +54,6 @@ export class EncuentraProfesionalListaPage implements OnInit {
 
     this.api.obtener_informacion_profesionales_lista  (this.route.snapshot.paramMap.get ('string_cm')).subscribe ((res: any) => {
       console.log (res);
-
       this.precio_minimo = res.data.precio_minimo;
       this.precio_maximo = res.data.precio_maximo;
       this.min = res.data.verificar_precio;
@@ -63,11 +62,13 @@ export class EncuentraProfesionalListaPage implements OnInit {
       res.data.sucursales.forEach ((sucursal: any) => {
         sucursal.doctores.forEach ((doctor: any) => {
           doctor.info_doctor.direccion = sucursal.direccion;
-          this.profesionales.push  (doctor.info_doctor);
+          doctor.info_doctor.denominacion = sucursal.denominacion;
+          this.profesionales.push (doctor.info_doctor);
         });
       });
 
       this._profesionales = res.data.profesionales;
+      console.log (this.profesionales);
       loading.dismiss ();
     }, (error) => {
       console.log('Error getting location', error);
@@ -358,36 +359,53 @@ export class EncuentraProfesionalListaPage implements OnInit {
       this.reservar (datos, datos.centros_medicos_lista [0]);
     } else {
       let inputs: any [] = [];
+      let size: number = 0;
       datos.centros_medicos_lista.forEach ((centro: any) => {
-        inputs.push ({
-          name: 'radio1',
-          type: 'radio',
-          label: centro.info_centro_medico_sucursal_tarjeta_medico.infocentro_medico_tarjeta.nombre_comercial,
-          value: centro,
-        })
+        if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_centro_medico.tipo_reserva === '1') {
+          size++;
+        }
       });
 
-      const alert = await this.alertController.create({
-        header: 'Seleccione un centro de atencion',
-        inputs: inputs,
-        buttons: [
-          {
-            text: 'Cancelar',
-            role: 'cancel',
-            cssClass: 'secondary',
-            handler: () => {
-              console.log('Confirm Cancel');
-            }
-          }, {
-            text: 'Seleccionar',
-            handler: (data: any) => {
-              this.reservar (datos, data);
-            }
+      if (size <= 1) {
+        datos.centros_medicos_lista.forEach ((centro: any) => {
+          if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_centro_medico.tipo_reserva === '1') {
+            this.reservar (datos, centro);
           }
-        ]
-      });
-  
-      await alert.present();
+        });
+      } else {
+        datos.centros_medicos_lista.forEach ((centro: any) => {
+          if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_centro_medico.tipo_reserva === '1') {
+            inputs.push ({
+              name: 'radio1',
+              type: 'radio',
+              label: datos.denominacion,
+              value: centro,
+            });
+          }
+        });
+
+        const alert = await this.alertController.create({
+          header: 'Seleccione un centro de atencion',
+          inputs: inputs,
+          buttons: [
+            {
+              text: 'Cancelar',
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: () => {
+                console.log('Confirm Cancel');
+              }
+            }, {
+              text: 'Seleccionar',
+              handler: (data: any) => {
+                this.reservar (datos, data);
+              }
+            }
+          ]
+        });
+    
+        await alert.present ();
+      }
     }
   }
 

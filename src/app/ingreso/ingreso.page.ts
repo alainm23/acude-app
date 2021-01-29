@@ -87,6 +87,8 @@ export class IngresoPage implements OnInit {
           } else {
             this.navController.navigateRoot ('home');
           }
+
+          this.api.usuario_changed (this.api.USUARIO_DATA);
         }, (error: any) => {
           loading.dismiss ();
           console.log (error);

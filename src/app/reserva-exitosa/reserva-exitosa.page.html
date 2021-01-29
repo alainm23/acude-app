@@ -19,11 +19,23 @@
     <p class="p-descripcion ion-text-center">{{ data.direccion }}</p>
     <p class="p-hora-dia ion-text-center">{{ get_relative_date () }}, {{ get_date () }}</p>
     <p class="p-hora-dia ion-text-center">{{ get_date_format ('hh:mm A') }}</p>
+    <p class="text-wrap p-descripcion ion-text-center" style="margin-top: 1rem;">
+      Para completar el proceso de reserva es necesario registrar los datos del paciente, por favor presione el botón proceder para continuar
+    </p>
     <!-- <p *ngIf="data?.tipo_cita === 1">
       Con el fin de tener una mejor experiencia en la consulta virtual, presione el botón PROCEDER
     </p> -->
   </ion-card>
   <ion-button class="btn-proxima" (click)="proceder ()">Proceder</ion-button>
+  <!-- <ion-row>
+    <ion-col size="6" class="ion-text-center">
+      <ion-button class="btn-proxima-omitir" (click)="omitir ()">Omitir</ion-button>
+    </ion-col>
+
+    <ion-col size="6" class="ion-text-center">
+      <ion-button class="btn-proxima" (click)="proceder ()">Proceder</ion-button>
+    </ion-col>
+  </ion-row> -->
   <div class="div-foofter">
     <div class="div-linea"></div>
   </div>

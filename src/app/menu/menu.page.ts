@@ -53,7 +53,7 @@ export class MenuPage implements OnInit {
   }
 
   go_historial () {
-    this.navController.navigateForward ('historial-citas');
+    this.navController.navigateForward (['historial-citas', 'false']);
   }
 
   ser_pro () {

@@ -49,6 +49,6 @@ export class ConfirmacionPage implements OnInit {
   }
 
   ver_historial () {
-    this.navController.navigateRoot ('historial-citas');
+    this.navController.navigateRoot (['historial-citas', 'false']);
   }
 }

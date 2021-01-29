@@ -30,7 +30,7 @@
 
 <ion-content>
   <ion-grid>
-    <ion-row class="ion-justify-content-center bajar_card col_padding_eft">
+    <ion-row *ngIf="publicidades.length > 0" class="ion-justify-content-center bajar_card col_padding_eft">
       <ion-col *ngFor="let item of publicidades" size="11" size-md="6">
         <ion-card class="card_list" (click)="ver_detalle_publicidad (item)">
           <ion-avatar>
@@ -41,6 +41,12 @@
             <p class="p_descrip">{{ item.descripcion }}</p>
           </div>
         </ion-card>
+      </ion-col>
+    </ion-row>
+    
+    <ion-row *ngIf="publicidades.length <= 0">
+      <ion-col class="ion-text-center">
+        <h5 class="titulo-favorito">Ninguna publicidad disponible</h5>
       </ion-col>
     </ion-row>
   </ion-grid>

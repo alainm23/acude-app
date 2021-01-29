@@ -33,6 +33,7 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
+import { OneSignal } from '@ionic-native/onesignal/ngx';
 
 // Popovers
 import { SelectIdiomaPageModule } from './popovers/select-idioma/select-idioma.module';
@@ -72,6 +73,7 @@ import { SelectEspecialidadPageModule } from './popovers/select-especialidad/sel
     Clipboard,
     AndroidPermissions,
     LocationAccuracy,
+    OneSignal,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

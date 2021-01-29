@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 
 // Services
 import { ApiService } from '../services/api.service';
-import { AlertController, LoadingController, NavController } from '@ionic/angular';
+import { AlertController, LoadingController, NavController, ToastController } from '@ionic/angular';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { elementAt, filter, finalize } from 'rxjs/operators';
@@ -50,7 +50,8 @@ export class HomePage implements OnInit {
     private loadingController: LoadingController,
     private navController: NavController,
     private storage: Storage,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private toastController: ToastController
   ) {}
 
   async ngOnInit () {
@@ -273,7 +274,7 @@ export class HomePage implements OnInit {
   }
 
   historial () {
-    this.navController.navigateForward ('historial-citas');
+    this.navController.navigateForward (['historial-citas', 'false']);
   }
 
   ver () {

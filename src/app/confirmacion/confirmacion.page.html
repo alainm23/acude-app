@@ -31,10 +31,14 @@
       <p class="p-descripcion-cita">{{ data?.sucursal_direccion }}</p>
     </div>
 
-    <div>
+    <div class="div-bottom-cita">
       <h6 class="titulo-confirmacion" style="margin-bottom: 0px;">Tipo de cita</h6>
       <p class="p-nombre" style="margin: 0px;">{{ get_tipo_cita (data?.tipo_cita) }}</p>
-      <p class="p-descripcion-cita" style="margin: 0px;" *ngIf="data?.tipo_cita === '1'">Enlace: <a [href]="'http://' + data.enlace_sala">{{ data.enlace_sala }}</a></p>
+    </div>
+
+    <div class="div-bottom-cita" *ngIf="data?.tipo_cita === '1'">
+      <h6 class="titulo-confirmacion" style="margin-bottom: 0px;">Codigo de acceso a videollamada</h6>
+      <p class="p-nombre" style="margin: 0px;">{{ data.enlace_sala }}</p>
     </div>
 
     <p class="p-descripcion-plomo">* No hay devoluciones <br>** Cambios de cita hasta 24 horas antes</p>

@@ -5,6 +5,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Storage } from '@ionic/storage';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 import { Platform } from '@ionic/angular';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +16,19 @@ export class ApiService {
   USUARIO_DATA: any;
 
   TITULO_ERROR: string = 'Lo sentimos';
+  private usuario_subject = new Subject<any> ();
   constructor (public http: HttpClient, private fb: Facebook, private platform: Platform) {
     this.URL_BASE = "https://acudeapp.com";
   }
 
+  usuario_changed (data: any) {
+    this.usuario_subject.next (data);
+  }
+
+  get_usuario_observable (): Subject<any> {
+    return this.usuario_subject;
+  }
+  
   login (email: string, password: string) {
     let url = this.URL_BASE + '/api/auth/login';
     return this.http.post (url, {email: email, password: password});

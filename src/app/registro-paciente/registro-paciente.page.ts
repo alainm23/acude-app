@@ -94,12 +94,11 @@ export class RegistroPacientePage implements OnInit {
         this.api.get_user (USUARIO_ACCESS.access_token).subscribe ((USUARIO_DATA: any) => {
           this.api.USUARIO_DATA = USUARIO_DATA.user;
           this.api.USUARIO_DATA.departamento_id = USUARIO_DATA.departamento_id;
-  
-          console.log (this.api.USUARIO_DATA);
-  
+          
           this.storage.set ('USUARIO_DATA', JSON.stringify (this.api.USUARIO_DATA));
           loading.dismiss ();
-  
+          
+          this.api.usuario_changed (this.api.USUARIO_DATA);
           this.navController.navigateRoot ('actualizar-residencia');
         }, (error: any) => {
           loading.dismiss ();

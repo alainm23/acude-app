@@ -11,10 +11,14 @@
     </ion-card>
   </ion-toolbar>
   <ion-slides #slide_categorias pager="false" [options]="slideOptsOne" (ionSlideDidChange)="slides_categoria_changed ()">
+    <ion-slide>	
+    </ion-slide>
     <ion-slide *ngFor="let item of categorias">
       <ion-card>
         <p>{{ item.nombre }}</p>
       </ion-card>
+    </ion-slide>
+    <ion-slide>
     </ion-slide>
   </ion-slides>
 </ion-header>
@@ -31,13 +35,23 @@
             </ion-avatar>
           </ion-slide>
         </ion-slides>
-        <p class="p_descrip">
-          {{ datos?.descripcion }}
-        </p>
-        <div class="div_botones">
-          <ion-button class="btn_mas">Mas información</ion-button>
-          <ion-button class="btn_telefono" (click)="llamar (datos?.telefono_contacto)"><img src="assets/img/grupo-1878.png">Contactar</ion-button>
-        </div>
+        <ng-container *ngIf="publicidades.length > 0">
+          <p class="p_descrip">
+            {{ datos?.descripcion }}
+          </p>
+          <div class="div_botones">
+            <ion-button class="btn_mas">Mas información</ion-button>
+            <ion-button class="btn_telefono" (click)="llamar (datos?.telefono_contacto)"><img src="assets/img/grupo-1878.png">Contactar</ion-button>
+          </div>
+        </ng-container>
+        
+        <ng-container *ngIf="publicidades.length <= 0">
+          <ion-row>
+            <ion-col class="ion-text-center">
+              <h5 class="titulo-favorito">Ninguna publicidad disponible</h5>
+            </ion-col>
+          </ion-row>
+        </ng-container>
       </ion-col>
     </ion-row>
   </ion-grid>

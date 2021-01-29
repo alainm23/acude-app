@@ -26,11 +26,18 @@
     </ion-segment-button>
   </ion-segment>
   <div class="div-list-card">
-    <ion-card *ngFor="let item of citas" class="card-pacientes">
+    <ion-card *ngFor="let item of citas" class="card-pacientes" (click)="ver_cita (item)">
       <h6 class="hl-titulo-doctorres">Dr {{ item.centro_medico_sede_profesional.info_doctor.nombre_completo }}</h6>
       <div class="div-datos div-margin-bottom">
         <p class="p-widht-uno color-categorias">Tipo:</p>
         <p class="p-nombre-categorias">{{ get_tipo_cita (item.tipo_cita) }}</p>
+        &nbsp;
+        <ion-icon style="font-size: 1.2rem; color: red;" *ngIf="item.tipo_cita === '1'" slot="icon-only" name="help-circle"></ion-icon>
+      </div>
+
+      <div *ngIf="item.tipo_cita === '1'" class="div-datos div-margin-bottom">
+        <p class="color-categorias">Codigo de acceso a videollamada:&nbsp;</p>
+        <p class="p-nombre-categorias">{{ item.enlace_sala }}</p>
       </div>
       <div class="div-datos div-flex div-margin-bottom">
         <div class="div-datos div-right-margin">
@@ -50,3 +57,11 @@
     </ion-card>
   </div>
 </ion-content>
+
+<!-- <ion-footer>
+  <ion-item class="ion-text-center ion-text-wrap">
+    <ion-label class="ion-text-wrap">
+      Para poder usar las videollamadas es necesario bajar esta <a href="https://play.google.com/store/apps/details?id=com.discord&hl=es&gl=US">app</a>
+    </ion-label>
+  </ion-item>
+</ion-footer> -->

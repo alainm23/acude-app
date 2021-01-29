@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController, NavController } from '@ionic/angular';
+import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import * as moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
 
 import { ApiService } from '../services/api.service';
 
@@ -15,7 +16,12 @@ export class HistorialCitasPage implements OnInit {
   _citas: any[] = [];
   tipo_citas: string = 'proximas';
   paciente_seleccionado: string = 'todos';
-  constructor (private api: ApiService, private loadingCtrl: LoadingController, private navController: NavController) { }
+  constructor (
+    private api: ApiService,
+    private alertController: AlertController,
+    private loadingCtrl: LoadingController,
+    private route: ActivatedRoute,
+    private navController: NavController) { }
 
   async ngOnInit () {
     
@@ -29,22 +35,24 @@ export class HistorialCitasPage implements OnInit {
     await loading.present ();
 
     this.api.relacionados_pacientes ().subscribe ((res: any) => {
-      loading.dismiss ();
-      console.log (res);
+      this.api.historial_citas ().subscribe ((res: any) => {
+        loading.dismiss ();
+        console.log (res);
+        this.citas = res.citas;
+        this._citas = res.citas;
+        this.segmentChanged (null);
+
+        if (this.route.snapshot.paramMap.get ('mostrar_alerta') === 'true') {
+          this.ver_cita (null);
+        }    
+      }, error => {
+        loading.dismiss ();
+        console.log (error);
+      });
+
       this.pacientes = res.pacientes;
     }, error => {
       loading.dismiss ();
-    });
-
-    this.api.historial_citas ().subscribe ((res: any) => {
-      loading.dismiss ();
-      console.log (res);
-      this.citas = res.citas;
-      this._citas = res.citas;
-      this.segmentChanged (null);
-    }, error => {
-      loading.dismiss ();
-      console.log (error);
     });
   }
 
@@ -132,5 +140,15 @@ export class HistorialCitasPage implements OnInit {
 
   back () {
     this.navController.navigateRoot ('home');
+  }
+
+  async ver_cita (item: any) {
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      message: '<a href="https://ionicframework.com/docs/api/alert">app</a>This is  an alert message.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 }

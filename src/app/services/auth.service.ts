@@ -69,6 +69,7 @@ export class AuthService {
           this.api.USUARIO_DATA.provincia_id = USUARIO_DATA.provincia_id;
 
           this.storage.set ('USUARIO_DATA', JSON.stringify (this.api.USUARIO_DATA));
+
           loading.dismiss ();
 
           if (USUARIO_DATA.departamento_id === 0) {
@@ -76,6 +77,8 @@ export class AuthService {
           } else {
             this.navController.navigateRoot ('home');
           }
+
+          this.api.usuario_changed (this.api.USUARIO_DATA);
         }, (error: any) => {
           loading.dismiss ();
           console.log (error);
@@ -125,6 +128,8 @@ export class AuthService {
             } else {
               this.navController.navigateRoot ('home');
             }
+
+            this.api.usuario_changed (this.api.USUARIO_DATA);
           }, (error: any) => {
             loading.dismiss ();
             console.log (error);
