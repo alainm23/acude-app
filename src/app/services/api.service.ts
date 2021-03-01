@@ -351,8 +351,8 @@ export class ApiService {
     return this.http.get (url, { headers });
   }
 
-  obtener_informacion_profesionales_lista (string_cm: string) {
-    let url = this.URL_BASE + '/api/profesionales/obtener-informacion-lista/' + string_cm;
+  obtener_informacion_profesionales_lista (string_cm: string, especialidad_id: string) {
+    let url = this.URL_BASE + '/api/profesionales/obtener-informacion-lista/' + string_cm + '/' + especialidad_id;
 
     const headers = {
       'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
@@ -526,6 +526,16 @@ export class ApiService {
 
   proximas_sin_pacientes () {
     let url = this.URL_BASE + '/api/cita/proximas-sin-pacientes/' + this.USUARIO_DATA.id;
+    
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.get (url, { headers });
+  }
+
+  informacion_cita (id: number) {
+    let url = this.URL_BASE + '/api/cita/informacion-cita/' + id;
     
     const headers = {
       'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token

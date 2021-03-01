@@ -17,14 +17,16 @@
       </ion-select-option>
     </ion-select>
   </ion-card>
-  <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="tipo_citas" class="ion-segment">
+  
+  <ion-segment (ionChange)="segmentChanged ($event)" [(ngModel)]="tipo_citas" class="ion-segment">
     <ion-segment-button value="pasadas" class="segment-btn-pasada">
-      <ion-label>Pasadas</ion-label>
+      <ion-label>Atendidas</ion-label>
     </ion-segment-button>
     <ion-segment-button value="proximas" class="segment-btn-proximas">
-      <ion-label>Proximas</ion-label>
+      <ion-label>Por atender</ion-label>
     </ion-segment-button>
   </ion-segment>
+  
   <div class="div-list-card">
     <ion-card *ngFor="let item of citas" class="card-pacientes" (click)="ver_cita (item)">
       <h6 class="hl-titulo-doctorres">Dr {{ item.centro_medico_sede_profesional.info_doctor.nombre_completo }}</h6>

@@ -22,6 +22,29 @@ ion-content
 {
     --background: #F5F5F5;
 }
+
+.btnRESERVA
+{
+    text-transform: none;
+    margin-bottom: 7em;
+    margin-top: -1rem;
+    --background: #ffffff;
+    --border-color: #2E5269;
+    --border-style: solid;
+    --border-width: 0.5px;
+    --color: #2E5269;
+    --border-radius: 25px;
+    font-family: PoppinsSemiBold;
+    font-size: 12px;
+    height: 35px;
+    img
+    {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+}
+
 .card-verd
 {
     --background: #18DDD0;

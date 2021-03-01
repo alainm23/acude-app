@@ -5,6 +5,7 @@
     </ion-card>
   </ion-toolbar>
   <ion-slides  pager="false" [options]="slideOptsOne" (ionSlideDidChange)="slides_categoria_changed ()">
+    <ion-slide></ion-slide>
     <ion-slide (click)="slide_to (0)">
       <ion-card>
         <p>Profesional</p>
@@ -15,6 +16,7 @@
         <p>Establecimientos</p>
       </ion-card>
     </ion-slide>
+    <ion-slide></ion-slide>
   </ion-slides>
 </ion-header>
 
@@ -53,7 +55,7 @@
           </div>
           <ion-row class="ion-justify-content-center" style="width: 100%;">
             <ion-col size="6">
-              <ion-button class="btn_salud" (click)="ver (item)">Ver información</ion-button>
+              <ion-button class="btn_salud" (click)="ver (item)">Ver perfil</ion-button>
             </ion-col>
             <ion-col *ngIf="validar_disponibilidad (item) === false" size="6">
               <ion-button (click)="llamar (item.telefono_celular)" class="btn_salud_llmar">
@@ -112,7 +114,7 @@
               <!-- <ion-button class="btn_salud"></ion-button> -->
             </ion-col>
             <ion-col size="6">
-              <ion-button class="btn_salud">Ver clinica</ion-button>
+              <ion-button class="btn_salud">Ver perfil</ion-button>
             </ion-col>
           </ion-row>
         </ion-card>

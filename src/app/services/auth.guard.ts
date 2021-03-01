@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
   constructor (
     private storage: Storage,
     private api: ApiService,
-    private navController: NavController){}
+    private navController: NavController) {}
   canActivate () {
     return this.storage.get ('USUARIO_ACCESS').then (async (user: any) => {
       if (user !== null) {

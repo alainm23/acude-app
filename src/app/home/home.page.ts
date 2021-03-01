@@ -266,7 +266,7 @@ export class HomePage implements OnInit {
 
   filtrar_especialidades (item: any) {
     console.log (item);
-    this.navController.navigateForward (['especialidad', item.id]);
+    this.navController.navigateForward (['especialidad', item.id, item.nombre]);
   }
 
   busqueda_avanzada () {

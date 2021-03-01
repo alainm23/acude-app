@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 // Services
-import { NavController, LoadingController, IonSlides, Platform } from '@ionic/angular';
+import { NavController, LoadingController, IonSlides, Platform, ToastController } from '@ionic/angular';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 declare var google: any;
@@ -22,7 +22,7 @@ export class MapaEstablecimientosPage implements OnInit {
   @ViewChild ('searchbar', { read: ElementRef, static: false }) searchbar: ElementRef;
   map: any = null;
 
-  kilometros: number = -1;
+  kilometros: number = 10;
   latitude: number;
   longitude: number;
   search_text: string = "";
@@ -39,6 +39,7 @@ export class MapaEstablecimientosPage implements OnInit {
   nombre: string;
   image: any;
   position_marker: any = null;
+  buscar_mas_cercano: boolean = true;
   constructor (
     private navController: NavController,
     private geolocation: Geolocation,
@@ -47,6 +48,7 @@ export class MapaEstablecimientosPage implements OnInit {
     private locationAccuracy: LocationAccuracy,
     private androidPermissions: AndroidPermissions,
     private platform: Platform,
+    private toastController: ToastController,
     private route: ActivatedRoute) {}
 
   async ngOnInit () {
@@ -138,21 +140,18 @@ export class MapaEstablecimientosPage implements OnInit {
 
   async getLocationCoordinates () {
     const loading = await this.loadingController.create({
-      message: 'Procesando...',
+      message: 'Buscando a ' + this.kilometros + 'km..'
     });
 
     await loading.present ();
 
     this.geolocation.getCurrentPosition ().then ().catch ();
-
     this.geolocation.getCurrentPosition ({enableHighAccuracy: true}).then ((resp: Geoposition) => {
-      loading.dismiss ();
-
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
 
       this.initMap (resp.coords.latitude, resp.coords.longitude);
-      // this.draw_marks ();
+      this.draw_marks (loading);
       this.initAutocomplete ();
     }).catch ((error) => {
       console.log('Error getting location', error);
@@ -167,36 +166,71 @@ export class MapaEstablecimientosPage implements OnInit {
     this.markers = [];
   }
 
-  async draw_marks () {
-    const loading = await this.loadingController.create({
-      message: 'Procesando...',
-    });
+  async draw_marks (loading: any) {
+    this.api.obtener_centros_medicos  (this.latitude, this.longitude, this.id, this.kilometros.toString ()).subscribe (async (res: any) => {
+      if (this.buscar_mas_cercano) {
+        if (res.sucursales.length <= 0) {
+          if (this.kilometros > 160) {
+            loading.dismiss ();
+            this.buscar_mas_cercano =  false;
+            const toast = await this.toastController.create ({
+              message: 'No encontramos resultados a 320km a la redonda',
+              duration: 2500,
+              position: 'top'
+            });
 
-    await loading.present ();
+            toast.present();
+          } else {
+            this.kilometros = this.kilometros * 2;
+            loading.message = 'Buscando a ' + this.kilometros + 'km..';
+            this.draw_marks (loading);
+          }
+        } else {
+          console.log (res.sucursales);
+          loading.dismiss ();
+          this.clear_markers ();
 
-    this.api.obtener_centros_medicos  (this.latitude, this.longitude, this.id, this.kilometros.toString ()).subscribe ((res: any) => {
-      console.log (res);
-      // if (this.kilometros === -1 && res.sucursales.length > 0) {
-      //   this.kilometros = Math.floor (res.radio_busqueda);
-      //   this.map_pan_to (parseFloat (res.sucursales [0].latitud), parseFloat (res.sucursales [0].longitud));
-      // }
+          // Zoom al punto mas doc mas cercano
+          var bounds = new google.maps.LatLngBounds ();
+          bounds.extend (this.position_marker.getPosition ());
 
-      this.sucursales = res.sucursales;
-      loading.dismiss ();
-      this.clear_markers ();
-      res.sucursales.forEach ((cliente: any) => {
-        let marker: any = new google.maps.Marker ({
-          position: new google.maps.LatLng (parseFloat (cliente.latitud), parseFloat (cliente.longitud)),
-          animation: google.maps.Animation.DROP,
-          map: this.map
+          this.sucursales = res.sucursales;
+          res.sucursales.forEach ((cliente: any) => {
+            let marker: any = new google.maps.Marker ({
+              position: new google.maps.LatLng (parseFloat (cliente.latitud), parseFloat (cliente.longitud)),
+              animation: google.maps.Animation.DROP,
+              map: this.map
+            });
+
+            marker.addListener ("click", () => {
+              this.navController.navigateForward (['perfil-clinica', cliente.id]);
+            });
+
+            bounds.extend (marker.getPosition ());
+            this.markers.push (marker);
+          });
+
+          this.map.fitBounds (bounds);
+          this.buscar_mas_cercano = false;
+        }
+      } else {
+        this.sucursales = res.sucursales;
+        loading.dismiss ();
+        this.clear_markers ();
+        res.sucursales.forEach ((cliente: any) => {
+          let marker: any = new google.maps.Marker ({
+            position: new google.maps.LatLng (parseFloat (cliente.latitud), parseFloat (cliente.longitud)),
+            animation: google.maps.Animation.DROP,
+            map: this.map
+          });
+
+          marker.addListener ("click", () => {
+            this.navController.navigateForward (['perfil-clinica', cliente.id]);
+          });
+
+          this.markers.push (marker);
         });
-
-        marker.addListener ("click", () => {
-          this.navController.navigateForward (['perfil-clinica', cliente.id]);
-        });
-
-        this.markers.push (marker);
-      });
+      }
     }, error => {
       loading.dismiss ();
       console.log (error);
@@ -351,22 +385,32 @@ export class MapaEstablecimientosPage implements OnInit {
         });
       }
 
-      google.maps.event.addListener(this.map, 'idle', () => {
-        var bounds = this.map.getBounds ();
-        var start = bounds.getNorthEast ();
-        var end = bounds.getSouthWest ();
+      google.maps.event.addListener(this.map, 'idle', async () => {
+        if (this.buscar_mas_cercano === false) {
+          const loading = await this.loadingController.create ({
+            message: 'Buscando a ' + this.kilometros + 'km..'
+          });
+      
+          await loading.present ();
 
-        var distStart = google.maps.geometry.spherical.computeDistanceBetween (this.map.getCenter (), start) / 1000.0;
-        var distEnd = google.maps.geometry.spherical.computeDistanceBetween (this.map.getCenter (), end) / 1000.0;
+          var bounds = this.map.getBounds ();
+          var start = bounds.getNorthEast ();
+          var end = bounds.getSouthWest ();
 
-        this.latitude = this.map.getCenter ().lat ();
-        this.longitude = this.map.getCenter ().lng ();
+          var distStart = google.maps.geometry.spherical.computeDistanceBetween (this.map.getCenter (), start) / 1000.0;
+          var distEnd = google.maps.geometry.spherical.computeDistanceBetween (this.map.getCenter (), end) / 1000.0;
 
-        this.kilometros = ((distStart + distEnd) / 2);
-        if (this.kilometros < 1) {
-          this.kilometros = 1;
+          this.latitude = this.map.getCenter ().lat ();
+          this.longitude = this.map.getCenter ().lng ();
+
+          this.kilometros = ((distStart + distEnd) / 2);
+          if (this.kilometros < 1) {
+            this.kilometros = 1;
+          }
+          this.clear_markers ();
+          
+          this.draw_marks (loading);
         }
-        this.draw_marks ();
       });
     }
   }
@@ -410,38 +454,32 @@ export class MapaEstablecimientosPage implements OnInit {
     let autocomplete = new google.maps.places.Autocomplete (searchInput);
 
     google.maps.event.addListener (autocomplete, 'place_changed', async () => {
+      this.buscar_mas_cercano = true;
+      this.kilometros = 10;
+      this.clear_markers ();
+
       const loading = await this.loadingController.create({
-        message: 'Procesando...',
+        message: 'Buscando a ' + this.kilometros + 'km..'
       });
 
-      await loading.present();
-      
-      await loading.dismiss ().then(() => {
-        let place = autocomplete.getPlace ()
-        this.search_text = place.formatted_address;
+      await loading.present ();
 
-        // this.kilometros = 1;
-        // this.latitude = place.geometry.location.lat ();
-        // this.longitude = place.geometry.location.lng ();
+      let place = autocomplete.getPlace ()
+      this.search_text = place.formatted_address;
 
-        this.map_pan_to (place.geometry.location.lat (), place.geometry.location.lng ());
+      let location = new google.maps.LatLng (place.geometry.location.lat (), place.geometry.location.lng ());
 
-        // var bounds = this.map.getBounds ();
-        // var start = bounds.getNorthEast ();
-        // var end = bounds.getSouthWest ();
+      this.latitude = place.geometry.location.lat ();
+      this.longitude = place.geometry.location.lng ();
 
-        // var distStart = google.maps.geometry.spherical.computeDistanceBetween (this.map.getCenter (), start) / 1000.0;
-        // var distEnd = google.maps.geometry.spherical.computeDistanceBetween (this.map.getCenter (), end) / 1000.0;
+      this.map.setZoom (17);
+      this.map.panTo (location);
 
-        // console.log ('K', ((distStart + distEnd) / 2));
+      this.draw_marks (loading);
 
-        // this.kilometros = distStart;
-        // this.draw_marks ();
-
-        if (this.position_marker !== null) {
-          this.position_marker.setPosition (new google.maps.LatLng (place.geometry.location.lat (), place.geometry.location.lng ()));
-        }
-      });
+      if (this.position_marker !== null) {
+        this.position_marker.setPosition (new google.maps.LatLng (place.geometry.location.lat (), place.geometry.location.lng ()));
+      }
     });
   }
 
@@ -452,10 +490,21 @@ export class MapaEstablecimientosPage implements OnInit {
   }
 
   slides_categoria_changed () {
-    this.slides.getActiveIndex ().then ((index: number) => {
+    this.slides.getActiveIndex ().then (async (index: number) => {
       console.log (index);
       this.id = this.tipos_centros_medicos [index].id;
-      this.draw_marks ();
+
+      this.buscar_mas_cercano = true;
+      this.kilometros = 10;
+      this.clear_markers ();
+
+      const loading = await this.loadingController.create({
+        message: 'Buscando a ' + this.kilometros + 'km..'
+      });
+
+      await loading.present ();
+
+      this.draw_marks (loading);
     });
   }
 

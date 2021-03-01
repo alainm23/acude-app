@@ -15,8 +15,8 @@ import { error } from 'protractor';
 })
 export class EscojeFechaHoraPage implements OnInit {
   date_now: any = moment ();
-  date_selected: any = moment ().add (1, 'days');
-  min_date: any = moment ().add (1, 'days').format ();
+  date_selected: moment.Moment = moment ();
+  min_date: any = moment ().format ();
   hora_selected: string = '';
   tipo_cita: boolean = false;
 
@@ -40,7 +40,7 @@ export class EscojeFechaHoraPage implements OnInit {
     this.direccion = JSON.parse (this.route.snapshot.paramMap.get ('centro')).direccion;
     this.editar = JSON.parse (this.route.snapshot.paramMap.get ('centro')).editar;
     this.cita_id = JSON.parse (this.route.snapshot.paramMap.get ('centro')).cita_id;
-    
+
     const loading = await this.loadingController.create ({
       message: 'Procesando...',
     });
@@ -48,21 +48,18 @@ export class EscojeFechaHoraPage implements OnInit {
     await loading.present ();
     
     this.api.verificar_disponibilidad (JSON.parse (this.route.snapshot.paramMap.get ('centro')).centro_medico_id).subscribe ((res: any) => {
-      loading.dismiss ();
-
-      this.citas = res.disponibilidad.citas;
-      this.horarios = res.disponibilidad.horarios;
+      this.api.obtener_informacion_completa (this.doctor.id).subscribe ((_res: any) => {
+        this.citas = res.disponibilidad.citas;
+        this.horarios = res.disponibilidad.horarios;
+        this.bloqueos = _res.data.profesional.bloqueos_hora;
+        loading.dismiss ();
+      }, error => {
+        console.log (error);
+      });
     }, error => {
       console.log (error);
       loading.dismiss ();
     });
-
-    this.api.obtener_informacion_completa (this.doctor.id).subscribe ((res: any) => {
-      this.bloqueos = res.data.profesional.bloqueos_hora;
-      console.log (this.bloqueos);
-    }, error => {
-      console.log (error);
-    })
   }
 
   update_day (value: number) {
@@ -97,7 +94,7 @@ export class EscojeFechaHoraPage implements OnInit {
   valid_day () {
     let returned: boolean = false;
 
-    if (this.date_selected.isSame (moment().add (1, 'days'), 'day')) {
+    if (this.date_selected.isSame (this.date_now, 'day')) {
       returned = true;
     }
 
@@ -165,7 +162,14 @@ export class EscojeFechaHoraPage implements OnInit {
     for (let hora_creada = parseInt (hora_inicio); hora_creada <= parseInt (hora_inicio) + horas_diferencia; hora_creada++) {
       if (hora_creada > rango_inicio && hora_creada <= rango_fin) {
         let hour = moment (this.date_selected).set ('hour', hora_creada).set ('minute', 0).format ('LT');
-        list.push (hour);
+        if (this.date_selected.isSame (this.date_now, 'day')) {
+          let fecha = this.date_selected.format ('YYYY[-]MM[-]DD');
+          if (moment ().add (30, 'minutes').diff (moment (fecha + ' ' + hour + ':00'), 'minutes') <= 0) {
+            list.push (hour);
+          }
+        } else {
+          list.push (hour);
+        }
       }
     }
 
@@ -240,7 +244,7 @@ export class EscojeFechaHoraPage implements OnInit {
     } else {
       const toast = await this.toastController.create({
         message: 'Horario no disponible',
-        duration: 2000
+        duration: 1500
       });
 
       toast.present();

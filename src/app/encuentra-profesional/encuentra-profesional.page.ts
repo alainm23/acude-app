@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 // Services
-import { NavController, LoadingController, Platform } from '@ionic/angular';
+import { NavController, LoadingController, Platform, ToastController } from '@ionic/angular';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 declare var google: any;
@@ -35,6 +35,7 @@ export class EncuentraProfesionalPage implements OnInit {
   centros_medicos: any [] = [];
   image: any;
   position_marker: any = null;
+  buscar_mas_cercano: boolean = true;
   constructor (
     private navController: NavController,
     private geolocation: Geolocation,
@@ -44,6 +45,7 @@ export class EncuentraProfesionalPage implements OnInit {
     private androidPermissions: AndroidPermissions,
     private platform: Platform,
     private storage: Storage,
+    private toastController: ToastController,
     private route: ActivatedRoute) {}
 
   async ngOnInit () {
@@ -129,7 +131,7 @@ export class EncuentraProfesionalPage implements OnInit {
 
   async getLocationCoordinates () {
     const loading = await this.loadingController.create({
-      message: 'Procesando...',
+      message: 'Buscando profesionales a ' + this.kilometros + 'km..'
     });
 
     await loading.present ();
@@ -138,13 +140,11 @@ export class EncuentraProfesionalPage implements OnInit {
     if (DEPARTAMENTO_SELECCIONADO === null) {
       this.geolocation.getCurrentPosition ().then ().catch ();
       this.geolocation.getCurrentPosition ({enableHighAccuracy: true}).then ((resp: Geoposition) => {
-        loading.dismiss ();
-
         this.latitude = resp.coords.latitude;
         this.longitude = resp.coords.longitude;
 
         this.initMap (resp.coords.latitude, resp.coords.longitude);
-        this.draw_marks ();
+        this.draw_marks (loading);
         this.initAutocomplete ();
       }).catch ((error) => {
         loading.dismiss ();  
@@ -154,13 +154,11 @@ export class EncuentraProfesionalPage implements OnInit {
       if (DEPARTAMENTO_SELECCIONADO === this.api.USUARIO_DATA.departamento_id) {
         this.geolocation.getCurrentPosition ().then ().catch ();
         this.geolocation.getCurrentPosition ({enableHighAccuracy: true}).then ((resp: Geoposition) => {
-          loading.dismiss ();
-
           this.latitude = resp.coords.latitude;
           this.longitude = resp.coords.longitude;
 
           this.initMap (resp.coords.latitude, resp.coords.longitude);
-          this.draw_marks ();
+          this.draw_marks (loading);
           this.initAutocomplete ();
         }).catch ((error) => {
           loading.dismiss ();  
@@ -169,14 +167,12 @@ export class EncuentraProfesionalPage implements OnInit {
       } else {
         let DEPARTAMENTO_SELECCIONADO_DATA = JSON.parse (await this.storage.get ('DEPARTAMENTO_SELECCIONADO_DATA'));
 
-        loading.dismiss ();
-
         this.latitude = parseFloat (DEPARTAMENTO_SELECCIONADO_DATA.latitud);
         this.longitude = parseFloat (DEPARTAMENTO_SELECCIONADO_DATA.longitud);
         this.zona = DEPARTAMENTO_SELECCIONADO_DATA.nombre;
 
         this.initMap (this.latitude, this.longitude);
-        this.draw_marks ();
+        this.draw_marks (loading);
         this.initAutocomplete ();
       }
     }
@@ -190,34 +186,75 @@ export class EncuentraProfesionalPage implements OnInit {
     this.markers = [];
   }
 
-  async draw_marks () {
-    const loading = await this.loadingController.create({
-      message: 'Procesando...',
-    });
+  async draw_marks (loading : any) {
+    this.api.obtener_profesionales_ubicacion ('especialidad', this.route.snapshot.paramMap.get ('id'), this.latitude, this.longitude, this.kilometros).subscribe (async (res: any) => {
+      if (this.buscar_mas_cercano) {
+        if (res.profesionales.length <= 0) {
+          if (this.kilometros > 160) {
+            loading.dismiss ();
+            this.buscar_mas_cercano =  false;
+            const toast = await this.toastController.create ({
+              message: 'No encontramos profesionales a 320km a la redonda',
+              duration: 2500,
+              position: 'top'
+            });
 
-    await loading.present ();
+            toast.present();
+          } else {
+            this.kilometros = this.kilometros * 2;
+            loading.message = 'Buscando profesionales a ' + this.kilometros + 'km..';
+            this.draw_marks (loading);
+          }
+        } else {
+          console.log (res.profesionales);
+          loading.dismiss ();
+          this.clear_markers ();
 
-    this.api.obtener_profesionales_ubicacion ('especialidad', this.route.snapshot.paramMap.get ('id'), this.latitude, this.longitude, this.kilometros).subscribe ((res: any) => {
-      console.log (res);
-      loading.dismiss ();
+          // Zoom al punto mas doc mas cercano
+          var bounds = new google.maps.LatLngBounds ();
+          bounds.extend (this.position_marker.getPosition ());
 
-      this.clear_markers ();
+          this.consultorios = res.profesionales;
+          res.profesionales.forEach ((cliente: any) => {
+            let marker: any = new google.maps.Marker ({
+              position: new google.maps.LatLng (parseFloat (cliente.latitud) , parseFloat (cliente.longitud)),
+              animation: google.maps.Animation.DROP,
+              map: this.map
+            });
 
-      this.consultorios = res.profesionales;
-      res.profesionales.forEach((cliente: any) => {
-        let marker: any = new google.maps.Marker ({
-          position: new google.maps.LatLng (parseFloat (cliente.latitud) , parseFloat (cliente.longitud)),
-          animation: google.maps.Animation.DROP,
-          map: this.map
-        });
+            marker.addListener ("click", () => {
+              this.navController.navigateForward (['perfil-doctor', cliente.id]);
+            });
 
-        marker.addListener ("click", () => {
-          this.navController.navigateForward (['perfil-doctor', cliente.id]);
-        });
+            bounds.extend (marker.getPosition ());
+            this.markers.push (marker);
+          });
 
-        this.markers.push (marker);
-      });
+          this.map.fitBounds (bounds);
+          this.buscar_mas_cercano = false;
+        }
+      } else {
+        loading.dismiss ();
+        this.clear_markers ();
+        console.log (res);
+
+        this.consultorios = res.profesionales;
+        res.profesionales.forEach ((cliente: any) => {
+          let marker: any = new google.maps.Marker ({
+            position: new google.maps.LatLng (parseFloat (cliente.latitud) , parseFloat (cliente.longitud)),
+            animation: google.maps.Animation.DROP,
+            map: this.map
+          });
+
+          marker.addListener ("click", () => {
+            this.navController.navigateForward (['perfil-doctor', cliente.id]);
+          });
+
+          this.markers.push (marker);
+        }); 
+      }
     }, (error: any) => {
+      loading.dismiss ();
       console.log (error);
     });
   }
@@ -370,21 +407,28 @@ export class EncuentraProfesionalPage implements OnInit {
         });
       }
       
-      google.maps.event.addListener(this.map, 'idle', () => {
-        var bounds = this.map.getBounds ();
-        var start = bounds.getNorthEast ();
-        var end = bounds.getSouthWest ();
+      google.maps.event.addListener (this.map, 'idle', async () => {
+        if (this.buscar_mas_cercano === false) {
+          const loading = await this.loadingController.create ({
+            message: 'Buscando profesionales...',
+          });
+      
+          await loading.present ();
 
-        var distStart = google.maps.geometry.spherical.computeDistanceBetween (this.map.getCenter (), start) / 1000.0;
-        var distEnd = google.maps.geometry.spherical.computeDistanceBetween (this.map.getCenter (), end) / 1000.0;
+          var bounds = this.map.getBounds ();
+          var start = bounds.getNorthEast ();
+          var end = bounds.getSouthWest ();
 
-        this.latitude = this.map.getCenter ().lat ();
-        this.longitude = this.map.getCenter ().lng ();
+          var distStart = google.maps.geometry.spherical.computeDistanceBetween (this.map.getCenter (), start) / 1000.0;
+          var distEnd = google.maps.geometry.spherical.computeDistanceBetween (this.map.getCenter (), end) / 1000.0;
 
-        console.log ('K', ((distStart + distEnd) / 2));
+          this.latitude = this.map.getCenter ().lat ();
+          this.longitude = this.map.getCenter ().lng ();
 
-        this.kilometros = ((distStart + distEnd) / 2);
-        this.draw_marks ();
+          this.kilometros = ((distStart + distEnd) / 2);
+          this.clear_markers ();
+          this.draw_marks (loading);
+        }
       });
     }
   }
@@ -393,29 +437,21 @@ export class EncuentraProfesionalPage implements OnInit {
     this.navController.back ();
   }
 
-  update_kilometros (value: number) {
-    this.kilometros += value;
-
-    if (this.kilometros < 1) {
-      this.kilometros = 1;
-    } 
-
-    if (this.consultorios.length >= 10) {
-      // this.kilometros = this.kilometros-value;
-    }
-
-    this.draw_marks ();
-  }
-
   ver_lista () {
     let string_cm: string = this.consultorios.map ((elem: any) => {
       return elem.id_sucursal;
     }).join (",");
+
     if (string_cm === '') {
       string_cm = 'null';
     }
-    
-    this.navController.navigateForward (['encuentra-profesional-lista', string_cm, this.nombre]);  
+
+    console.log (this.consultorios);
+    this.navController.navigateForward ([
+      'encuentra-profesional-lista',
+      string_cm, this.nombre,
+      this.route.snapshot.paramMap.get ('id')
+    ]);  
   }
 
   initAutocomplete () {
@@ -428,29 +464,32 @@ export class EncuentraProfesionalPage implements OnInit {
     let autocomplete = new google.maps.places.Autocomplete (searchInput);
 
     google.maps.event.addListener (autocomplete, 'place_changed', async () => {
+      this.buscar_mas_cercano = true;
+      this.kilometros = 10;
+      this.clear_markers ();
+
       const loading = await this.loadingController.create({
-        message: 'Procesando...',
+        message: 'Buscando profesionales...',
       });
 
-      await loading.present();
+      await loading.present ();
       
-      await loading.dismiss ().then(() => {
-        let place = autocomplete.getPlace ()
-        this.search_text = place.formatted_address;
+      let place = autocomplete.getPlace ()
+      this.search_text = place.formatted_address;
 
-        let location = new google.maps.LatLng (place.geometry.location.lat (), place.geometry.location.lng ());
+      let location = new google.maps.LatLng (place.geometry.location.lat (), place.geometry.location.lng ());
 
-        this.latitude = place.geometry.location.lat ();
-        this.longitude = place.geometry.location.lng ();
+      this.latitude = place.geometry.location.lat ();
+      this.longitude = place.geometry.location.lng ();
 
-        this.map.setZoom (17);
-        this.map.panTo (location);
-        this.draw_marks ();
+      this.map.setZoom (17);
+      this.map.panTo (location);
 
-        if (this.position_marker !== null) {
-          this.position_marker.setPosition (new google.maps.LatLng (place.geometry.location.lat (), place.geometry.location.lng ()));
-        }
-      });
+      this.draw_marks (loading);
+
+      if (this.position_marker !== null) {
+        this.position_marker.setPosition (new google.maps.LatLng (place.geometry.location.lat (), place.geometry.location.lng ()));
+      }
     });
   }
 

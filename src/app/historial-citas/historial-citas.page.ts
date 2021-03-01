@@ -95,30 +95,16 @@ export class HistorialCitasPage implements OnInit {
 
     if (this.tipo_citas === 'proximas') {
       this.citas = this.citas.filter ((item: any) => {
-        let today = moment ();
-        let data = moment (item.fecha + ' ' + item.hora);
-
-        console.log (data);
-        console.log (data.diff (today));
-
-        return data.diff (today) > 0;
+        return item.estado === '0';
       });
     } else {
       this.citas = this.citas.filter ((item: any) => {
-        let today = moment ();
-        let data = moment (item.fecha + ' ' + item.hora);
-
-        console.log (data);
-        console.log (data.diff (today));
-
-        return data.diff (today) < 0;
+        return item.estado === '1';
       });
     }
   }
 
   editar (item: any) {
-    console.log (item);
-
     let data: any = {
       cita_id: item.id,
       centro_medico_id: item.id_centro_medico_profesional,
@@ -143,12 +129,21 @@ export class HistorialCitasPage implements OnInit {
   }
 
   async ver_cita (item: any) {
-    const alert = await this.alertController.create({
-      header: 'Alert',
-      message: '<a href="https://ionicframework.com/docs/api/alert">app</a>This is  an alert message.',
-      buttons: ['OK']
-    });
+    console.log (item);
 
-    await alert.present();
+    if (this.tipo_citas === 'proximas') {
+      if (item.tipo_cita === "1") {
+        this.navController.navigateForward (['cita-detalle', JSON.stringify ({
+          nombre_paciente: item.paciente.nombres + ' ' + item.paciente.apellidos,
+          doctor_nombre: item.centro_medico_sede_profesional.info_doctor.nombre_completo,
+          fecha: item.fecha,
+          hora: item.hora,
+          tipo_cita: item.tipo_cita,
+          enlace_sala: item.enlace_sala
+        })]);
+      }
+    } else {
+      this.navController.navigateForward (['cita-resultados', item.id]);
+    }
   }
 }

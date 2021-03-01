@@ -36,6 +36,13 @@ ion-header
         display: flex;
         align-items: center;
         font-family: MontserratSemiBold;
+        position: relative;
+        ion-buttons
+        {
+            position: absolute;
+            left: 0;
+            z-index: 1;
+        }
     }
 }
 ion-content
@@ -234,4 +241,3 @@ ion-input.padding_right_input
     }
     
 }
-

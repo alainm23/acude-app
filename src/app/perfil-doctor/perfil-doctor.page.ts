@@ -204,14 +204,21 @@ export class PerfilDoctorPage implements OnInit {
       brinda_telemedicina = '1';
     }
 
+    console.log (this.datos);
+    console.log (centro);
+
     this.navController.navigateForward (
-      ['escoje-fecha-hora', JSON.stringify ({
+      ['escoje-fecha-hora',
+      JSON.stringify ({
         id: this.datos.id,
         nombre_completo: this.datos.nombre_completo,
         especialidad: this.datos.especialidad,
         brinda_telemedicina: brinda_telemedicina,
-        fotografia: this.datos.fotografia
-      }), JSON.stringify (data)]
+        fotografia: this.datos.fotografia,
+        telefono: this.datos.telefono_celular
+      }),
+      JSON.stringify (data)
+      ]
     );
   }
 

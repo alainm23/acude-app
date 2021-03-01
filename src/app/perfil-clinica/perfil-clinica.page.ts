@@ -51,8 +51,9 @@ export class PerfilClinicaPage implements OnInit {
         this.initMap ();
       }
 
-      this.api.get_verificar_favorito (this.sucursal.id).subscribe ((res) => {
-        console.log (res);
+      this.api.get_verificar_favorito (this.sucursal.id).subscribe ((res: any) => {
+        console.log ('get_verificar_favorito', res);
+        this.favorito = res.estado_favorito === 1;
       });
 
       // if (res.estado_favorito === 1) {

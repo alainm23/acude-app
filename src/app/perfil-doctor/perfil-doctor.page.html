@@ -38,8 +38,14 @@
               <p style="margin-top: 0px;">{{ datos?.especialidad?.categoria_especialidad?.siglas }} {{ datos?.numero_colegiatura_cmp }}</p>
             </ion-col>
             <ion-col size="6" class="ion-no-padding">
-              <p class="p_años" *ngIf="datos?.anio_colegiatura !== null">{{ get_tiempo_experiencia (datos?.anio_colegiatura) }} de experiencia</p>
-              <p class="p_años" *ngIf="datos?.brinda_telemedicina === '1'">Atiende via telemedicina</p>
+              <ion-icon style="font-size: 24px; color: #875FB6;" name="videocam-outline"></ion-icon>
+              <p class="p_años" *ngIf="datos?.anio_colegiatura !== null">
+                {{ get_tiempo_experiencia (datos?.anio_colegiatura) }} de experiencia
+              </p>
+              <!-- <p class="p_años" *ngIf="datos?.brinda_telemedicina === '1'">
+                
+                <!-- Atiende via telemedicina
+              </p> -->
             </ion-col>
             <ion-col size="6" class="ion-no-padding ion-text-end">
               <span class="p_años" *ngFor="let item of datos?.listaidiomas; last as islast">

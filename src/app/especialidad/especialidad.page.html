@@ -16,7 +16,7 @@
 </ion-header>
 
 <ion-content>
-  <p class="p_busqueda">Especialidades médicas</p>
+  <p class="p_busqueda">{{ especialidad_nombre }} - Especialidades</p>
   <ion-card class="ion-no-margin card_list">
     <ion-list>
       <ion-item (click)="encontrar_profesional (item)" *ngFor="let item of especialidades">

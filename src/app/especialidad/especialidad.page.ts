@@ -14,6 +14,7 @@ export class EspecialidadPage implements OnInit {
   especialidades: any [] = [];
   _especialidades: any [] = [];
   search_text: string = '';
+  especialidad_nombre: string = '';
   constructor (
     private navController: NavController,
     private api: ApiService,
@@ -28,6 +29,7 @@ export class EspecialidadPage implements OnInit {
 
     await loading.present ();
 
+    this.especialidad_nombre = this.route.snapshot.paramMap.get ('nombre');
     this.api.get_especialidad_by_profesionales (this.route.snapshot.paramMap.get ('id')).subscribe ((res: any) => {
       loading.dismiss ();
       this.especialidades = res.especialidades;

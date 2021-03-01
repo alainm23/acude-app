@@ -20,10 +20,9 @@
             </div>
             <div class="div_flex2">
               <img (click)="cambiar_sucursal ($event)" src="assets/img/grupo-1829.png">
-              <!--<ion-icon (click)="toggle_favorito ()" [name]="favorito === true ? 'heart' : 'heart-outline'" class="icon_corazon"></ion-icon>-->
-              <div class="div-like">
-                <img src="assets/img/D6dSLWtif.png" class="img-like">
-                <img src="assets/img/D6dSLWtif-activo.png" class="img-like-activo">
+              <div (click)="toggle_favorito ()" class="div-like">
+                <img *ngIf="favorito === false" src="assets/img/D6dSLWtif.png" class="img-like">
+                <img *ngIf="favorito === true" src="assets/img/D6dSLWtif-activo.png" class="img-like-activo">
               </div>
             </div>
           </div>

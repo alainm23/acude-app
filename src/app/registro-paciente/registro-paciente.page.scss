@@ -36,6 +36,17 @@ ion-header
         display: flex;
         align-items: center;
         font-family: MontserratSemiBold;
+        position: relative;
+        ion-title
+        {
+            font-size: 1rem;
+        }
+        ion-buttons
+        {
+            position: absolute;
+            left: 0;
+            z-index: 1;
+        }
     }
 }
 ion-content

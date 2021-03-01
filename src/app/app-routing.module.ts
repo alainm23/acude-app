@@ -34,7 +34,7 @@ const routes: Routes = [
     loadChildren: () => import('./actualizar-residencia/actualizar-residencia.module').then( m => m.ActualizarResidenciaPageModule)
   },
   {
-    path: 'especialidad/:id',
+    path: 'especialidad/:id/:nombre',
     canActivate: [AuthGuard],
     loadChildren: () => import('./especialidad/especialidad.module').then( m => m.EspecialidadPageModule)
   },
@@ -55,7 +55,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'encuentra-profesional-lista/:string_cm/:nombre',
+    path: 'encuentra-profesional-lista/:string_cm/:nombre/:id',
     canActivate: [AuthGuard],
     loadChildren: () => import('./encuentra-profesional-lista/encuentra-profesional-lista.module').then( m => m.EncuentraProfesionalListaPageModule)
   },
@@ -204,7 +204,16 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () => import('./historial-citas/historial-citas.module').then( m => m.HistorialCitasPageModule)
   },
-
+  {
+    path: 'cita-detalle/:id',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./cita-detalle/cita-detalle.module').then( m => m.CitaDetallePageModule)
+  },
+  {
+    path: 'cita-resultados/:id',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./cita-resultados/cita-resultados.module').then( m => m.CitaResultadosPageModule)
+  }
 
 
 ];

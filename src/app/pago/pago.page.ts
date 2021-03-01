@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PagoService } from '../services/pago.service';
 import { ApiService } from '../services/api.service';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
-import { error } from 'protractor';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 // Forms
 import { FormGroup , FormControl, Validators } from '@angular/forms';
@@ -29,6 +29,7 @@ export class PagoPage implements OnInit {
     private api: ApiService,
     private storage: Storage,
     private alertController: AlertController,
+    private callNumber: CallNumber,
     private navController: NavController) { }
 
   ngOnInit () {
@@ -44,8 +45,9 @@ export class PagoPage implements OnInit {
     
     this.doctor = JSON.parse (this.route.snapshot.paramMap.get ('doctor'));
     this.data = JSON.parse (this.route.snapshot.paramMap.get ('data'));
+    // this.data.monto = 0;
 
-    console.log (this.data);
+    console.log (this.doctor);
     this.datetime = moment (this.data.fecha).set ('hour', parseInt (this.data.hora.split (':') [0])).set ('minute', parseInt (this.data.hora.split (':') [1]));
 
     this.pago_subscribe = this.pago.get_pago_solicitado ().subscribe (async (token) => {
@@ -110,36 +112,72 @@ export class PagoPage implements OnInit {
   }
 
   async submit () {    
-    const loading = await this.loadingCtrl.create({
+    const loading = await this.loadingCtrl.create ({
       message: 'Procesando...',
     });
 
     await loading.present ();
 
-    let request: any = {
-      id_user: this.api.USUARIO_DATA.id,
-      nombre_tarjeta: this.form.value.nombre_tarjeta,
-      apellido_tarjeta: this.form.value.apellido_tarjeta,
-      telefono_tarjeta: this.form.value.telefono_tarjeta,
-      direccion: this.form.value.direccion,
-      ciudad: this.form.value.ciudad,
-    };
+    if (this.data.monto <= 0) {
+      let data: any = {
+        id_user: this.api.USUARIO_DATA.id,
+        tokenculqi: '',
+        monto: 0,
+        fecha: this.data.fecha,
+        hora: this.data.hora,
+        tipo_cita: this.data.tipo_cita,
+        id_centro_medico_profesional: this.data.id_centro_medico_profesional,
+      };
 
-    console.log (request);
+      this.api.registrar_cita (data).subscribe ((res: any) => {
+        loading.dismiss ();
+        console.log (res);
 
-    this.api.actualizar_datos_pago (request).subscribe ((USUARIO_DATA: any) => {
-      console.log (USUARIO_DATA);
-      this.api.USUARIO_DATA = USUARIO_DATA.user;
-      this.storage.set ('USUARIO_DATA', JSON.stringify (this.api.USUARIO_DATA));
+        let request: any = {
+          doctor: this.doctor,
+          fecha: this.data.fecha,
+          hora: this.data.hora,
+          cita_id: res.cita.id,
+          monto: this.data.monto,
+          direccion: this.data.direccion,
+          tipo_cita: this.data.tipo_cita
+        };
 
-      this.pago.cfgFormulario ("Pago por servicio", this.get_pago_formula (this.data.monto) * 100);
-      loading.dismiss ().then (() => {
-        this.pago.open ();
+        this.navController.navigateRoot (['reserva-exitosa', JSON.stringify (request)]);
+      }, async error => {
+        loading.dismiss ();
+        console.log (JSON.parse (error.error.message));
+        const alert = await this.alertController.create({
+          message: 'Ha ocurrido un error en el pago. Vuelva a intentarlo.',
+          buttons: ['OK']
+        });
+    
+        await alert.present();
       });
-    }, error => {
-      loading.dismiss ();
-      console.log ('Error', error);
-    });
+    } else {
+      let request: any = {
+        id_user: this.api.USUARIO_DATA.id,
+        nombre_tarjeta: this.form.value.nombre_tarjeta,
+        apellido_tarjeta: this.form.value.apellido_tarjeta,
+        telefono_tarjeta: this.form.value.telefono_tarjeta,
+        direccion: this.form.value.direccion,
+        ciudad: this.form.value.ciudad,
+      };
+  
+      console.log (request);
+
+      this.api.actualizar_datos_pago (request).subscribe ((USUARIO_DATA: any) => {
+        this.api.USUARIO_DATA = USUARIO_DATA.user;
+        this.storage.set ('USUARIO_DATA', JSON.stringify (this.api.USUARIO_DATA));
+        this.pago.cfgFormulario ("Pago por servicio", this.get_pago_formula (this.data.monto) * 100);
+        loading.dismiss ().then (() => {
+          this.pago.open ();
+        });
+      }, error => {
+        loading.dismiss ();
+        console.log ('Error', error);
+      });
+    }
   }
 
   get_pago_formula (monto: string) {
@@ -178,5 +216,12 @@ export class PagoPage implements OnInit {
 
   back () {
     this.navController.back ();
+  }
+
+  llamar () {
+    console.log (this.doctor.telefono);
+    this.callNumber.callNumber (this.doctor.telefono, true)
+    .then (res => console.log ('Launched dialer!', res))
+    .catch (err => console.log ('Error launching dialer', err));
   }
 }

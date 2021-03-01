@@ -1,0 +1,47 @@
+<ion-content>
+  <ion-card class="card-verd">
+    <ion-label (click)="back ()" class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>Instrucciones</ion-label>
+  </ion-card>
+  <ion-card class="card-blanco">
+    <h6 class="h6-titulo ion-text-center">Instrucciones</h6>
+    <div class="div-bottom-cita">
+      <h6 class="titulo-confirmacion">Paciente</h6>
+      <p class="p-nombre">{{ data?.nombre_paciente }}</p>
+    </div>
+    <div class="div-bottom-cita">
+      <h6 class="titulo-confirmacion">Doctor</h6>
+      <p class="p-nombre">{{ data?.doctor_nombre }}</p>
+    </div>
+    <div class="div-bottom-cita">
+      <h6 class="titulo-confirmacion">Cuando</h6>
+      <p class="p-nombre">{{ get_relative_date () }}, {{ get_date () }}</p>
+      <p class="p-descripcion-cita">{{ get_date_format ('hh:mm A') }}</p>
+    </div>
+    <!-- <div class="div-bottom-cita">
+      <h6 class="titulo-confirmacion">Lugar de atención</h6>
+      <p class="p-nombre">{{ data?.sucursal_nombre }}</p>
+      <p class="p-descripcion-cita">{{ data?.sucursal_direccion }}</p>
+    </div> -->
+
+    <div class="div-bottom-cita">
+      <h6 class="titulo-confirmacion" style="margin-bottom: 0px;">Tipo de cita</h6>
+      <p class="p-nombre">{{ get_tipo_cita (data?.tipo_cita) }}</p>
+    </div>
+
+    <!-- *ngIf="data?.tipo_cita === '1'" -->
+
+    <div style="position: relative;" class="div-bottom-cita">
+      <h6 class="titulo-confirmacion" style="margin-bottom: 0px;">Codigo de acceso a videollamada</h6>
+      <p class="p-nombre">{{ data?.enlace_sala }}</p>
+      <ion-icon (click)="share ()" style="font-size: 24px; position: absolute; right: 0; top: 0;" name="share-social-outline"></ion-icon>
+    </div>
+
+    <p class="p-descripcion-plomo" style="text-align: justify;">
+      Estimado(a) Usuario, para poder acceder a su cita virtual, usted deberá descargar de manera gratuita la aplicación <a href="http://play.google.com/store/apps/details?id=web.acude.live">'ACUDE Consultorio Virtual'</a>, e ingresar el código de acceso, 5 minutos antes de la fecha y hora reservada, de igual forma, usted podrá realizar la consulta desde su PC ingresando al siguiente enlace <br><a href="https://pacientes.acudeapp.com">https://pacientes.acudeapp.com</a>
+    </p>
+  </ion-card>
+  <!-- <ion-button class="btn-proxima" (click)="compartir_enlace ()">Compartir enlace</ion-button> -->
+  <div class="div-foofter">
+    <div class="div-linea"></div>
+  </div>
+</ion-content>

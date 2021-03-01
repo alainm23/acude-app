@@ -1,0 +1,55 @@
+<ion-content>
+  <ion-card class="card-verd">
+    <ion-label (click)="back ()" class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>
+      Regresar
+    </ion-label>
+  </ion-card>
+
+  <ion-card class="card-blanco">
+    <h6 class="h6-titulo ion-text-center" style="font-size: 16px;">Ficha Médica</h6>
+    <div class="div-bottom-cita">
+      <h6 class="titulo-confirmacion">Paciente</h6>
+      <ul>
+        <li class="p-nombre">
+          {{ data?.paciente.nombres }} {{ data?.paciente.apellidos }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="div-bottom-cita">
+      <h6 class="titulo-confirmacion">Diagnostico</h6>
+      <ul>
+        <li class="p-nombre" *ngFor="let d of data?.diagnosticos_cita">
+          {{ d.diagnostico.diagnostico }}
+        </li>
+        <li class="p-nombre">
+          {{ data?.diagnosticos }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="div-bottom-cita">
+      <h6 class="titulo-confirmacion">Examén Médico</h6>
+      <ul>
+        <li class="p-nombre" *ngFor="let t of data?.tratamientos_cita">
+          {{ t.examen.procedimiento }}
+        </li>
+        <li class="p-nombre">
+          {{ data?.tratamientos }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="div-bottom-cita">
+      <h6 class="titulo-confirmacion">Receta médica</h6>
+      <ul>
+        <li class="p-nombre" *ngFor="let r of data?.recetas_cita">
+          {{ r.indicaciones }}
+        </li>
+        <li class="p-nombre">
+          {{ data?.receta }}
+        </li>
+      </ul>
+    </div>
+  </ion-card>
+</ion-content>
