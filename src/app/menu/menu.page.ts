@@ -83,16 +83,17 @@ export class MenuPage implements OnInit {
 
             this.api.logout ().subscribe ((res: any) => {
               loading.dismiss ();
-              
-              console.log (res);
-
               this.storage.set ('USUARIO_ACCESS', null);
               this.storage.set ('USUARIO_DATA', null);
               this.storage.set ('DEPARTAMENTO_SELECCIONADO', null);
-              
               this.navController.navigateRoot ('login');
             }, (error: any) => {
               console.log (error);
+              loading.dismiss ();
+              this.storage.set ('USUARIO_ACCESS', null);
+              this.storage.set ('USUARIO_DATA', null);
+              this.storage.set ('DEPARTAMENTO_SELECCIONADO', null);
+              this.navController.navigateRoot ('login');
             });
           }
         }

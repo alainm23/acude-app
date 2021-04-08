@@ -70,6 +70,45 @@ export class EditarPerfilPage implements OnInit {
     this.navController.navigateForward ('');
   }
 
+  root () {
+    this.navController.navigateRoot ('home');
+  }
+
+  async borrar_cuenta () {
+    const alert = await this.alertController.create({
+      header: 'Confirma operación',
+      message: '¿Está seguro que desea borrar su cuenta de ACUDE APP?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        }, {
+          text: 'Confirmar',
+          handler: async () => {
+            const loading = await this.loadingController.create({
+              message: 'Procesando...',
+            });
+        
+            await loading.present ();
+
+            this.api.eliminar_usuario ().subscribe ((res: any) => {
+              loading.dismiss ();
+              this.storage.set ('USUARIO_ACCESS', null);
+              this.storage.set ('USUARIO_DATA', null);
+              this.storage.set ('DEPARTAMENTO_SELECCIONADO', null);
+              this.navController.navigateRoot ('login');
+            }, (error: any) => {
+              console.log (error);
+              loading.dismiss ();
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
   async submit () {
     const loading = await this.loadingController.create({
       message: 'Please wait...',

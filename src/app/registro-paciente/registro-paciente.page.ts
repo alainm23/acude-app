@@ -106,11 +106,9 @@ export class RegistroPacientePage implements OnInit {
         }); 
       }, async (error: any) => {
         loading.dismiss ();
-        console.log (error);
-        console.log (error.error);
-  
+
         let message: string = '';
-        if (error.error.errors.email !== undefined && Array.isArray(error.error.errors.email)) {
+        if (error.error.errors.email !== undefined && Array.isArray (error.error.errors.email)) {
           error.error.errors.email.forEach ((element: any) => {
             message += element;
           });

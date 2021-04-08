@@ -54,28 +54,38 @@
       <ion-card-header>
         <ion-card-subtitle>Rango de honorarios</ion-card-subtitle>
       </ion-card-header>
-      <ion-select okText="Seleccionar" cancelText="Cerrar" [(ngModel)]="exp" placeholder="Rango de honorarios" mode="ios">
-        <ion-select-option value="">Ninguna</ion-select-option>
-        <ion-select-option value="0-99">Hasta S/.99.00</ion-select-option>
-        <ion-select-option value="100-200">De S/.100.00 - S/.200.00</ion-select-option>
-        <ion-select-option value="200-1000">De S/.200.00 - mas</ion-select-option>
+      <ion-select okText="Seleccionar" cancelText="Cerrar" [(ngModel)]="tarifa" placeholder="Rango de honorarios" mode="ios">
+        <ion-select-option value="null">Ninguna</ion-select-option>
+        <ion-select-option [value]="item.rango_inferior + '-' + item.rango_superior" *ngFor="let item of tarifas">
+          <span *ngIf="item.rango_inferior == 0">
+            Hasta {{ item.pais.simbolo_moneda }} {{ item.rango_superior | number:'1.0-0' }}
+          </span>
+
+          <span *ngIf="item.rango_superior == 0">
+            Mas de {{ item.pais.simbolo_moneda }} {{ item.rango_inferior | number:'1.0-0' }}
+          </span>
+
+          <span *ngIf="item.rango_inferior != 0 && item.rango_superior != 0">
+            Entre {{ item.pais.simbolo_moneda }} {{ item.rango_inferior | number:'1.0-0' }} - {{ item.pais.simbolo_moneda }} {{ item.rango_superior | number:'1.0-0' }}
+          </span>
+        </ion-select-option>
       </ion-select>
     </ion-card>
     <ion-card class="card_acordion">
       <ion-list class="ion-no-padding list-bottom">
         <div class="item-chebox">
-          <ion-checkbox slot="start" class="hecbox-style"></ion-checkbox>
-          <ion-label class="label-chebox">Atencion 24 horas</ion-label>
+          <ion-checkbox [(ngModel)]="atiende_domicilio" slot="start" class="hecbox-style"></ion-checkbox>
+          <ion-label class="label-chebox">Atención a domicilio</ion-label>
         </div>
 
         <div class="item-chebox">
-          <ion-checkbox slot="start" class="hecbox-style"></ion-checkbox>
-          <ion-label class="label-chebox">Atencion emergencias</ion-label>
+          <ion-checkbox [(ngModel)]="emergencias" slot="start" class="hecbox-style"></ion-checkbox>
+          <ion-label class="label-chebox">Atención de emergencias</ion-label>
         </div>
 
         <div class="item-chebox">
-          <ion-checkbox slot="start" class="hecbox-style"></ion-checkbox>
-          <ion-label class="label-chebox">Atencion telemedicina</ion-label>
+          <ion-checkbox [(ngModel)]="telemedicina" slot="start" class="hecbox-style"></ion-checkbox>
+          <ion-label class="label-chebox">Atención telemedicina</ion-label>
         </div>
       </ion-list>
       

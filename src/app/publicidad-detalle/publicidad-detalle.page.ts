@@ -20,10 +20,10 @@ export class PublicidadDetallePage implements OnInit {
   categorias: any [] = [];
   publicidades: any [] = [];
   slideOptsOne = {
-    initialSlide: 0,
     slidesPerView: 3,
     spaceBetween: 10,
   };
+
   constructor (
     private api: ApiService,
     private route: ActivatedRoute,
@@ -46,22 +46,43 @@ export class PublicidadDetallePage implements OnInit {
     await loading.present ();
     
     this.api.get_categoria_publicidades (departamento_id).subscribe ((res: any) => {
+      console.log ('categorias', res.categorias);
       this.categorias = res.categorias;
-      console.log ('categorias', this.categorias);
+      loading.dismiss ();
 
-      this.get_publicaciones_by_categoria (
-        this.route.snapshot.paramMap.get ('categoria_id'),
-        loading
-      );
+      if (this.get_index_categoria (this.route.snapshot.paramMap.get ('categoria_id')) <= 0) {
+        this.get_publicaciones_by_categoria (
+          this.route.snapshot.paramMap.get ('categoria_id'),
+          loading
+        );
+      } else {
+        setTimeout (() => {
+          this.slide_categorias.slideTo (
+            this.get_index_categoria (this.route.snapshot.paramMap.get ('categoria_id'))
+          );
+        }, 250);
+      }
+    }, error => {
+      loading.dismiss ();
+      console.log (error);
     });
+  }
+
+  get_index_categoria (id: string) {
+    let index = 0;
+    
+    for (let i = 0; i < this.categorias.length; i++) {
+      if (this.categorias [i].id == id) {
+        index = i;
+      }
+    }
+    return index;
   }
 
   get_publicaciones_by_categoria (id_categoria: string, loading: any) {
     this.api.get_listado_publicaciones_by_categoria (id_categoria).subscribe ((res: any) => {
-      console.log (res);
       this.publicidades = res.publicidades;
       loading.dismiss ();
-
       this.get_publicidad_by_id (this.route.snapshot.paramMap.get ('id'));
     }, error => {
       console.log (error);
@@ -90,7 +111,6 @@ export class PublicidadDetallePage implements OnInit {
 
   slidesChanged () {
     this.slide_publicidades.getActiveIndex ().then ((index: number) => {
-      console.log (index);
       this.datos = this.publicidades [index];
     });
   }
@@ -103,8 +123,6 @@ export class PublicidadDetallePage implements OnInit {
     await loading.present ();
 
     this.slide_categorias.getActiveIndex ().then ((index: number) => {
-      console.log (this.categorias [index]);
-
       this.get_publicaciones_by_categoria (
         this.categorias [index].id,
         loading

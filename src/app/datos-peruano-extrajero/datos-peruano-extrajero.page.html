@@ -35,29 +35,91 @@
 
     <ng-container *ngIf="paciente_seleccionado === 'nuevo'">
       <h6 class="h6-datos ion-text-center">Datos del paciente</h6>
-      <div class="item-toogle" mode="ios">
-        <p class="p-toogle">Peruano</p>
-        <ion-toggle (ionChange)="change_value ($event.detail.checked)" [(ngModel)]="es_extranjero"></ion-toggle>
-        <p class="p-toogle">Extranjero</p>
-      </div>
+      <ng-container *ngIf="tiene_api === '1'">
+        <div class="item-toogle" mode="ios">
+          <p class="p-toogle">Peruano</p>
+          <ion-toggle (ionChange)="change_value ($event.detail.checked)" [(ngModel)]="es_extranjero"></ion-toggle>
+          <p class="p-toogle">Extranjero</p>
+        </div>
 
-      <form [formGroup]="form">
-        <div *ngIf="es_extranjero === false" >
-          <ion-input [readonly]="readonly" placeholder="DNI" maxlength="8" minlength="8" formControlName="dni" type="number" class="input-genral"></ion-input>
-
-          <div *ngIf="dni_valido">
-            <ion-input [readonly]="readonly" placeholder="Nombres"  formControlName="nombres" type="text" class="input-genral"></ion-input>
+        <form [formGroup]="form">
+          <div *ngIf="es_extranjero === false" >
+            <ion-input [readonly]="readonly" placeholder="DNI" [maxlength]="api.PAIS.nro_caract_max_doc" [minlength]="api.PAIS.nro_caract_min_doc" formControlName="dni" type="text" class="input-genral"></ion-input>
+  
+            <div *ngIf="dni_valido">
+              <ion-input [readonly]="readonly" placeholder="Nombres"  formControlName="nombres" type="text" class="input-genral"></ion-input>
+              <small class="error-col" *ngIf="form.controls.nombres.errors?.required">
+                * Este campo es obligatorio
+              </small>
+              
+  
+              <ion-input [readonly]="readonly" placeholder="Apellidos" formControlName="apellidos" type="text" class="input-genral"></ion-input>
+              <small class="error-col" *ngIf="form.controls.apellidos.errors?.required">
+                * Este campo es obligatorio
+              </small>
+              
+  
+              <ion-select formControlName="sexo" placeholder="Sexo" interface="popover" class="select-paciente">
+                <ion-select-option value=0>Masculino</ion-select-option>
+                <ion-select-option value=1>Femenino</ion-select-option>
+              </ion-select>
+              <small class="error-col" *ngIf="form.controls.sexo.errors?.required">
+                * Este campo es obligatorio
+              </small>
+              
+  
+              <ion-datetime  cancelText="Cancelar" doneText="Seleccionar" monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic" formControlName="fecha_nacimiento" placeholder="Fecha de nacimiento" class="input-datetime"></ion-datetime>
+              <small class="error-col" *ngIf="form.controls.fecha_nacimiento.errors?.required">
+                * Este campo es obligatorio
+              </small>
+              
+  
+              <ion-input placeholder="Numero de telefono" formControlName="telefono" type="number" class="input-genral"></ion-input>
+              <small class="error-col" *ngIf="form.controls.telefono.errors?.required">
+                * Este campo es obligatorio
+              </small>
+              
+  
+              <ion-input placeholder="Correo electrónico" formControlName="correo" type="email" class="input-genral"></ion-input>
+              <small class="error-col" *ngIf="form.controls.correo.errors?.required">
+                * Este campo es obligatorio
+              </small>
+              
+              <small class="error-col" *ngIf="form.controls.correo.errors?.email">
+                * Correo electronico invalido
+              </small>
+              
+            </div>
+          </div>
+      
+          <div *ngIf="es_extranjero" class="div-input-extrajero">
+            <ion-select formControlName="tipo_paciente" placeholder="Tipo de documento" interface="popover" class="select-paciente">
+              <ion-select-option value=1>Pasaporte</ion-select-option>
+              <ion-select-option value=2>CE</ion-select-option>
+            </ion-select>
+            <small class="error-col" *ngIf="form.controls.tipo_paciente.errors?.required">
+              * Este campo es obligatorio
+            </small>
+            
+  
+            <ion-input placeholder="Numero de documento" formControlName="dni" type="text" class="input-genral"></ion-input>
+            <small class="error-col" *ngIf="form.controls.dni.errors?.required">
+              * Este campo es obligatorio
+            </small>
+            
+  
+            <ion-input placeholder="Nombres" formControlName="nombres" type="text" class="input-genral"></ion-input>
             <small class="error-col" *ngIf="form.controls.nombres.errors?.required">
               * Este campo es obligatorio
             </small>
             
-
-            <ion-input [readonly]="readonly" placeholder="Apellidos" formControlName="apellidos" type="text" class="input-genral"></ion-input>
+  
+            <ion-input placeholder="Apellidos" formControlName="apellidos" type="text" class="input-genral"></ion-input>
             <small class="error-col" *ngIf="form.controls.apellidos.errors?.required">
               * Este campo es obligatorio
             </small>
             
-
+  
             <ion-select formControlName="sexo" placeholder="Sexo" interface="popover" class="select-paciente">
               <ion-select-option value=0>Masculino</ion-select-option>
               <ion-select-option value=1>Femenino</ion-select-option>
@@ -66,91 +128,96 @@
               * Este campo es obligatorio
             </small>
             
-
+  
             <ion-datetime  cancelText="Cancelar" doneText="Seleccionar" monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic" formControlName="fecha_nacimiento" placeholder="Fecha de nacimiento" class="input-datetime"></ion-datetime>
             <small class="error-col" *ngIf="form.controls.fecha_nacimiento.errors?.required">
               * Este campo es obligatorio
             </small>
             
-
+            
             <ion-input placeholder="Numero de telefono" formControlName="telefono" type="number" class="input-genral"></ion-input>
             <small class="error-col" *ngIf="form.controls.telefono.errors?.required">
               * Este campo es obligatorio
             </small>
             
-
+  
             <ion-input placeholder="Correo electrónico" formControlName="correo" type="email" class="input-genral"></ion-input>
             <small class="error-col" *ngIf="form.controls.correo.errors?.required">
               * Este campo es obligatorio
             </small>
-            
+  
             <small class="error-col" *ngIf="form.controls.correo.errors?.email">
               * Correo electronico invalido
             </small>
             
           </div>
-        </div>
-    
-        <div *ngIf="es_extranjero" class="div-input-extrajero">
-          <ion-select formControlName="tipo_paciente" placeholder="Tipo de documento" interface="popover" class="select-paciente">
-            <ion-select-option value=1>Pasaporte</ion-select-option>
-            <ion-select-option value=2>CE</ion-select-option>
-          </ion-select>
-          <small class="error-col" *ngIf="form.controls.tipo_paciente.errors?.required">
-            * Este campo es obligatorio
-          </small>
-          
+        </form>
+      </ng-container>
 
-          <ion-input placeholder="Numero de documento" formControlName="dni" type="text" class="input-genral"></ion-input>
-          <small class="error-col" *ngIf="form.controls.dni.errors?.required">
-            * Este campo es obligatorio
-          </small>
-          
-
-          <ion-input placeholder="Nombres" formControlName="nombres" type="text" class="input-genral"></ion-input>
-          <small class="error-col" *ngIf="form.controls.nombres.errors?.required">
-            * Este campo es obligatorio
-          </small>
-          
-
-          <ion-input placeholder="Apellidos" formControlName="apellidos" type="text" class="input-genral"></ion-input>
-          <small class="error-col" *ngIf="form.controls.apellidos.errors?.required">
-            * Este campo es obligatorio
-          </small>
-          
-
-          <ion-select formControlName="sexo" placeholder="Sexo" interface="popover" class="select-paciente">
-            <ion-select-option value=0>Masculino</ion-select-option>
-            <ion-select-option value=1>Femenino</ion-select-option>
-          </ion-select>
-          <small class="error-col" *ngIf="form.controls.sexo.errors?.required">
-            * Este campo es obligatorio
-          </small>
-          
-
-          <ion-datetime  cancelText="Cancelar" doneText="Seleccionar" monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic" formControlName="fecha_nacimiento" placeholder="Fecha de nacimiento" class="input-datetime"></ion-datetime>
-          <small class="error-col" *ngIf="form.controls.fecha_nacimiento.errors?.required">
-            * Este campo es obligatorio
-          </small>
-          
-          
-          <ion-input placeholder="Numero de telefono" formControlName="telefono" type="number" class="input-genral"></ion-input>
-          <small class="error-col" *ngIf="form.controls.telefono.errors?.required">
-            * Este campo es obligatorio
-          </small>
-          
-
-          <ion-input placeholder="Correo electrónico" formControlName="correo" type="email" class="input-genral"></ion-input>
-          <small class="error-col" *ngIf="form.controls.correo.errors?.required">
-            * Este campo es obligatorio
-          </small>
-
-          <small class="error-col" *ngIf="form.controls.correo.errors?.email">
-            * Correo electronico invalido
-          </small>
-          
-        </div>
-      </form>
+      <ng-container *ngIf="tiene_api === '0'">
+        <form [formGroup]="form">
+          <div class="div-input-extrajero">
+            <ion-select formControlName="tipo_paciente" placeholder="Tipo de documento" interface="popover" class="select-paciente">
+              <ion-select-option value=0>DNI</ion-select-option>
+              <ion-select-option value=1>Pasaporte</ion-select-option>
+              <ion-select-option value=2>CE</ion-select-option>
+            </ion-select>
+            <small class="error-col" *ngIf="form.controls.tipo_paciente.errors?.required">
+              * Este campo es obligatorio
+            </small>
+            
+  
+            <ion-input placeholder="Numero de documento" [maxlength]="api.PAIS.nro_caract_max_doc" [minlength]="api.PAIS.nro_caract_min_doc" formControlName="dni" type="text" class="input-genral"></ion-input>
+            <small class="error-col" *ngIf="form.controls.dni.errors?.required">
+              * Este campo es obligatorio
+            </small>
+            
+  
+            <ion-input placeholder="Nombres" formControlName="nombres" type="text" class="input-genral"></ion-input>
+            <small class="error-col" *ngIf="form.controls.nombres.errors?.required">
+              * Este campo es obligatorio
+            </small>
+            
+  
+            <ion-input placeholder="Apellidos" formControlName="apellidos" type="text" class="input-genral"></ion-input>
+            <small class="error-col" *ngIf="form.controls.apellidos.errors?.required">
+              * Este campo es obligatorio
+            </small>
+            
+  
+            <ion-select formControlName="sexo" placeholder="Sexo" interface="popover" class="select-paciente">
+              <ion-select-option value=0>Masculino</ion-select-option>
+              <ion-select-option value=1>Femenino</ion-select-option>
+            </ion-select>
+            <small class="error-col" *ngIf="form.controls.sexo.errors?.required">
+              * Este campo es obligatorio
+            </small>
+            
+  
+            <ion-datetime  cancelText="Cancelar" doneText="Seleccionar" monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic" formControlName="fecha_nacimiento" placeholder="Fecha de nacimiento" class="input-datetime"></ion-datetime>
+            <small class="error-col" *ngIf="form.controls.fecha_nacimiento.errors?.required">
+              * Este campo es obligatorio
+            </small>
+            
+            
+            <ion-input placeholder="Numero de telefono" formControlName="telefono" type="number" class="input-genral"></ion-input>
+            <small class="error-col" *ngIf="form.controls.telefono.errors?.required">
+              * Este campo es obligatorio
+            </small>
+            
+  
+            <ion-input placeholder="Correo electrónico" formControlName="correo" type="email" class="input-genral"></ion-input>
+            <small class="error-col" *ngIf="form.controls.correo.errors?.required">
+              * Este campo es obligatorio
+            </small>
+  
+            <small class="error-col" *ngIf="form.controls.correo.errors?.email">
+              * Correo electronico invalido
+            </small>
+            
+          </div>
+        </form>
+      </ng-container>
     </ng-container>
 
     <ng-container *ngIf="paciente_seleccionado === 'me'">
@@ -207,12 +274,20 @@
     </ng-container>
   </ion-card>
   <ng-container *ngIf="paciente_seleccionado === 'nuevo'">
-    <ion-button class="btn-proxima" *ngIf="es_extranjero === true" [disabled]="disabled_form ()" (click)="submit ()">
-      Continuar
-    </ion-button>
-    <ion-button class="btn-proxima" *ngIf="es_extranjero === false" [disabled]="disabled_dni_form ()" (click)="validar_dni ()">
-      Continuar
-    </ion-button>
+    <ng-container *ngIf="tiene_api === '1'">
+      <ion-button class="btn-proxima" *ngIf="es_extranjero === true" [disabled]="disabled_form ()" (click)="submit ()">
+        Continuar
+      </ion-button>
+      <ion-button class="btn-proxima" *ngIf="es_extranjero === false" [disabled]="disabled_dni_form ()" (click)="validar_dni ()">
+        Continuar
+      </ion-button>
+    </ng-container>
+
+    <ng-container *ngIf="tiene_api === '0'">
+      <ion-button class="btn-proxima" [disabled]="disabled_form ()" (click)="submit ()">
+        Continuar
+      </ion-button>
+    </ng-container>
   </ng-container>
 
   <ng-container *ngIf="paciente_seleccionado === 'me'">

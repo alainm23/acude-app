@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar mode="ios">
+    <ion-buttons mode="md" slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">
+      Calificar cita medica
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-item lines="none" class="ion-text-center">
+          <ion-label>
+            <p class="ion-text-wrap">Danos tu opinion sobre el trabajo de <b>{{ item?.nombre_doctor }}</b></p>
+          </ion-label>
+        </ion-item>
+
+        <div class="ion-text-center">
+          <h4 class="no-margin-bottom dim-label">¿Que te pareció la atención del doctor?</h4>
+          <div class="icon-size margin-top-6">
+            <ion-icon class="start" name="star" *ngFor="let num of [1, 2, 3, 4, 5]" 
+              (click)="rate (0, num)" [ngStyle]="{'color': getColor (0, num)}"> 
+            </ion-icon>
+          </div>
+        </div>
+
+        <div class="ion-text-center">
+          <h4 class="no-margin-bottom dim-label">¿Que te pareció la plataforma de tele medicina?</h4>
+          <div class="icon-size margin-top-6">
+            <ion-icon class="start" name="star" *ngFor="let num of [1, 2, 3, 4, 5]" 
+              (click)="rate (1, num)" [ngStyle]="{'color': getColor (1, num)}"> 
+            </ion-icon>
+          </div>
+        </div>
+
+
+        <div class="ion-text-center">
+          <h4 class="no-margin-bottom dim-label">¿Que te pareció el profesionalismo del doctor?</h4>
+          <div class="icon-size margin-top-6">
+            <ion-icon class="start" name="star" *ngFor="let num of [1, 2, 3, 4, 5]" 
+              (click)="rate (2, num)" [ngStyle]="{'color': getColor (2, num)}"> 
+            </ion-icon>
+          </div>
+        </div>
+
+        <form [formGroup]="form" class="form-class">
+          <ion-textarea
+            maxlength="120" 
+            rows="1" 
+            placeholder="¿Algo más que nos quieras contar?" 
+            formControlName="comment"
+            [(ngModel)]="comment">
+          </ion-textarea>
+          
+          <div *ngIf="form.controls.comment.errors?.required && form.controls.comment.dirty">
+            <small class="text-danger">* Este campo es necesario</small>
+          </div>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-button class="btn_enlace" [disabled]="form.invalid" (click)="submit ()">Siguiente</ion-button>
+</ion-content>
+

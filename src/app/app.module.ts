@@ -25,6 +25,7 @@ import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 
 // Camera
 import { Camera } from '@ionic-native/camera/ngx';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 // Facebook
 import { Facebook } from '@ionic-native/facebook/ngx';
@@ -73,6 +74,7 @@ import { SelectEspecialidadPageModule } from './popovers/select-especialidad/sel
     Clipboard,
     AndroidPermissions,
     LocationAccuracy,
+    Keyboard,
     OneSignal,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

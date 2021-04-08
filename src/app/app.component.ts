@@ -50,9 +50,9 @@ export class AppComponent {
         });
 
         if (type === 'doctor') {
-          this.navController.navigateForward (['perfil-clinica', id]);
+          this.navController.navigateForward (['perfil-clinica', id, -1]);
         } else if (type === 'centro-medico') {
-          this.navController.navigateForward (['perfil-clinica', id]);
+          this.navController.navigateForward (['perfil-clinica', id, -1]);
         }
       }, nomatch => {
         console.error('Got a deeplink that didn\'t match', nomatch);

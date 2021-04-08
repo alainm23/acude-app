@@ -154,7 +154,7 @@ export class PerfilDoctorPage implements OnInit {
   }
 
   ver_clinica (id: string) {
-    this.navController.navigateForward (['perfil-clinica', id]);
+    this.navController.navigateForward (['perfil-clinica', id, -1]);
   }
 
   llamar (telefono: any) {
@@ -203,9 +203,6 @@ export class PerfilDoctorPage implements OnInit {
     if (this.datos.brinda_telemedicina === '1') {
       brinda_telemedicina = '1';
     }
-
-    console.log (this.datos);
-    console.log (centro);
 
     this.navController.navigateForward (
       ['escoje-fecha-hora',
@@ -281,8 +278,10 @@ export class PerfilDoctorPage implements OnInit {
 
     if (datos.centros_medicos_lista !== undefined) {
       datos.centros_medicos_lista.forEach ((centro: any) => {
-        if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_centro_medico.tipo_reserva === '1') {
-          returned = true;
+        if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_reserva === '1') {
+          if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_centro_medico.tipo_reserva === '1') {
+            returned = true;
+          }
         }
       });
     }

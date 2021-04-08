@@ -70,7 +70,7 @@ const routes: Routes = [
     loadChildren: () => import('./mapa-establecimientos/mapa-establecimientos.module').then( m => m.MapaEstablecimientosPageModule)
   },
   {
-    path: 'perfil-clinica/:id',
+    path: 'perfil-clinica/:id/:id_sucursal',
     canActivate: [AuthGuard],
     loadChildren: () => import('./perfil-clinica/perfil-clinica.module').then( m => m.PerfilClinicaPageModule)
   },
@@ -213,9 +213,21 @@ const routes: Routes = [
     path: 'cita-resultados/:id',
     canActivate: [AuthGuard],
     loadChildren: () => import('./cita-resultados/cita-resultados.module').then( m => m.CitaResultadosPageModule)
+  },
+  {
+    path: 'pais-no-soportado/:pais',
+    loadChildren: () => import('./pais-no-soportado/pais-no-soportado.module').then( m => m.PaisNoSoportadoPageModule)
+  },
+  {
+    path: 'comentarios-lista/:items',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./comentarios-lista/comentarios-lista.module').then( m => m.ComentariosListaPageModule)
+  },
+  {
+    path: 'comentario/:item/:size',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./comentario/comentario.module').then( m => m.ComentarioPageModule)
   }
-
-
 ];
 
 @NgModule({

@@ -1,6 +1,6 @@
 import { Component, OnInit, ɵConsole } from '@angular/core';
 import { ApiService } from '../services/api.service';
-import { NavController, ToastController, LoadingController } from '@ionic/angular';
+import { NavController, ToastController, LoadingController, NumericValueAccessor } from '@ionic/angular';
 
 // Popovers
 import { SelectEspecialidadPage } from '../popovers/select-especialidad/select-especialidad.page';
@@ -17,25 +17,50 @@ export class BusquedaAvanzadaPage implements OnInit {
   profesional_tipo_seleccionado: any = null;
   especialidad_seleccionada: any = null;
   exp: any = 'null';
+  tarifa: any = 'null';
+
   idiomas: any [] = [];
+  tarifas: any [] = [];
 
   profesionales_salud_total: any [] = [];
+  atiende_domicilio: boolean = false;
+  emergencias: boolean = false;
+  telemedicina: boolean = false;
   constructor (private api: ApiService, 
     private popoverController: PopoverController,
     private storage: Storage,
     private navController: NavController,
     private loadingController: LoadingController,
-    public toastController: ToastController) { }
+    public toastController: ToastController,
+    public loadingCtrl: LoadingController) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Procesando...',
+    });
+
+    await loading.present ();
+
     this.api.get_profesionales_salud ().subscribe ((res: any) => {
       console.log (res);
       this.profesionales_salud_total = res.tipos_profesionales;
+
+      this.api.get_listado_tarifas ().subscribe ((res: any) => {
+        console.log (res);
+        loading.dismiss ();
+        this.tarifas = res.tarifas;
+      }, error => {
+        console.log (error);
+        loading.dismiss ();
+      });
     }, error => {
+      loading.dismiss ();
       console.log (error);
     });
 
     this.api.get_idiomas ().subscribe ((res: any) => {
+      console.log (res.idiomas);
+
       Object.entries(res.idiomas).forEach ((val: any) => {
         this.idiomas.push ({
           id: val [0],
@@ -110,16 +135,66 @@ export class BusquedaAvanzadaPage implements OnInit {
       experiencia_max = parseInt (this.exp.split ("-") [1]);
     }
 
-    console.log (this.exp);
-    console.log (experiencia_min);
-    console.log (experiencia_max);
+    let idioma = this.idiomas.filter ((element: any) => {
+      return element.checked;
+    }).map ((element: any) => {
+      return element.id
+    }).join (',');
+
+    if (idioma === '') {
+      idioma = null;
+    }
+
+    let honorario_minimo = null;
+    let honorario_maximo = null;
+    if (this.tarifa === 'null') {
+      honorario_minimo = null;
+      honorario_maximo = null;
+    } else {
+      honorario_minimo = parseInt (this.tarifa.split ("-") [0]);
+      honorario_maximo = parseInt (this.tarifa.split ("-") [1]);
+    }
+
+    let atiende_domicilio: number = null;
+    var emergencias: number = null;
+    var telemedicina: number = null;
+
+    if (this.atiende_domicilio) {
+      atiende_domicilio = 1;
+    }
+
+    if (this.emergencias) {
+      emergencias = 1;
+    }
+
+    if (this.telemedicina) {
+      telemedicina = 1;
+    }
+
+    // tipo_profesional: string,
+    // departamento: number,
+    // idespecialidad: string=null,
+    // experiencia_min: number=null,
+    // experiencia_max:number=null,
+    // idiomas: string=null,
+    // honorario_minimo: number=null,
+    // honorario_maximo: number=null,
+    // atiende_domicilio: number=null,
+    // emergencias: number=null,
+    // telemedicina: number=null
 
     this.api.buscar_profesional_avanzado (
       this.profesional_tipo_seleccionado.id,
       DEPARTAMENTO_SELECCIONADO,
       idespecialidad,
       experiencia_min,
-      experiencia_max).subscribe (async (res: any) => {
+      experiencia_max,
+      idioma,
+      honorario_minimo,
+      honorario_maximo,
+      atiende_domicilio,
+      emergencias,
+      telemedicina).subscribe (async (res: any) => {
       loading.dismiss ();
       console.log (res);
 

@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar mode="ios">
+    <ion-buttons mode="md" slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">
+      Historial de calificaciones
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="div-list-card">
+    <ion-card (click)="calificar (item)" *ngFor="let item of items" class="card-pacientes">
+      <h6 class="hl-titulo-doctorres">Dr {{ item.nombre_doctor }}</h6>
+      <div class="div-datos div-flex div-margin-bottom">
+        <div class="div-datos div-right-margin">
+          <p class="p-widht-uno color-categorias">Centro medico:</p>
+          <p class="p-nombre-categorias">{{ item.nombre_centro_medico_sucursal }}</p>
+        </div>
+        <div class="div-datos">
+          <p class="p-widht-uno color-categorias">Paciente:</p>
+          <p class="p-nombre-categorias">{{ item.nombre_paciente }}</p>
+        </div>
+
+        <div class="div-datos">
+          <p class="p-widht-uno color-categorias">Fecha:</p>
+          <p class="p-nombre-categorias">{{ item.fecha }}</p>
+        </div>
+      </div>
+    </ion-card>
+  </div>
+</ion-content>
+

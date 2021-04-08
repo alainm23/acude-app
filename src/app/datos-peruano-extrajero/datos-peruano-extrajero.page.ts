@@ -8,6 +8,7 @@ import { LoadingController, NavController, AlertController } from '@ionic/angula
 import { FormGroup , FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
+import { timeStamp } from 'console';
 
 @Component({
   selector: 'app-datos-peruano-extrajero',
@@ -23,6 +24,8 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
   datetime: any;
   dni_valido: boolean = false;
   readonly: boolean = false;
+
+  tiene_api: string = '0';
   constructor (private api: ApiService,
       private loadingCtrl: LoadingController,
       private navController: NavController,
@@ -30,13 +33,13 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
       private route: ActivatedRoute) { }
 
   async ngOnInit () {
+    this.tiene_api = this.api.PAIS.tipo_registro;
     this.data = JSON.parse (this.route.snapshot.paramMap.get ('data'));
-    console.log (this.data);
 
     this.datetime = moment (this.data.fecha).set ('hour', parseInt (this.data.hora.split (':') [0])).set ('minute', parseInt (this.data.hora.split (':') [1]));
     
     this.form = new FormGroup ({
-      dni: new FormControl ('', [Validators.required, Validators.maxLength (8), Validators.minLength (8)]),
+      dni: new FormControl ('', [Validators.required]),
       nombres: new FormControl ('', Validators.required),
       apellidos: new FormControl ('', Validators.required),
       fecha_nacimiento: new FormControl ('', [Validators.required]),
@@ -46,6 +49,23 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
       correo: new FormControl ('', [Validators.email, Validators.required]),
       uno_mismo: new FormControl (0),
     });
+
+    if (this.api.PAIS.tipo_documento === '0') {
+      this.form.controls ['dni'].setValidators ([
+        Validators.required,
+        Validators.pattern("^[0-9]*$"),
+        Validators.maxLength (this.api.PAIS.nro_caract_max_doc),
+        Validators.minLength (this.api.PAIS.nro_caract_min_doc)
+      ]);
+    } else {
+      this.form.controls ['dni'].setValidators ([
+        Validators.required,
+        Validators.maxLength (this.api.PAIS.nro_caract_max_doc),
+        Validators.minLength (this.api.PAIS.nro_caract_min_doc)
+      ]);
+    }
+
+    this.form.updateValueAndValidity ();
 
     const loading = await this.loadingCtrl.create({
       message: 'Procesando...',
@@ -71,6 +91,8 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
   }
 
   async submit () {
+    console.log (this.form);
+
     const loading = await this.loadingCtrl.create({
       message: 'Procesando...',
     });
@@ -159,15 +181,26 @@ export class DatosPeruanoExtrajeroPage implements OnInit {
     this.form.controls ['apellidos'].enable ();
     this.dni_valido = false;
     this.readonly = false;
-    
-    if (event) {
+
+    if (this.es_extranjero) {
       this.form.controls ['dni'].setValidators ([
         Validators.required
       ]);
     } else {
-      this.form.controls ['dni'].setValidators ([
-        Validators.required, Validators.maxLength (8), Validators.minLength (8)
-      ]);
+      if (this.api.PAIS.tipo_documento === '0') {
+        this.form.controls ['dni'].setValidators ([
+          Validators.required,
+          Validators.pattern("^[0-9]*$"),
+          Validators.maxLength (this.api.PAIS.nro_caract_max_doc),
+          Validators.minLength (this.api.PAIS.nro_caract_min_doc)
+        ]);
+      } else {
+        this.form.controls ['dni'].setValidators ([
+          Validators.required,
+          Validators.maxLength (this.api.PAIS.nro_caract_max_doc),
+          Validators.minLength (this.api.PAIS.nro_caract_min_doc)
+        ]);
+      }
     }
 
     this.form.updateValueAndValidity ();

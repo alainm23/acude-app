@@ -14,11 +14,13 @@ export class ApiService {
   URL_BASE: string;
   USUARIO_ACCESS: any;
   USUARIO_DATA: any;
+  PAIS: any;
 
   TITULO_ERROR: string = 'Lo sentimos';
   private usuario_subject = new Subject<any> ();
   constructor (public http: HttpClient, private fb: Facebook, private platform: Platform) {
-    this.URL_BASE = "https://acudeapp.com";
+    // this.URL_BASE = "https://acudeapp.com";
+    this.URL_BASE = "https://appmedico.demoperu.site";
   }
 
   usuario_changed (data: any) {
@@ -73,8 +75,10 @@ export class ApiService {
   }
 
   get_departamentos () {
-    let url = this.URL_BASE + '/api/soporte/listado-departamentos';
-    
+    console.log (this.PAIS);
+    let url = this.URL_BASE + '/api/soporte/listado-departamentos/' + this.PAIS.id;
+    console.log (url);
+
     const headers = {
       'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
     }
@@ -103,6 +107,7 @@ export class ApiService {
   }
 
   registrar_usuario (data: any) {
+    data.id_pais = this.PAIS.id;
     let url = this.URL_BASE + '/api/auth/registrar-usuario';
     return this.http.post (url, data);
   }
@@ -128,8 +133,9 @@ export class ApiService {
   }
 
   obtener_profesionales_ubicacion (tipo: string, idtipo: string, latitud: number, longitud: number, kilometros: number) {
-    let url = this.URL_BASE + '/api/profesionales/' + tipo + '/' + idtipo + '/' + latitud + '/' + longitud + '/' + kilometros + '?limite=10';
-    
+    let url = this.URL_BASE + '/api/profesionales/' + tipo + '/' + idtipo + '/' + latitud + '/' + longitud + '/' + kilometros + '/' + this.PAIS.id  + '?limite=10';
+    console.log (url);
+
     const headers = {
       'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
     }
@@ -214,8 +220,8 @@ export class ApiService {
     return this.http.get (url, { headers });
   }
 
-  buscar (search_text: string) {
-    let url = this.URL_BASE + '/api/busquedas/buscar/' + search_text;
+  buscar (search_text: string, departamento_id: string) {
+    let url = this.URL_BASE + '/api/busquedas/buscar/' + search_text + '/' + departamento_id;
 
     const headers = {
       'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
@@ -224,10 +230,18 @@ export class ApiService {
     return this.http.get (url, { headers });
   }
 
-  buscar_profesional_avanzado (tipo_profesional: string, departamento: number,
-      idespecialidad: string=null, experiencia_min: number=null, experiencia_max:number=null, idiomas: string=null,
-      honorario_minimo: number=null, honorario_maximo: number=null,
-      atiende_domicilio: number=null, emergencias: number=null, telemedicina: number=null) {
+  buscar_profesional_avanzado (
+    tipo_profesional: string,
+    departamento: number,
+    idespecialidad: string=null,
+    experiencia_min: number=null,
+    experiencia_max:number=null,
+    idiomas: string=null,
+    honorario_minimo: number=null,
+    honorario_maximo: number=null,
+    atiende_domicilio: number=null,
+    emergencias: number=null,
+    telemedicina: number=null) {
     let opcionales = '';
     if (idespecialidad !== null) {
       opcionales += '&idespecialidad=' + idespecialidad;
@@ -279,7 +293,7 @@ export class ApiService {
   } 
 
   obtener_centros_medicos (latitud: number, longitud: number, tipo_centro: string, kilometros: string, limite: number=10) {
-    let url = this.URL_BASE + '/api/establecimientos/' + latitud + '/' + longitud + '/' + tipo_centro;// + '?kilometros=' + kilometros;
+    let url = this.URL_BASE + '/api/establecimientos/' + latitud + '/' + longitud + '/' + tipo_centro + '/' + this.PAIS.id;
 
     url += '&kilometros=' + kilometros;
     url += '&limite=' + limite;
@@ -455,7 +469,7 @@ export class ApiService {
   }
   
   informacion_dni (dni: number) {
-    let url = this.URL_BASE + '/api/cita/pacientes/informacion-dni/' + dni;
+    let url = this.URL_BASE + '/api/cita/pacientes/informacion-dni/' + dni + '/' + this.PAIS.id;
     
     const headers = {
       'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
@@ -547,5 +561,50 @@ export class ApiService {
   recuperar_password (email: string) {
     let url = this.URL_BASE + '/api/auth/recuperar-password';
     return this.http.post (url, {email: email});
+  }
+
+  listado_paises () {
+    let url = this.URL_BASE + '/api/informacion/listado-paises';
+    return this.http.get (url);
+  }
+
+  get_listado_tarifas () {
+    let url = this.URL_BASE + '/api/soporte/listado-tarifas/' + this.PAIS.id;
+    
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.get (url, { headers });
+  }
+
+  eliminar_usuario () {
+    let url = this.URL_BASE + '/api/soporte/eliminar-usuario/' + this.USUARIO_DATA.id;
+    
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.get (url, { headers });
+  }
+
+  listado_de_citas_sin_calificacion () {
+    let url = this.URL_BASE + '/api/cita/pacientes/listado-de-citas-sin-calificacion/' + this.USUARIO_DATA.id;
+    
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.get (url, { headers });
+  }
+
+  guardar_calificacion (data: any) {
+    let url = this.URL_BASE + '/api/cita/pacientes/guardar-calificacion';
+
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.post (url, data, { headers });
   }
 }

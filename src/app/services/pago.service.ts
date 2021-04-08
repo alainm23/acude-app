@@ -33,6 +33,7 @@ export class PagoService {
     Culqi.getOptions.style.logo = "https://www.acudeapp.com/acude-logo.png";
     Culqi.settings ({
       title: 'ACUDE APP',
+      // currency: 'PEN',
       currency: 'PEN',
       description: descripcion,
       amount: cantidad

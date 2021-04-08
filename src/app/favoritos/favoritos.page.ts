@@ -65,7 +65,7 @@ export class FavoritosPage implements OnInit {
   }
 
   ver_clinica (item: any) {
-    this.navController.navigateForward (['perfil-clinica', item.id_centro_medico]);
+    this.navController.navigateForward (['perfil-clinica', item.id_centro_medico, -1]);
   }
 
   slides_categoria_changed () {
@@ -92,8 +92,10 @@ export class FavoritosPage implements OnInit {
 
     if (datos.centros_medicos_lista !== undefined) {
       datos.centros_medicos_lista.forEach ((centro: any) => {
-        if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_centro_medico.tipo_reserva === '1') {
-          returned = true;
+        if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_reserva === '1') {
+          if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_centro_medico.tipo_reserva === '1') {
+            returned = true;
+          }
         }
       });
     }

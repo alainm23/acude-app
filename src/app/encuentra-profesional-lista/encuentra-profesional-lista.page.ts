@@ -44,8 +44,6 @@ export class EncuentraProfesionalListaPage implements OnInit {
 
   async ngOnInit() {
     this.nombre = this.route.snapshot.paramMap.get ('nombre');
-    console.log ('string_cm', this.route.snapshot.paramMap.get ('string_cm'));
-
     const loading = await this.loadingController.create({
       message: 'Procesando...',
     });
@@ -349,8 +347,10 @@ export class EncuentraProfesionalListaPage implements OnInit {
 
     if (datos.centros_medicos_lista !== undefined) {
       datos.centros_medicos_lista.forEach ((centro: any) => {
-        if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_centro_medico.tipo_reserva === '1') {
-          returned = true;
+        if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_reserva === '1') {
+          if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_centro_medico.tipo_reserva === '1') {
+            returned = true;
+          }
         }
       });
     }

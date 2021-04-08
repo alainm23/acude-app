@@ -47,18 +47,27 @@ export class PerfilClinicaPage implements OnInit {
 
       this.datos = res.establecimiento [0];
       if (res.establecimiento [0].sucursales instanceof Array && res.establecimiento [0].sucursales.length > 0) {
-        this.sucursal = res.establecimiento [0].sucursales [0];
+        if (parseInt (this.route.snapshot.paramMap.get ('id_sucursal')) < 0) {
+          this.sucursal = res.establecimiento [0].sucursales [0];
+        } else {
+          res.establecimiento [0].sucursales.forEach ((element: any) => {
+            if (element.id === parseInt (this.route.snapshot.paramMap.get ('id_sucursal'))) {
+              this.sucursal = element;
+            }
+          });
+        }
+
         this.initMap ();
+
+        this.api.get_verificar_favorito (this.sucursal.id).subscribe ((res: any) => {
+          console.log ('get_verificar_favorito', res);
+          this.favorito = res.estado_favorito === 1;
+        });
+
+        if (res.estado_favorito === 1) {
+          this.favorito = true;
+        }
       }
-
-      this.api.get_verificar_favorito (this.sucursal.id).subscribe ((res: any) => {
-        console.log ('get_verificar_favorito', res);
-        this.favorito = res.estado_favorito === 1;
-      });
-
-      // if (res.estado_favorito === 1) {
-      //   this.favorito = true;
-      // }
 
       loading.dismiss ();
     });

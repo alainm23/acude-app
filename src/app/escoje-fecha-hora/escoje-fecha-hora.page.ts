@@ -28,6 +28,7 @@ export class EscojeFechaHoraPage implements OnInit {
   citas: any [] = [];
   bloqueos: any [] = [];
   direccion: string;
+  rango_tiempo: number = 1200;
   constructor (private route: ActivatedRoute,
     private pago: PagoService,
     private toastController: ToastController,
@@ -48,6 +49,9 @@ export class EscojeFechaHoraPage implements OnInit {
     await loading.present ();
     
     this.api.verificar_disponibilidad (JSON.parse (this.route.snapshot.paramMap.get ('centro')).centro_medico_id).subscribe ((res: any) => {
+      console.log (res);
+      this.rango_tiempo = res.tiempo_cita;
+
       this.api.obtener_informacion_completa (this.doctor.id).subscribe ((_res: any) => {
         this.citas = res.disponibilidad.citas;
         this.horarios = res.disponibilidad.horarios;
@@ -152,27 +156,42 @@ export class EscojeFechaHoraPage implements OnInit {
 
     // Capturamos la diferencia entre date_inicio y date_fin en horas
     // Por ejemplo si la diferencia entre 10:00 AM - 18:00 PM es 8 horas
-    var duration = moment.duration (date_fin.diff(date_inicio));
-    var horas_diferencia = duration.asHours ();
+    let diferencia = moment.duration (date_fin.diff(date_inicio)).asSeconds ();
+    let hora_creada = moment (this.date_selected).set ('hour', parseInt (hora_inicio)).set ('minute', parseInt (minuto_inicio));
 
-    // Cremos las horas disponibles desde la hora de inicio hasta hora de inicio + las horas de diferencia
-    // De 10:00 horas hasta la 10:00 + 8 (Horas de diferencia) horas
-    // Agregamos la hora a la lista de horas para mostrar en el array
-    // Tambien validamos si la hora esta en el rango para validar si es mañana, de tarde o de noche
-    for (let hora_creada = parseInt (hora_inicio); hora_creada <= parseInt (hora_inicio) + horas_diferencia; hora_creada++) {
-      if (hora_creada > rango_inicio && hora_creada <= rango_fin) {
-        let hour = moment (this.date_selected).set ('hour', hora_creada).set ('minute', 0).format ('LT');
+    while (diferencia > 0) {
+      if (parseInt (hora_creada.format ('H')) > rango_inicio && parseInt (hora_creada.format ('H')) <= rango_fin) {
+        let hour = hora_creada.format ('LT');
         if (this.date_selected.isSame (this.date_now, 'day')) {
           let fecha = this.date_selected.format ('YYYY[-]MM[-]DD');
-          if (moment ().add (30, 'minutes').diff (moment (fecha + ' ' + hour + ':00'), 'minutes') <= 0) {
+          if (moment ().add (30, 'minutes').diff (moment (fecha + ' ' + hour), 'minutes') <= 0) {
             list.push (hour);
           }
         } else {
           list.push (hour);
-        }
+        } 
       }
-    }
 
+      hora_creada = hora_creada.add (this.rango_tiempo, 'seconds');
+      diferencia = moment.duration (date_fin.diff (hora_creada)).asSeconds ();
+    }
+    // Cremos las horas disponibles desde la hora de inicio hasta hora de inicio + las horas de diferencia
+    // De 10:00 horas hasta la 10:00 + 8 (Horas de diferencia) horas
+    // Agregamos la hora a la lista de horas para mostrar en el array
+    // Tambien validamos si la hora esta en el rango para validar si es mañana, de tarde o de noche
+    // for (let hora_creada = parseInt (hora_inicio); hora_creada <= parseInt (hora_inicio) + horas_diferencia; hora_creada++) {
+    //   if (hora_creada > rango_inicio && hora_creada <= rango_fin) {
+    //     let hour = moment (this.date_selected).set ('hour', hora_creada).set ('minute', 0).format ('LT');
+    //     if (this.date_selected.isSame (this.date_now, 'day')) {
+    //       let fecha = this.date_selected.format ('YYYY[-]MM[-]DD');
+    //       if (moment ().add (30, 'minutes').diff (moment (fecha + ' ' + hour + ':00'), 'minutes') <= 0) {
+    //         list.push (hour);
+    //       }
+    //     } else {
+    //       list.push (hour);
+    //     }
+    //   }
+    // }
     return list;
   }
   

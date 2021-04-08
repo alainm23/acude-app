@@ -83,6 +83,10 @@ export class AuthService {
           loading.dismiss ();
           console.log (error);
         });
+      }, error => {
+        console.log (error);
+        loading.dismiss ();
+        alert (JSON.stringify (error));
       });
     });
   }
@@ -105,14 +109,17 @@ export class AuthService {
     
         await loading.present ();
 
-        this.api.login_social ('gmail', res.email, res.userId.toString (), res.imageUrl, res.givenName, res.familyName).subscribe ((USUARIO_ACCESS: any) => {
+        console.log (res);
+
+        this.api.login_social ('gmail', res.email, res.userId, res.imageUrl, res.givenName, res.familyName).subscribe ((USUARIO_ACCESS: any) => {
           console.log (USUARIO_ACCESS);
+          
           this.storage.set ('USUARIO_ACCESS', JSON.stringify (USUARIO_ACCESS));
           this.api.USUARIO_ACCESS = USUARIO_ACCESS;
 
           loading.message = 'Obteniendo datos del usuario...';
 
-          this.api.get_user (USUARIO_ACCESS.access_token).subscribe ((USUARIO_DATA: any) => {  
+          this.api.get_user (USUARIO_ACCESS.access_token).subscribe ((USUARIO_DATA: any) => {
             console.log (USUARIO_DATA)
 
             this.api.USUARIO_DATA = USUARIO_DATA.user;
@@ -133,7 +140,11 @@ export class AuthService {
           }, (error: any) => {
             loading.dismiss ();
             console.log (error);
-          }); 
+          });
+        }, error => {
+          console.log (error);
+          alert (JSON.stringify (error));
+          loading.dismiss ();
         });
       })
       .catch(err => {

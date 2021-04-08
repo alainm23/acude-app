@@ -52,4 +52,20 @@ export class BusquedaAvanzadaRespuestaPage implements OnInit {
   back () {
     this.navController.back ();
   }
+
+  validar_disponibilidad (datos: any) {
+    let returned: boolean = false;
+
+    if (datos.centros_medicos !== undefined) {
+      datos.centros_medicos.forEach ((centro: any) => {
+        if (centro.info_centro_medico_sucursal.tipo_reserva === '1') {
+          if (centro.info_centro_medico_sucursal.tipo_centro_medico.tipo_reserva === '1') {
+            returned = true;
+          }
+        }
+      });
+    }
+
+    return returned;
+  }
 }

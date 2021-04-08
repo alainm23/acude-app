@@ -203,7 +203,7 @@ export class MapaEstablecimientosPage implements OnInit {
             });
 
             marker.addListener ("click", () => {
-              this.navController.navigateForward (['perfil-clinica', cliente.id]);
+              this.navController.navigateForward (['perfil-clinica', cliente.id, -1]);
             });
 
             bounds.extend (marker.getPosition ());
@@ -225,7 +225,7 @@ export class MapaEstablecimientosPage implements OnInit {
           });
 
           marker.addListener ("click", () => {
-            this.navController.navigateForward (['perfil-clinica', cliente.id]);
+            this.navController.navigateForward (['perfil-clinica', cliente.id, -1]);
           });
 
           this.markers.push (marker);

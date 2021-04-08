@@ -1,7 +1,11 @@
 <ion-header>
-<ion-toolbar>
+  <ion-toolbar mode="ios">
+    <ion-buttons mode="md" slot="start">
+      <ion-back-button (click)="root ()" color="light" text=""></ion-back-button>
+    </ion-buttons>
+
     <ion-title class="ion-text-center">Información personal</ion-title>
-</ion-toolbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
@@ -36,4 +40,9 @@
     </ion-grid>
   </form>
   <ion-button class="btn_enlace" [disabled]="!form.valid" (click)="submit ()">Actualizar</ion-button>
+  <div class="ion-text-center" style="width: 100%;">
+    <ion-button (click)="borrar_cuenta ()" fill="clear" color="dark" style="transform-box: none; margin-bottom: 2rem;">
+      Eliminar mi cuenta
+    </ion-button>
+  </div>
 </ion-content>

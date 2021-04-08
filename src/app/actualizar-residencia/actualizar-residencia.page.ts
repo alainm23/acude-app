@@ -26,6 +26,8 @@ export class ActualizarResidenciaPage implements OnInit {
     private storage: Storage) { }
 
   async ngOnInit() {
+    console.log (this.api.PAIS);
+
     const loading = await this.loadingController.create({
       message: 'Procesando...',
     });
