@@ -1,0 +1,191 @@
+@font-face{
+    font-family: PoppinsSemiBold;
+    src : url('/assets/font/Poppins-SemiBold.otf')
+}
+@font-face{
+    font-family: PoppinsRegular;
+    src : url('/assets/font/Poppins-Regular.otf')
+}
+@font-face{
+    font-family: MyanmarSangam;
+    src : url('/assets/font/Myanmar Sangam MN.ttc')
+}
+.p-titulo
+{
+    font-family: PoppinsSemiBold;
+    color: #875FB6;
+    font-size: 18px;
+}
+.p-descrip
+{
+    color: #898A8F;
+    font-family: PoppinsRegular;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.div-sterllas
+{
+    display: flex;
+    justify-content: space-evenly;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-top: 30px;
+    ion-icon
+    {
+        color: #CFCFCF;
+        font-size: 35px;
+    }
+}
+.btn-siguiente
+{
+    --color: #fff;
+    font-family: PoppinsSemiBold;
+    text-transform: none;
+    --background: #FE9067;
+    --border-radius: 25px;
+    --border-color: #CDD3D9;
+    --border-style: solid;
+    --border-width: 2px; 
+    --box-shadow: none;
+    width: 50%;
+    margin-left: 25%;
+    height: 45px;
+}
+.div-linea-footer
+{
+    background-color: #F0F0F3;
+    border-radius: 3px;
+    height: 5px;
+    width: 40%;
+    margin-left: 30%;
+    margin-top: 40px;
+}
+.p-footer
+{
+    color: #875FB6;
+    font-family: MyanmarSangam;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+img
+{
+    margin-top: 15px;
+}
+@media (min-width: 375px)
+{
+    img
+    {
+        margin-top: 20px;
+    }
+}
+@media (min-width: 411px)
+{
+    img
+    {
+        margin-top: 80px;
+    }
+    .p-descrip
+    {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+}
+@media (min-width: 480px)
+{
+    img
+    {
+        margin-top: 130px;
+    }
+    .p-descrip
+    {
+        padding-left: 70px;
+        padding-right: 70px;
+    }
+    .div-sterllas
+    {
+        margin-top: 60px;
+    }
+}
+@media (min-width: 540px)
+{
+    img
+    {
+        margin-top: 60px;
+    }
+    .div-sterllas
+    {
+        margin-top: 50px;
+    }
+}
+@media (min-width: 600px)
+{
+    img
+    {
+        margin-top: 130px;
+    }
+    .div-sterllas
+    {
+        margin-top: 80px;
+    }
+}
+@media (min-width: 768px)
+{
+    .div-sterllas
+    {
+        padding-left: 90px;
+        padding-right: 90px;
+        ion-icon
+        {
+            font-size: 60px;
+        }
+    }
+    .btn-siguiente
+    {
+        height: 65px;
+    }
+    img
+    {
+        width: 500px;
+    }
+    .p-footer
+    {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+    .div-linea-footer
+    {
+        margin-top: 50px;
+    }
+}
+@media (min-width: 1024px)
+{
+    .div-sterllas
+    {
+        padding-left: 120px;
+        padding-right: 120px;
+    }
+    .p-descrip
+    {
+        padding-left: 250px;
+        padding-right: 250px;
+    }
+    img
+    {
+        width: 550px;
+    }
+    .btn-siguiente
+    {
+        height: 80px;
+        width: 40%;
+        margin-left: 30%;
+    }
+    .p-footer
+    {
+        margin-top: 80px;
+        margin-bottom: 80px;
+    }
+    .div-linea-footer
+    {
+        margin-top: 80px;
+    }
+}
