@@ -227,7 +227,11 @@ const routes: Routes = [
     path: 'comentario/:item/:size',
     canActivate: [AuthGuard],
     loadChildren: () => import('./comentario/comentario.module').then( m => m.ComentarioPageModule)
+  },  {
+    path: 'califica-atencion',
+    loadChildren: () => import('./califica-atencion/califica-atencion.module').then( m => m.CalificaAtencionPageModule)
   }
+
 ];
 
 @NgModule({
