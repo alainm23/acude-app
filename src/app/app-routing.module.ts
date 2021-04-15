@@ -230,6 +230,10 @@ const routes: Routes = [
   },  {
     path: 'califica-atencion',
     loadChildren: () => import('./califica-atencion/califica-atencion.module').then( m => m.CalificaAtencionPageModule)
+  },
+  {
+    path: 'estamos-trabajando',
+    loadChildren: () => import('./estamos-trabajando/estamos-trabajando.module').then( m => m.EstamosTrabajandoPageModule)
   }
 
 ];
