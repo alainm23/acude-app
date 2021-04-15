@@ -287,7 +287,7 @@ export class PerfilClinicaPage implements OnInit {
 
   share () {
     const url = 'https://acudeapp.com/?type=centro-medico?id=' + this.route.snapshot.paramMap.get ('id');
-    const mensaje = "Conectate con " + this.datos.nombre_completo + " en AcudeAPP " + url;
+    const mensaje = "Conectate con " + this.datos.nombre_completo + " en Acude App" + url;
     this.socialSharing.share (mensaje);
   }
 
