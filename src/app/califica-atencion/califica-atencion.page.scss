@@ -14,7 +14,7 @@
 {
     font-family: PoppinsSemiBold;
     color: #875FB6;
-    font-size: 18px;
+    font-size: 16px;
 }
 .p-descrip
 {
@@ -22,6 +22,7 @@
     font-family: PoppinsRegular;
     padding-left: 30px;
     padding-right: 30px;
+    font-size: 15px;
 }
 .div-sterllas
 {
@@ -58,24 +59,66 @@
     height: 5px;
     width: 40%;
     margin-left: 30%;
-    margin-top: 40px;
+    margin-top: 10px;
 }
 .p-footer
 {
     color: #875FB6;
     font-family: MyanmarSangam;
-    margin-top: 25px;
-    margin-bottom: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 img
 {
-    margin-top: 15px;
+    margin-top: 20px;
+    width: 250px;
 }
-@media (min-width: 375px)
+ion-item
+{
+    --padding-start: 25px;
+    --inner-padding-end: 25px;
+}
+ion-textarea
+{
+    border-radius: 13px;
+    border: 1px solid #D2D2D2;
+    height: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 30px;
+    --color: #898A8F;
+    --placeholder-color: #898A8F;
+    font-family: PoppinsRegular;
+}
+@media (min-width: 375px) and (min-height: 812px) 
 {
     img
     {
-        margin-top: 20px;
+        margin-top: 90px;
+        width: 280px;
+    }
+    .p-footer
+    {
+        margin-top: 25px;
+        margin-bottom: 25px;
+    }
+    .div-linea-footer
+    {
+        margin-top: 35px;
+    }
+}
+@media (min-width: 375px) and (min-height: 667px) 
+{
+    .p-footer
+    {
+        margin-top: 25px;
+        margin-bottom: 25px;
+    }
+    .div-linea-footer
+    {
+        margin-top: 35px;
     }
 }
 @media (min-width: 411px)
@@ -84,17 +127,33 @@ img
     {
         margin-top: 80px;
     }
+    ion-item
+    {
+        --padding-start: 30px;
+        --inner-padding-end: 30px;
+    }
+}
+@media (min-width: 411px) and (min-height: 823px)
+{
     .p-descrip
     {
         padding-left: 50px;
         padding-right: 50px;
     }
 }
+@media (min-width: 414px)
+{
+    img
+    {
+        margin-top: 50px;
+        width: 300px;
+    }
+}
 @media (min-width: 480px)
 {
     img
     {
-        margin-top: 130px;
+        margin-top: 90px;
     }
     .p-descrip
     {
@@ -105,6 +164,11 @@ img
     {
         margin-top: 60px;
     }
+    ion-item
+    {
+        --padding-start: 40px;
+        --inner-padding-end: 40px;
+    }
 }
 @media (min-width: 540px)
 {
@@ -114,7 +178,21 @@ img
     }
     .div-sterllas
     {
-        margin-top: 50px;
+        margin-top: 30px;
+    }
+    .div-linea-footer
+    {
+        margin-top: 20px;
+    }
+    .p-footer
+    {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    ion-item
+    {
+        --padding-start: 60px;
+        --inner-padding-end: 60px;
     }
 }
 @media (min-width: 600px)
@@ -125,11 +203,34 @@ img
     }
     .div-sterllas
     {
-        margin-top: 80px;
+        margin-top: 30px;
+    }
+    .div-linea-footer
+    {
+        margin-top: 40px;
+    }
+    .p-footer
+    {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+    ion-item
+    {
+        --padding-start: 80px;
+        --inner-padding-end: 80px;
     }
 }
 @media (min-width: 768px)
 {
+    ion-item
+    {
+        --padding-start: 100px;
+        --inner-padding-end: 100px;
+    }
+    ion-textarea
+    {
+        height: 130px;
+    }
     .div-sterllas
     {
         padding-left: 90px;
@@ -145,7 +246,8 @@ img
     }
     img
     {
-        width: 500px;
+        width: 450px;
+        margin-top: 80px;
     }
     .p-footer
     {
@@ -159,10 +261,16 @@ img
 }
 @media (min-width: 1024px)
 {
+    ion-item
+    {
+        --padding-start: 190px;
+        --inner-padding-end: 190px;
+    }
     .div-sterllas
     {
         padding-left: 120px;
         padding-right: 120px;
+        margin-top: 50px;
     }
     .p-descrip
     {
@@ -187,5 +295,9 @@ img
     .div-linea-footer
     {
         margin-top: 80px;
+    }
+    ion-textarea
+    {
+        margin-top: 50px;
     }
 }
