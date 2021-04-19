@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-estamos-trabajando',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EstamosTrabajandoPage implements OnInit {
 
-  constructor() { }
+  constructor (private navController: NavController) { }
 
   ngOnInit() {
   }
 
+  go_home () {
+    this.navController.navigateRoot ('login');
+  }
 }

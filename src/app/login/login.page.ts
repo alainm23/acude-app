@@ -206,7 +206,7 @@ export class LoginPage implements OnInit {
         this.api.PAIS = pais;
         console.log (this.api.PAIS);
       } else {
-        this.navController.navigateRoot (['pais-no-soportado', corrent_coutry]);
+        this.navController.navigateRoot (['estamos-trabajando']);
       }
     } else {
       this.presentAlertRadio ()
@@ -238,7 +238,7 @@ export class LoginPage implements OnInit {
         }, {
           text: 'No encuentro mi pais',
           handler: () => {
-            this.navController.navigateRoot (['pais-no-soportado', 'Ninguno']);
+            this.navController.navigateRoot (['estamos-trabajando']);
           }
         }
       ]
