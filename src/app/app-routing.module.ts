@@ -229,13 +229,20 @@ const routes: Routes = [
     loadChildren: () => import('./comentario/comentario.module').then( m => m.ComentarioPageModule)
   },
   {
-    path: 'califica-atencion',
+    path: 'califica-atencion/:item/:size',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./califica-atencion/califica-atencion.module').then( m => m.CalificaAtencionPageModule)
   },
   {
     path: 'estamos-trabajando',
     loadChildren: () => import('./estamos-trabajando/estamos-trabajando.module').then( m => m.EstamosTrabajandoPageModule)
+  },
+  {
+    path: 'payment',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./payment/payment.module').then( m => m.PaymentPageModule)
   }
+
 
 ];
 

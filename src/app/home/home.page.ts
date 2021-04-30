@@ -114,27 +114,11 @@ export class HomePage implements OnInit {
       console.log (res);
 
       if (res.citas.length > 0) {
-        const alert = await this.alertController.create ({
-          header: 'Citas sin calificar',
-          message: 'Usted tiene citas sin calificar',
-          buttons: [
-            {
-              text: 'Cancelar',
-              role: 'cancel'
-            }, {
-              text: 'Calificar',
-              handler: () => {
-                if (res.citas.length === 1) {
-                  this.navController.navigateForward (['comentario', JSON.stringify (res.citas [0]), res.citas.length]);
-                } else {
-                  this.navController.navigateRoot (['comentarios-lista', JSON.stringify (res.citas)]); 
-                }
-              }
-            }
-          ]
-        });
-    
-        await alert.present ();
+        if (res.citas.length === 1) {
+          this.navController.navigateForward (['califica-atencion', JSON.stringify (res.citas [0]), res.citas.length]);
+        } else {
+          this.navController.navigateRoot (['comentarios-lista', JSON.stringify (res.citas)]); 
+        }
       }
     }, error => {
       console.log (error);

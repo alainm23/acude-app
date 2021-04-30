@@ -38,6 +38,10 @@ export class ComentariosListaPage implements OnInit {
   }
 
   calificar (item: any) {
-    this.navController.navigateForward (['comentario', JSON.stringify (item), this.items.length]);
+    this.navController.navigateForward (['califica-atencion', JSON.stringify (item), this.items.length]);
+  }
+
+  back () {
+    this.navController.back ();
   }
 }

@@ -21,8 +21,9 @@ export class PerfilDoctorPage implements OnInit {
 
   mapas = new Map <string, any> ();
   favorito: boolean = false;
-  
+  todos_los_comentarios: boolean = false;
   boton_color: boolean = false;
+  promedio_calificacion: number = 0;
   constructor (
     private api: ApiService,
     private route: ActivatedRoute,
@@ -41,7 +42,9 @@ export class PerfilDoctorPage implements OnInit {
     await loading.present ();
 
     this.api.obtener_informacion_completa_profesional (this.route.snapshot.paramMap.get ('id')).subscribe ((res: any) => {
+      console.log (res);
       console.log (res.data.profesional);
+      this.promedio_calificacion = res.data.promedio_calificacion;
       this.datos = res.data.profesional;
       if (res.data.estado_favorito === 1) {
         this.favorito = true;
@@ -274,7 +277,7 @@ export class PerfilDoctorPage implements OnInit {
   }
 
   validar_disponibilidad (datos: any) {
-    let returned: boolean = false;
+    let returned: boolean = true;
 
     if (datos.centros_medicos_lista !== undefined) {
       datos.centros_medicos_lista.forEach ((centro: any) => {
@@ -287,5 +290,62 @@ export class PerfilDoctorPage implements OnInit {
     }
 
     return returned;
+  }
+
+  get_comentarios (centros: any []) {
+    if (centros === null || centros === undefined) {
+      return [];
+    }
+
+    let comentarios = [];
+
+    centros.forEach ((centro: any) => {
+      centro.citas_culminadas.forEach ((cita: any) => {
+        if (cita.comentario !== null) {
+          if (cita.comentario.estado === '1') {
+            comentarios.push ({
+              comentario: cita.comentario.descripcion,
+              fecha: cita.created_at,
+              paciente: cita.paciente.nombres,
+              pun: cita.comentario.puntuacion_1
+            });
+          }
+        }
+      });
+    });
+
+    if (this.todos_los_comentarios) {
+      return comentarios;
+    } else {
+      if (comentarios.length >= 3) {
+        return [comentarios [0], comentarios [1], comentarios [2]];
+      } else {
+        return comentarios;
+      }
+    }
+
+    return comentarios;
+  }
+
+  get_start (pun: number) {
+    let array = [];
+
+    for (let index = 0; index < pun; index++) {
+      array.push (index);
+    }
+
+    return array;
+  }
+
+  get_relative_datetime (date: string) {
+    if (date === null || date === undefined) {
+      return '';
+    }
+
+    return moment (date).fromNow (); 
+  }
+
+  toggle_comentarios () {
+    this.todos_los_comentarios = !this.todos_los_comentarios;
   }
 }

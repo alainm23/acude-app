@@ -144,7 +144,7 @@ export class ApiService {
   }
 
   obtener_informacion_completa_profesional (id: string) {
-    let url = this.URL_BASE + '/api/profesionales/obtener-informacion-completa/' + id + '/' + this.USUARIO_DATA.id;
+    let url = this.URL_BASE + '/api/profesionales/obtener-informacion-completa/' + id + '/' + this.USUARIO_DATA.id + '/' + this.PAIS.id;
 
     const headers = {
       'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
@@ -366,7 +366,7 @@ export class ApiService {
   }
 
   obtener_informacion_profesionales_lista (string_cm: string, especialidad_id: string) {
-    let url = this.URL_BASE + '/api/profesionales/obtener-informacion-lista/' + string_cm + '/' + especialidad_id;
+    let url = this.URL_BASE + '/api/profesionales/obtener-informacion-lista/' + string_cm + '/' + especialidad_id + '/' + this.PAIS.id;
 
     const headers = {
       'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
@@ -529,7 +529,7 @@ export class ApiService {
   }
 
   obtener_informacion_completa (id_profesional: number) {
-    let url = this.URL_BASE + '/api/profesionales/obtener-informacion-completa/' + id_profesional + '/' + this.USUARIO_DATA.id;
+    let url = this.URL_BASE + '/api/profesionales/obtener-informacion-completa/' + id_profesional + '/' + this.USUARIO_DATA.id + '/' + this.PAIS.id;;
     
     const headers = {
       'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
@@ -606,5 +606,15 @@ export class ApiService {
     }
 
     return this.http.post (url, data, { headers });
+  }
+
+  get_obtener_info_emergencia () {
+    let url = this.URL_BASE + '/api/soporte/obtener-info-emergencia/' + this.PAIS.id;
+    
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.get (url, { headers });
   }
 }

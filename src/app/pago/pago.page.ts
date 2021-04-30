@@ -5,8 +5,9 @@ import * as moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
 import { PagoService } from '../services/pago.service';
 import { ApiService } from '../services/api.service';
-import { AlertController, LoadingController, NavController } from '@ionic/angular';
+import { AlertController, LoadingController, NavController, ModalController } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { PaymentPage } from '../payment/payment.page';
 
 // Forms
 import { FormGroup , FormControl, Validators } from '@angular/forms';
@@ -26,11 +27,13 @@ export class PagoPage implements OnInit {
   constructor (private route: ActivatedRoute,
     private pago: PagoService,
     private loadingCtrl: LoadingController,
-    private api: ApiService,
+    public api: ApiService,
     private storage: Storage,
     private alertController: AlertController,
     private callNumber: CallNumber,
-    private navController: NavController) { }
+    private navController: NavController,
+    private modalController: ModalController
+    ) { }
 
   ngOnInit () {
     this.form = new FormGroup ({
@@ -39,9 +42,26 @@ export class PagoPage implements OnInit {
       telefono_tarjeta: new FormControl (this.api.USUARIO_DATA.telefono_tarjeta, Validators.required),
       direccion: new FormControl (this.api.USUARIO_DATA.direccion),
       ciudad: new FormControl (this.api.USUARIO_DATA.ciudad),
+      email: new FormControl (this.api.USUARIO_DATA.email)
     });
 
-    this.pago.initCulqi ();
+    if (this.api.PAIS.id === 1) {
+      this.form.controls ['nombre_tarjeta'].setValidators ([]);
+      this.form.controls ['apellido_tarjeta'].setValidators ([]);
+      this.form.controls ['telefono_tarjeta'].setValidators ([]);
+      this.form.controls ['direccion'].setValidators ([]);
+      this.form.controls ['ciudad'].setValidators ([]);
+      this.form.controls ['email'].setValidators ([Validators.required]);
+    } else {
+      this.form.controls ['nombre_tarjeta'].setValidators ([Validators.required]);
+      this.form.controls ['apellido_tarjeta'].setValidators ([Validators.required]);
+      this.form.controls ['telefono_tarjeta'].setValidators ([Validators.required]);
+      this.form.controls ['direccion'].setValidators ([Validators.required]);
+      this.form.controls ['ciudad'].setValidators ([Validators.required]);
+      this.form.controls ['email'].setValidators ([]);
+    }
+
+    // this.pago.initCulqi ();
     
     this.doctor = JSON.parse (this.route.snapshot.paramMap.get ('doctor'));
     this.data = JSON.parse (this.route.snapshot.paramMap.get ('data'));
@@ -50,57 +70,56 @@ export class PagoPage implements OnInit {
     console.log (this.doctor);
     this.datetime = moment (this.data.fecha).set ('hour', parseInt (this.data.hora.split (':') [0])).set ('minute', parseInt (this.data.hora.split (':') [1]));
 
-    this.pago_subscribe = this.pago.get_pago_solicitado ().subscribe (async (token) => {
-      const loading = await this.loadingCtrl.create({
-        message: 'Procesando...',
-      });
+    // this.pago_subscribe = this.pago.get_pago_solicitado ().subscribe (async (token) => {
+    //   const loading = await this.loadingCtrl.create({
+    //     message: 'Procesando...',
+    //   });
   
-      await loading.present ();
+    //   await loading.present ();
 
-      console.log ('token', token);
+    //   console.log ('token', token);
 
-      let data: any = {
-        id_user: this.api.USUARIO_DATA.id,
-        tokenculqi: token,
-        monto: this.get_pago_formula (this.data.monto) * 100,
-        fecha: this.data.fecha,
-        hora: this.data.hora,
-        tipo_cita: this.data.tipo_cita,
-        id_centro_medico_profesional: this.data.id_centro_medico_profesional,
-      };
+    //   let data: any = {
+    //     id_user: this.api.USUARIO_DATA.id,
+    //     monto: this.get_pago_formula (this.data.monto) * 100,
+    //     fecha: this.data.fecha,
+    //     hora: this.data.hora,
+    //     tipo_cita: this.data.tipo_cita,
+    //     id_centro_medico_profesional: this.data.id_centro_medico_profesional,
+    //   };
 
-      this.api.registrar_cita (data).subscribe ((res: any) => {
-        loading.dismiss ();
-        console.log (res);
+    //   this.api.registrar_cita (data).subscribe ((res: any) => {
+    //     loading.dismiss ();
+    //     console.log (res);
 
-        let request: any = {
-          doctor: this.doctor,
-          fecha: this.data.fecha,
-          hora: this.data.hora,
-          cita_id: res.cita.id,
-          monto: this.data.monto,
-          direccion: this.data.direccion,
-          tipo_cita: this.data.tipo_cita
-        };
+    //     let request: any = {
+    //       doctor: this.doctor,
+    //       fecha: this.data.fecha,
+    //       hora: this.data.hora,
+    //       cita_id: res.cita.id,
+    //       monto: this.data.monto,
+    //       direccion: this.data.direccion,
+    //       tipo_cita: this.data.tipo_cita
+    //     };
 
-        this.navController.navigateRoot (['reserva-exitosa', JSON.stringify (request)]);
-      }, async error => {
-        loading.dismiss ();
-        console.log (JSON.parse (error.error.message));
-        const alert = await this.alertController.create({
-          message: 'Ha ocurrido un error en el pago. Vuelva a intentarlo.',
-          buttons: ['OK']
-        });
+    //     this.navController.navigateRoot (['reserva-exitosa', JSON.stringify (request)]);
+    //   }, async error => {
+    //     loading.dismiss ();
+    //     console.log (JSON.parse (error.error.message));
+    //     const alert = await this.alertController.create({
+    //       message: 'Ha ocurrido un error en el pago. Vuelva a intentarlo.',
+    //       buttons: ['OK']
+    //     });
     
-        await alert.present();
-      });
-    });
+    //     await alert.present();
+    //   });
+    // });
   }
 
   ionViewDidLeave () {
-    if (this.pago_subscribe !== null) {
-      this.pago_subscribe.unsubscribe ();
-    }
+    // if (this.pago_subscribe !== null) {
+    //   this.pago_subscribe.unsubscribe ();
+    // }
   }
 
   get_foto (data: any) {
@@ -166,13 +185,74 @@ export class PagoPage implements OnInit {
   
       console.log (request);
 
-      this.api.actualizar_datos_pago (request).subscribe ((USUARIO_DATA: any) => {
+      this.api.actualizar_datos_pago (request).subscribe (async (USUARIO_DATA: any) => {
         this.api.USUARIO_DATA = USUARIO_DATA.user;
         this.storage.set ('USUARIO_DATA', JSON.stringify (this.api.USUARIO_DATA));
-        this.pago.cfgFormulario ("Pago por servicio", this.get_pago_formula (this.data.monto) * 100);
-        loading.dismiss ().then (() => {
-          this.pago.open ();
+        await loading.dismiss ();
+
+        const modal = await this.modalController.create ({
+          component: PaymentPage,
+          componentProps: {
+            amount: this.get_pago_formula (this.data.monto) * 100,
+            currency: 'PEN',
+            orderId: 'ascascasc',
+            email: this.form.value.email
+          }
         });
+
+        modal.onDidDismiss ().then (async (response: any) => {
+          if (response.role === 'PAID') {
+            const loading = await this.loadingCtrl.create({
+              message: 'Procesando...',
+            });
+          
+            await loading.present ();
+
+            let data: any = {
+              legacyTransId: response.data,
+              id_user: this.api.USUARIO_DATA.id,
+              monto: this.get_pago_formula (this.data.monto) * 100,
+              fecha: this.data.fecha,
+              hora: this.data.hora,
+              tipo_cita: this.data.tipo_cita,
+              id_centro_medico_profesional: this.data.id_centro_medico_profesional,
+            };
+
+            console.log (data);
+
+            this.api.registrar_cita (data).subscribe ((res: any) => {
+              loading.dismiss ();
+              console.log (res);
+      
+              let request: any = {
+                doctor: this.doctor,
+                fecha: this.data.fecha,
+                hora: this.data.hora,
+                cita_id: res.cita.id,
+                monto: this.data.monto,
+                direccion: this.data.direccion,
+                tipo_cita: this.data.tipo_cita
+              };
+      
+              this.navController.navigateRoot (['reserva-exitosa', JSON.stringify (request)]);
+            }, async error => {
+              loading.dismiss ();
+              console.log (JSON.parse (error.error.message));
+              const alert = await this.alertController.create({
+                message: 'Ha ocurrido un error en el pago. Vuelva a intentarlo.',
+                buttons: ['OK']
+              });
+          
+              await alert.present();
+            });
+          }
+        });
+
+        await modal.present ();
+        // this.pago.cfgFormulario ("Pago por servicio", this.get_pago_formula (this.data.monto) * 100);
+        // loading.dismiss ().then (() => {
+        //   this.pago.open ();
+        // });
       }, error => {
         loading.dismiss ();
         console.log ('Error', error);

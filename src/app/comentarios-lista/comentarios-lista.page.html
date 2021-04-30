@@ -1,4 +1,4 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar mode="ios">
     <ion-buttons mode="md" slot="start">
       <ion-back-button></ion-back-button>
@@ -10,6 +10,21 @@
 </ion-header>
 
 <ion-content>
+  
+</ion-content> -->
+
+<!---<ion-header>
+  <ion-toolbar>
+    <ion-title>califica-atencion</ion-title>
+  </ion-toolbar>
+</ion-header>-->
+
+<ion-content class="ion-text-center">
+  <img src="assets/img/califica-atencion.png">
+  <p class="p-titulo">¿Te gustó mi atención?</p>
+  <p class="p-descrip">
+    Ayúdanos a mejorar la atención, califica la atención brindada por el profesional
+  </p>
   <div class="div-list-card">
     <ion-card (click)="calificar (item)" *ngFor="let item of items" class="card-pacientes">
       <h6 class="hl-titulo-doctorres">Dr {{ item.nombre_doctor }}</h6>
@@ -31,4 +46,9 @@
     </ion-card>
   </div>
 </ion-content>
+<ion-footer class="ion-no-border">
+  <p class="ion-text-center p-footer" (click)="back ()">En otro momento</p>
+  <p class="ion-text-center p-footer">Deseo no comentar</p>
+</ion-footer>
+
 

@@ -42,7 +42,7 @@ import { SelectHonorarioPageModule } from './popovers/select-honorario/select-ho
 import { SelectHorarioPageModule } from './popovers/select-horario/select-horario.module';
 import { SelectSucursalPageModule } from './popovers/select-sucursal/select-sucursal.module';
 import { SelectEspecialidadPageModule } from './popovers/select-especialidad/select-especialidad.module';
-
+import { PaymentPageModule } from './payment/payment.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -59,7 +59,8 @@ import { SelectEspecialidadPageModule } from './popovers/select-especialidad/sel
     SelectHonorarioPageModule,
     SelectHorarioPageModule,
     SelectSucursalPageModule,
-    SelectEspecialidadPageModule
+    SelectEspecialidadPageModule,
+    PaymentPageModule
   ],
   providers: [
     StatusBar,

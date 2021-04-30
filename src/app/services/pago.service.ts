@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { ApiService } from '../services/api.service';
 import { Subject } from 'rxjs';
 declare var Culqi: any;
 
@@ -9,7 +10,7 @@ declare var Culqi: any;
 })
 export class PagoService {
   private fooSubject = new Subject<any> ();
-  constructor (public http: HttpClient) {
+  constructor (public http: HttpClient, private api: ApiService) {
     document.addEventListener ('payment_event', (token: any) => {
       let token_id = token.detail;
       this.pago_solicitado (token_id);
@@ -38,6 +39,14 @@ export class PagoService {
       description: descripcion,
       amount: cantidad
     });
+  }
+
+  get_formToken (request: any) {
+    const headers = {
+      'Authorization': 'Bearer ' + this.api.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.post ('https://appmedico.demoperu.site/api/crear-token/izipay', request, { headers });
   }
 
   open () {

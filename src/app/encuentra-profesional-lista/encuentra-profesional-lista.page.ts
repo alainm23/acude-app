@@ -50,10 +50,8 @@ export class EncuentraProfesionalListaPage implements OnInit {
 
     await loading.present ();
 
-    this.api.obtener_informacion_profesionales_lista  (
-      this.route.snapshot.paramMap.get ('string_cm'),
-      this.route.snapshot.paramMap.get ('id')).subscribe ((res: any) => {
-      // console.log (res);
+    this.api.obtener_informacion_profesionales_lista  (this.route.snapshot.paramMap.get ('string_cm'), this.route.snapshot.paramMap.get ('id')).subscribe ((res: any) => {
+      console.log (res);
       this.precio_minimo = res.data.precio_minimo;
       this.precio_maximo = res.data.precio_maximo;
       this.min = res.data.verificar_precio;
@@ -65,6 +63,8 @@ export class EncuentraProfesionalListaPage implements OnInit {
             if (this.profesionales.find (x => x.id === doctor.info_doctor.id) === undefined) {
               doctor.info_doctor.direccion = sucursal.direccion;
               doctor.info_doctor.denominacion = sucursal.denominacion;
+              doctor.info_doctor.promedio_calificacion = doctor.promedio_calificacion;
+              doctor.info_doctor.cantidad_comentario = doctor.cantidad_comentario;
               this.profesionales.push (doctor.info_doctor);
             }
           }

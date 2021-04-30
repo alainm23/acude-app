@@ -51,11 +51,17 @@ export class EscojeFechaHoraPage implements OnInit {
     this.api.verificar_disponibilidad (JSON.parse (this.route.snapshot.paramMap.get ('centro')).centro_medico_id).subscribe ((res: any) => {
       console.log (res);
       this.rango_tiempo = res.tiempo_cita;
+      if (res.tiempo_cita <= 0) {
+        this.rango_tiempo = 3600;
+      }
 
       this.api.obtener_informacion_completa (this.doctor.id).subscribe ((_res: any) => {
+        console.log (_res);
+
         this.citas = res.disponibilidad.citas;
         this.horarios = res.disponibilidad.horarios;
         this.bloqueos = _res.data.profesional.bloqueos_hora;
+
         loading.dismiss ();
       }, error => {
         console.log (error);
@@ -161,7 +167,7 @@ export class EscojeFechaHoraPage implements OnInit {
 
     while (diferencia > 0) {
       if (parseInt (hora_creada.format ('H')) > rango_inicio && parseInt (hora_creada.format ('H')) <= rango_fin) {
-        let hour = hora_creada.format ('LT');
+        let hour = hora_creada.format ('hh:mm');
         if (this.date_selected.isSame (this.date_now, 'day')) {
           let fecha = this.date_selected.format ('YYYY[-]MM[-]DD');
           if (moment ().add (30, 'minutes').diff (moment (fecha + ' ' + hour), 'minutes') <= 0) {
@@ -241,6 +247,9 @@ export class EscojeFechaHoraPage implements OnInit {
   validar_disponibilidad (hora: string) {
     let invalido = false;
     let fecha = this.date_selected.format ('YYYY[-]MM[-]DD');
+
+    console.log (hora);
+    console.log (fecha);
 
     this.citas.forEach ((cita: any) => {
       if (cita.fecha === fecha && cita.hora === hora + ':00') {

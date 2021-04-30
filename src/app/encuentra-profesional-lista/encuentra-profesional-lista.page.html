@@ -51,7 +51,7 @@
                   <p class="p_titulo">{{ item.nombre_completo }}</p>
                 </ion-col>
                 <ion-col size="4" class="ion-no-padding ion-text-end">
-                  <p class="p_number_estrella"></p>
+                  <p class="p_number_estrella"><span>★</span>{{ item.promedio_calificacion }}</p>
                   <!-- <p class="p_ofta">{{ item.especialidad.nombre }}</p> -->
                   <ion-icon style="font-size: 24px; color: #875FB6;" *ngIf="item.brinda_telemedicina === '1'" name="videocam-outline"></ion-icon>
                 </ion-col>

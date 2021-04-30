@@ -26,9 +26,9 @@
       </ion-item>
     
     </ion-list>
-    <h3 class="ion-text-center">SAMU</h3>
-    <p class="ion-text-center ion-text-wrap">Un profesional de la salud, capacitado y entrenado en urgencias y emergencias, te responderá de inmediato y aconsejará cómo proceder durante el incidente.</p>
-    <ion-button class="btn_llamar" (click)="llamar ('106')">Llamar gratis al 106</ion-button>
+    <h3 class="ion-text-center">{{ emergencia_principal?.nombre_emergencia }}</h3>
+    <p class="ion-text-center ion-text-wrap">{{ emergencia_principal?.descripcion_emergencia }}</p>
+    <ion-button class="btn_llamar" (click)="llamar (emergencia_principal?.telefono_emergencia)">Llamar gratis al {{ emergencia_principal?.telefono_emergencia }}</ion-button>
     <small class="ion-text-center ion-text-wrap">Recuerde que las llamadas malintencionadas a números de emergencia están sancionadas por ley, use este numero con responsabilidad.</small>
   </ion-card>
 </ion-content>

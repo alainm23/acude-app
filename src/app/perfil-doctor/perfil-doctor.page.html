@@ -25,7 +25,7 @@
             <ion-col size="4" style="display: flex;justify-content: center;">
             </ion-col>
             <ion-col size="4" class="col_flex">
-              <p style="opacity:0"  class="ion-no-margin p_iconos"><img src="assets/img/star.png" style="margin-right: 5px;">4.2</p>
+              <p style="opacity:1"  class="ion-no-margin p_iconos">{{ promedio_calificacion }}<img src="assets/img/star.png" style="margin-right: 5px;"></p>
               <ion-icon style="opacity:0" name="videocam-outline" class="icon_camra_cora icon_rigth"></ion-icon>
               <div (click)="toggle_favorito ()">
                 <img *ngIf="favorito === false" src="assets/img/D6dSLWtif.png">
@@ -34,7 +34,7 @@
             </ion-col>
             <ion-col size="12" class="ion-text-center">
               <p class="subtitulo_p" style="margin-bottom: 0px; margin-top: 1rem;">{{ datos?.especialidad?.nombre }}</p>
-              <p class="titulo_p" style="margin-top: 0px;">{{ datos?.especialidad?.categoria_especialidad?.tratamiento }}&nbsp;{{ datos?.nombre_completo }}</p>
+              <p class="titulo_p" style="margin-top: 0px;">{{ datos?.tratamiento }}&nbsp;{{ datos?.nombre_completo }}</p>
               <p style="margin-top: 0px;">{{ datos?.especialidad?.categoria_especialidad?.siglas }} {{ datos?.numero_colegiatura_cmp }}</p>
             </ion-col>
             <ion-col size="6" class="ion-no-padding">
@@ -133,14 +133,23 @@
               </div>
             </ion-card-content>
           </ion-card>
-          <!-- <div class="div_border_top ion-margin-top">
+          <div *ngIf="get_comentarios (datos?.centros_medicos).length > 0" class="div_border_top ion-margin-top">
             <p class="p_medium">Comentarios</p>
-            <p class="p_subtitulo_regular">Muy buena atención , limpio y ordenado.</p>
-            <p class="descripcion_p_regular">Rina Gonzalez . Hace 1 mes</p>
-            <p class="a_link_comentarios">TODOS LOS COMENTARIOS</p>
-          </div> -->
+            <ng-container *ngFor="let item of get_comentarios (datos?.centros_medicos)">
+              <img src="assets/img/star.png" style="margin-right: 5px;" *ngFor="let item of get_start (item.pun)"> <p class="p_subtitulo_regular">{{ item.comentario }}</p>
+              <p class="descripcion_p_regular">{{ item.paciente }} . {{ get_relative_datetime (item.fecha) }}</p>
+            </ng-container>
+            <p *ngIf="get_comentarios (datos?.centros_medicos).length > 3" class="a_link_comentarios" (click)="toggle_comentarios ()">
+              <ng-container *ngIf="todos_los_comentarios === false">
+                TODOS LOS COMENTARIOS
+              </ng-container>
+              <ng-container *ngIf="todos_los_comentarios === true">
+                MENOS COMENTARIOS
+              </ng-container>
+            </p>
+          </div>
           <div class="div_border_top">
-            <p class="p_medium">SERVICIOS</p>
+            <p class="p_medium" *ngIf="datos?.atiende_domicilio === '1' || datos?.atiende_emergencias_24 === '1'">SERVICIOS</p>
             <p class="p_subtitulo_regular" *ngIf="datos?.atiende_domicilio === '1'">Visita a domicilio</p>
             <p class="p_subtitulo_regular" *ngIf="datos?.atiende_emergencias_24 === '1'">Atiende emergencias 24/7</p>
           </div>
@@ -160,7 +169,7 @@
           </div>
         </ion-card>
       </ion-col>
-      <ion-col size="12" size-md="7">
+      <ion-col style="margin-bottom: 2rem;" size="12" size-md="7">
         <ion-button class="btn-proxima btn-left-width" *ngIf="validar_disponibilidad (datos)" (click)="reservar_select ()">Reservar cita</ion-button>
       </ion-col>
     </ion-row>

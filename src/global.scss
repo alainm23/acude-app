@@ -82,3 +82,26 @@
 //         margin:-10px 0 0 -10px;
 //     }
 // }
+
+.kr-payment-button {
+    background-color: #FE9067 !important;
+    border-radius: 20px !important;
+    box-shadow: 0px 9px 38px #00000029 !important;
+    height: 51px !important;
+    font-family: PoppinsMedium !important;
+}
+
+.kr-security-code,
+.kr-expiry,
+.kr-pan {
+    background: #F6F6F6 !important;
+    padding: 1px !important;
+    color: #898A8F !important;
+    border: 1px solid #D6D6D6 !important;
+    border-radius: 6px !important;
+}
+
+.kr-field-wrapper,
+.kr-field-wrapper-securityCode {
+    background: #fff !important;
+}

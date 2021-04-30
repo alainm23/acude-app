@@ -11,18 +11,18 @@
     Ayúdanos a mejorar la atención, califica la atención brindada por el profesional
   </p>
   <div class="div-sterllas">
-    <ion-icon name="star-outline"></ion-icon>
-    <ion-icon name="star-outline"></ion-icon>
-    <ion-icon name="star-outline"></ion-icon>
-    <ion-icon name="star-outline"></ion-icon>
-    <ion-icon name="star-outline"></ion-icon>
+    <ion-icon name="star-outline" *ngFor="let num of [1, 2, 3, 4, 5]" 
+    (click)="rate (0, num)" [ngStyle]="{'color': getColor (0, num)}">
+    </ion-icon>
   </div>
-  <ion-item lines="none">
-    <ion-textarea placeholder="Deja tu comentario para"></ion-textarea>
-  </ion-item>
+  <form [formGroup]="form" class="form-class">
+    <ion-item lines="none">
+      <ion-textarea formControlName="comment" placeholder="Deja tu comentario para"></ion-textarea>
+    </ion-item>
+  </form>
 </ion-content>
 <ion-footer class="ion-no-border">
-  <ion-button class="btn-siguiente">Siguiente</ion-button>
+  <ion-button class="btn-siguiente" (click)="submit ()">Siguiente</ion-button>
   <div class="div-linea-footer"></div>
-  <p class="ion-text-center p-footer">En otro momento</p>
+  <p class="ion-text-center p-footer" (click)="back ()">En otro momento</p>
 </ion-footer>
