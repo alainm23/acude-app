@@ -14,6 +14,14 @@
     font-family: MontserratSemiBold;
     src : url('/assets/font/Montserrat-SemiBold.ttf')
 }
+@font-face{
+    font-family: PoppinsExtraLight;
+    src : url('/assets/font/Poppins-ExtraLight.otf')
+}
+@font-face{
+    font-family: PoppinsBold;
+    src : url('/assets/font/Poppins-Bold.ttf')
+}
 ion-content
 {
     --background: #000000bf;
@@ -34,11 +42,11 @@ ion-content
         box-shadow: none;
         border-radius: 13px;
         width: 100%;
-        padding: 20px;
+        padding: 20px 15px;
         margin-top: 45px;
         h4
         {
-            color: #23CEC3;
+            color: #875FB6;
             font-family: PoppinsSemiBold;
             margin: 0px;
             margin-top: 30px;
@@ -82,7 +90,7 @@ ion-content
         }
         .btn_deseo
         {
-            --background: #2E5269;
+            --background: #875FB6;
             --color: #ffffff;
             font-family: MontserratSemiBold;
             text-transform: none;
@@ -93,14 +101,15 @@ ion-content
         }
         .btn_llamar
         {
-            --background: #FE9067;
+            --background: #875FB6;
+            --background-activated: #875FB6;
             --color: #ffffff;
             font-family: MontserratSemiBold;
             text-transform: none;
             width: 100%;
             height: 55px;
             --border-radius: 28px;
-            margin-top: 10px;
+            margin-top: 20px;
         }
         .btn_deseo:hover
         {
@@ -109,15 +118,89 @@ ion-content
             border: 1px solid #2E5269;
             border-radius: 28px;
         }
-        .btn_llamar:hover
+        .p-escoge
         {
-            --background: #FE9067;
-            --color: #ffffff;
-            border: 1px solid #18DDD0;
-            border-radius: 28px;
+            color: #313450;
+            font-family: PoppinsExtraLight;
+            padding: 0px 30px;
+        }
+        .item-list
+        {
+            --padding-start: 0px;
+            position: relative;
+            .p-nombre-empresa
+            {
+                color: #898A8F;
+                font-family: PoppinsBold;
+                font-size: 15px;
+                padding-left: 10px;
+                padding-right: 50px;
+                text-align: initial;
+            }
+            .p-descrip-empresa
+            {
+                color: #898A8F;
+                font-family: PoppinsRegular;
+                padding-left: 10px;
+                padding-right: 50px;
+                text-align: initial;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+            .img-ambulancia
+            {
+                position: absolute;
+                right: 10px;
+                top: 15px;
+                width: 40px;
+            }
+            .label-top
+            {
+                margin-top: 15px;
+                margin-bottom: 11px;
+            }
+        }
+        .p-llmar
+        {
+            color: #898A8F;
+            font-family: PoppinsRegular;
+            font-size: 15px;
+        }
+        .p-descripc-llamar
+        {
+            color: #898A8F;
+            font-family: PoppinsRegular;
+            font-size: 12px;
         }
     }
 }
+
+@media (min-width: 411px)
+{
+    ion-content
+    {
+        ion-card
+        {
+            width: 96%;
+            margin-left: 2%;
+        }
+    }
+}
+
+@media (min-width: 480px)
+{
+    ion-content
+    {
+        ion-card
+        {
+            width: 80%;
+            margin-left: 10%;
+        }
+    }
+}
+
 @media (min-width: 768px)
 {
     ion-content
@@ -149,6 +232,8 @@ ion-content
         ion-card
         {
             margin-top: 100px;
+            width: 70%;
+            margin-left: 15%;
         }
     }
 }

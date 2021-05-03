@@ -19,7 +19,7 @@ ion-header
     height: 0px;
     ion-toolbar
     {
-        --background: #18DDD0;
+        --background: #875FB6;
         --color: #ffffff;
         --padding-start: 0px;
         --padding-end:0px;
@@ -41,7 +41,7 @@ ion-header
             align-items: end;
             ion-select::before
             {
-                content: url('/assets/img/Grupo1907.png');
+                content: url('/assets/img/grupo-1907.png');
                 position: absolute;
                 right: 0;
                 top: 13px;
@@ -121,7 +121,7 @@ ion-card.card_acordion
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        background-color: #18DDD0;
+        background-color: #875FB6;
         border-radius: 10px;
         color: #ffffff;
         padding: 0px 15px;
