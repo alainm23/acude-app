@@ -10,6 +10,14 @@
     font-family: MyanmarSangam;
     src : url('/assets/font/Myanmar Sangam MN.ttc')
 }
+@font-face{
+    font-family: PoppinsMedium;
+    src : url('/assets/font/Poppins-Medium.otf')
+}
+@font-face{
+    font-family: PoppinsExtraBold;
+    src : url('/assets/font/Poppins-ExtraBold.otf')
+}
 .p-titulo
 {
     font-family: PoppinsSemiBold;
@@ -92,6 +100,188 @@ ion-textarea
     --placeholder-color: #898A8F;
     font-family: PoppinsRegular;
 }
+/* estilos card*/
+ion-card.card_establecimineto
+{
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 12px;
+    border: 1px solid #ECECEC;
+    padding: 20px 15px;
+    .div_img_p
+    {
+        width: 30%;
+        text-align: center;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        .div_img_circulo
+        {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            /*box-shadow: 0px 3px 6px #00000029;
+            background-color: #ffffff;*/
+            position: relative;
+            img
+            {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                margin-top: 0px !important;
+            }
+            div.div_circulo_verde
+            {
+                background-color: #62D248;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                right: 0;
+                bottom: 0px;
+                width: 30px;
+                height: 30px;
+                color: #ffffff;
+                font-family: PoppinsMedium;
+                font-size: 10px;
+                border: 1px solid #ffffff;
+            }
+        }
+        p
+        {
+            margin: 0px;
+            width: 100%;
+        }
+        p.p_votos
+        {
+            color: #898A8F;
+            font-family: PoppinsSemiBold;
+            font-size: 14px;
+        }
+        p.p_opciones
+        {
+            color: #000000;
+            font-family: PoppinsSemiBold;
+            font-size: 13px;
+        }
+    }
+    .div_img_pdiv_img_p
+    {
+        width: 65%;
+        margin-left: 5%;
+        div.div_titulo_estrella
+        {
+            ion-row
+            {
+                ion-col
+                {
+                    .p_titulo
+                    {
+                        color: #313450;
+                        font-family: PoppinsMedium;
+                        margin: 0px;
+                        font-size: 14px;
+                        text-align: initial;
+                    }
+                    .p_number_estrella
+                    {
+                        color: #898A8F;
+                        margin: 0px;
+                        span
+                        {
+                            color: #EFCE4A;
+                            font-size: 14px;
+                            margin-right: 5px;
+                        }
+                    }
+                    .p_ofta
+                    {
+                        color: #898A8F;
+                        font-family: PoppinsRegular;
+                        font-size: 10px;
+                        margin: 0px;
+                        position: absolute;
+                        bottom: 0;
+                        right: 0;
+                    }
+                }
+            }
+        }
+        div.div_liena_azul
+        {
+            width: 100%;
+            border-top: 1px solid #EFEFEF;
+            margin-top: 5px;
+            padding-top: 5px;
+            p
+            {
+                color: #898A8F;
+                margin: 0px;
+                font-family: PoppinsRegular;
+                font-size: 12px;
+                margin-bottom: 3px;
+                display: flex;
+                align-items: center;
+            }
+            .h6-list
+            {
+                color: #898A8F;
+                text-align: initial;
+                font-family: PoppinsExtraBold;
+                font-size: 13px;
+                margin-bottom: 0px;
+                margin-top: 8px;
+            }
+        }
+    }
+    .btn_salud
+    {
+        width: 100%;
+        --background: #ffffff;
+        --background-activated: #ffffff;
+        --border-color: #2E5269;
+        --border-style: solid;
+        --border-width: 0.5px;
+        --color: #2E5269;
+        --border-radius: 25px;
+        font-family: PoppinsSemiBold;
+        font-size: 13px;
+        height: 40px;
+        margin-top: 20px;
+        margin-bottom: 0px;
+    }
+    .btn_salud_llmar
+    {
+        width: 100%;
+        --background: #FE9067;
+        --background-activated: #FE9067;
+        --color: #ffffff;
+        --border-radius: 25px;
+        font-family: PoppinsSemiBold;
+        font-size: 13px;
+        height: 40px;
+        margin-top: 20px;
+        margin-bottom: 0px;
+    }
+}
+.div_plomo
+{
+    width: 40%;
+    margin-left: 30%;
+    height: 8px;
+    background-color: #F0F0F3;
+    border-radius: 3px;
+}
+ion-footer 
+{
+    padding-top: 20px;
+}
+
 @media (min-width: 375px) and (min-height: 812px) 
 {
     img

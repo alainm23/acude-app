@@ -60,7 +60,7 @@ ion-header
     position: relative;
     ion-toolbar
     {
-        --background: #18DDD0;
+        --background: #875FB6;
         --color: #ffffff;
         --padding-start: 0px;
         --padding-end:0px;
@@ -152,14 +152,14 @@ ion-content
     flex-wrap: wrap;
     .p_desactivo
     {
-        color: #23CEC3;
+        color: #875FB6;
         font-family: PoppinsRegular;
         font-size: 11px;
         margin-right: 13px;
     }
     .p_activo
     {
-        color: #23CEC3;
+        color: #875FB6;
         font-family: PoppinsBlack;
         font-size: 11px;
         margin-right: 13px;
