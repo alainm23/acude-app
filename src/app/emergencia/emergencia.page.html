@@ -5,49 +5,18 @@
     <p class="ion-text-center p-escoge">
       Escoge el proveedor que mas te agrade
     </p>
-    <!-- <p class="p_confirme ion-text-center">Confirme sus datos</p> -->
-    <!-- <div class="div_p_editar">
-      <p class="p_telefono">Tu numero de telefono es<br><span>+51 989767545</span></p>
-      <p class="p_editar">Editar</p>
-    </div>
-    <div class="div_p_editar">
-      <p class="p_telefono">Calle La Paz 1234, San Isidro,<br> Lima</p>
-      <p class="p_editar">Editar</p>
-    </div> -->
-    <!--<ion-list>
-      <ion-item *ngFor="let item of emergencias">
-        <ion-label class="ion-text-wrap">
-          <ion-text>
-            <h3>{{ item.establecimiento.nombre_comercial }}</h3>
-          </ion-text>
-          <p>{{ item.descripcion }}</p>
-        </ion-label>
-
-        <ion-button (click)="llamar (item.telefono_emergencia)" slot="end" fill="clear" color="dark">
-          <ion-icon slot="icon-only" name="call-outline"></ion-icon>
-        </ion-button>
-      </ion-item>
-    
-    </ion-list>-->
     <ion-list>
-      <ion-item class="item-list">
+      <ion-item *ngFor="let item of emergencias" class="item-list">
         <ion-label class="ion-text-wrap label-top">
-          <p class="p-nombre-empresa">Nombre de empresa</p>
-          <p class="p-descrip-empresa">Descripción en unas palabras no mas de 2 lineas</p>
+          <p class="p-nombre-empresa">{{ item.establecimiento.nombre_comercial }}</p>
+          <p class="p-descrip-empresa">{{ item.descripcion }}</p>
         </ion-label>
-        <img src="assets/img/grupo-1952.png" class="img-ambulancia">
-      </ion-item>
-      <ion-item class="item-list">
-        <ion-label class="ion-text-wrap label-top">
-          <p class="p-nombre-empresa">Nombre de empresa</p>
-          <p class="p-descrip-empresa">Descripción en unas palabras no mas de 2 lineas</p>
-        </ion-label>
-        <img src="assets/img/grupo-1952.png" class="img-ambulancia">
+        <img (click)="llamar (item.telefono_emergencia)" src="assets/img/grupo-1952.png" class="img-ambulancia">
       </ion-item>
     </ion-list>
     <div class="ion-text-center">
       <p class="p-llmar">O también puedes llamar a:</p>
-      <img src="assets/img/Imagen-29.png">
+      <img style="width: 35%;" [src]="get_foto (emergencia_principal?.logotipo_emergencia)">
     </div>
     <!--<h3 class="ion-text-center">{{ emergencia_principal?.nombre_emergencia }}</h3>
     <p class="ion-text-center ion-text-wrap">{{ emergencia_principal?.descripcion_emergencia }}</p>-->

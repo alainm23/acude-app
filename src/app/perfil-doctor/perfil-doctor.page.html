@@ -25,7 +25,9 @@
             <ion-col size="4" style="display: flex;justify-content: center;">
             </ion-col>
             <ion-col size="4" class="col_flex">
-              <p style="opacity:1"  class="ion-no-margin p_iconos">{{ promedio_calificacion }}<img src="assets/img/star.png" style="margin-right: 5px;"></p>
+              <p style="opacity:1" *ngIf="promedio_calificacion > 0" class="ion-no-margin p_iconos">
+                {{ promedio_calificacion }}<img src="assets/img/star.png" style="margin-right: 5px;">
+              </p>
               <ion-icon style="opacity:0" name="videocam-outline" class="icon_camra_cora icon_rigth"></ion-icon>
               <div (click)="toggle_favorito ()">
                 <img *ngIf="favorito === false" src="assets/img/D6dSLWtif.png">
@@ -102,7 +104,7 @@
             <ion-card-content *ngIf="centro.visible">
               <div class="div_conuslta_nutton">
                 <p>Costo de consulta : <span>{{ centro.precio_consulta | currency:'S/. ' }}</span></p>
-                <ion-button (click)="reservar (centro)" *ngIf="centro.info_centro_medico_sucursal_tarjeta_medico.tipo_centro_medico.tipo_reserva === '1'">
+                <ion-button (click)="reservar (centro)" *ngIf="validar_visible (centro.info_centro_medico_sucursal_tarjeta_medico)">
                   Reservar
                 </ion-button>
               </div>

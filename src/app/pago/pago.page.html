@@ -48,7 +48,7 @@
       <div *ngIf="data.monto > 0">
         <h3 class="ion-text-center titulo-tarjeta">Datos del titular de la tarjeta</h3>
         <form [formGroup]="form">
-          <ng-container *ngIf="api.PAIS.id !== 1">
+          <ng-container *ngIf="api.PAIS.id === 1">
             <ion-input placeholder="Nombres" type="text" formControlName="nombre_tarjeta" class="input-genral"></ion-input>
             <small *ngIf="form.controls.nombre_tarjeta.errors?.required && form.controls.nombre_tarjeta.dirty">
               * Este campo es obligatorio
@@ -75,7 +75,7 @@
             </small>
           </ng-container>
   
-          <ng-container *ngIf="api.PAIS.id === 1">
+          <ng-container *ngIf="api.PAIS.id !== 1">
             <ion-input placeholder="Correo electronico" type="text" formControlName="email" class="input-genral"></ion-input>
             <small *ngIf="form.controls.email.errors?.required && form.controls.email.dirty">
               * Este campo es obligatorio

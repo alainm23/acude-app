@@ -43,7 +43,7 @@ export class PerfilDoctorPage implements OnInit {
 
     this.api.obtener_informacion_completa_profesional (this.route.snapshot.paramMap.get ('id')).subscribe ((res: any) => {
       console.log (res);
-      console.log (res.data.profesional);
+      // console.log (res.data.profesional);
       this.promedio_calificacion = res.data.promedio_calificacion;
       this.datos = res.data.profesional;
       if (res.data.estado_favorito === 1) {
@@ -88,40 +88,21 @@ export class PerfilDoctorPage implements OnInit {
     consultorio.visible = !consultorio.visible;
   }
 
-  draw_mapa (consultorio: any) {
-    if (this.mapas.get (consultorio.id) === undefined) {
-      let map_ref = document.getElementById ('consultorio_' + consultorio.id);
-
-      let point = new google.maps.LatLng (+consultorio.latitud, +consultorio.longitud);
-
-      const options = {
-        center: point,
-        zoom: 15,
-        disableDefaultUI: true,
-        streetViewControl: false,
-        disableDoubleClickZoom: false,
-        clickableIcons: false,
-        scaleControl: true,
-        mapTypeId: 'roadmap'
-      }
-      
-      let map = new google.maps.Map (map_ref, options);
-
-      let marker = new google.maps.Marker({
-        position: point,
-        animation: google.maps.Animation.DROP,
-        map: map
-      });
-
-      this.mapas.set (consultorio.id, map);
-    }
-  }
-
   draw_mapa_centros_medicos (id: string, centro: any) {
     if (this.mapas.get (centro.id) === undefined) {
       let map_ref = document.getElementById ('centros_medicos_' + id);
+      let latitud: any = 0;
+      let longitud: any = 0;
 
-      let point = new google.maps.LatLng (+centro.latitud, +centro.longitud);
+      if (centro.latitud !== null) {
+        latitud = centro.latitud;
+      }
+
+      if (centro.longitud !== null) {
+        longitud = centro.longitud;
+      }
+
+      let point = new google.maps.LatLng (parseFloat (latitud), parseFloat (longitud));
 
       const options = {
         center: point,
@@ -202,9 +183,9 @@ export class PerfilDoctorPage implements OnInit {
       editar: false
     };
 
-    let brinda_telemedicina = '0';
-    if (this.datos.brinda_telemedicina === '1') {
-      brinda_telemedicina = '1';
+    let brinda_telemedicina = 0;
+    if (this.datos.brinda_telemedicina === 1) {
+      brinda_telemedicina = 1;
     }
 
     this.navController.navigateForward (
@@ -230,8 +211,12 @@ export class PerfilDoctorPage implements OnInit {
       let inputs: any [] = [];
       let size: number = 0;
       this.datos.centros_medicos_lista.forEach ((centro: any) => {
-        if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_centro_medico.tipo_reserva === '1') {
+        if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_reserva === '1') {
           size++;
+        } else {
+          if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_centro_medico.tipo_reserva === '1') {
+            size++;
+          }
         }
       });
 
@@ -277,16 +262,32 @@ export class PerfilDoctorPage implements OnInit {
   }
 
   validar_disponibilidad (datos: any) {
-    let returned: boolean = true;
+    let returned: boolean = false;
 
     if (datos.centros_medicos_lista !== undefined) {
       datos.centros_medicos_lista.forEach ((centro: any) => {
         if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_reserva === '1') {
+          returned = true;
+        } else {
           if (centro.info_centro_medico_sucursal_tarjeta_medico.tipo_centro_medico.tipo_reserva === '1') {
             returned = true;
           }
         }
       });
+    }
+
+    return returned;
+  }
+
+  validar_visible (datos: any) {
+    let returned: boolean = false;
+
+    if (datos.tipo_reserva === '1') {
+      returned = true;
+    } else {
+      if (datos.tipo_centro_medico.tipo_reserva === '1') {
+        returned = true;
+      }
     }
 
     return returned;

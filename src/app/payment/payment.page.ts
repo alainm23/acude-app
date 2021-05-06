@@ -14,7 +14,7 @@ export class PaymentPage implements OnInit {
   @Input () orderId: string;
   @Input () email: string;
   @Input () tienda_id: string = '80078824';
-  // @Input () tienda_id: string = '8755028';
+  // @Input () tienda_id: string = '8755077';
 
   promiseError = null;
   constructor (private payment: PagoService,
@@ -28,7 +28,7 @@ export class PaymentPage implements OnInit {
 
     await loading.present ();
 
-    var order = {
+    const order = {
       form: {
         amount: this.amount,
         currency: this.currency,
@@ -63,7 +63,6 @@ export class PaymentPage implements OnInit {
             KR.removeForms ();
             this.modalController.dismiss (this.get_legacyTransId (event.clientAnswer.transactions), 'PAID');
           } else {
-            // Show error message to the user
             alert("Payment failed !");
           }
         });

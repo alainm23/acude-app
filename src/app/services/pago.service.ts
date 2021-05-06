@@ -34,7 +34,6 @@ export class PagoService {
     Culqi.getOptions.style.logo = "https://www.acudeapp.com/acude-logo.png";
     Culqi.settings ({
       title: 'ACUDE APP',
-      // currency: 'PEN',
       currency: 'PEN',
       description: descripcion,
       amount: cantidad
@@ -45,7 +44,6 @@ export class PagoService {
     const headers = {
       'Authorization': 'Bearer ' + this.api.USUARIO_ACCESS.access_token
     }
-
     return this.http.post ('https://appmedico.demoperu.site/api/crear-token/izipay', request, { headers });
   }
 

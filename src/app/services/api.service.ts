@@ -19,8 +19,8 @@ export class ApiService {
   TITULO_ERROR: string = 'Lo sentimos';
   private usuario_subject = new Subject<any> ();
   constructor (public http: HttpClient, private fb: Facebook, private platform: Platform) {
-    // this.URL_BASE = "https://acudeapp.com";
-    this.URL_BASE = "https://appmedico.demoperu.site";
+    this.URL_BASE = "https://acudeapp.com";
+    // this.URL_BASE = "https://appmedico.demoperu.site";
   }
 
   usuario_changed (data: any) {
