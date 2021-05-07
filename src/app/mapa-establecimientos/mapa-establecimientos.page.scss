@@ -49,7 +49,7 @@
     {
         margin: 0px 10px;
         font-family: PoppinsExtraBold;
-        color: #875FB6;
+        color: #18DDD0;
         font-size: 13px;
     }
 }
@@ -60,7 +60,7 @@ ion-header
     position: relative;
     ion-toolbar
     {
-        --background: #875FB6;
+        --background: #18DDD0;
         --color: #ffffff;
         --padding-start: 0px;
         --padding-end:0px;
@@ -152,14 +152,14 @@ ion-content
     flex-wrap: wrap;
     .p_desactivo
     {
-        color: #875FB6;
+        color: #18DDD0;
         font-family: PoppinsRegular;
         font-size: 11px;
         margin-right: 13px;
     }
     .p_activo
     {
-        color: #875FB6;
+        color: #18DDD0;
         font-family: PoppinsBlack;
         font-size: 11px;
         margin-right: 13px;
@@ -193,7 +193,7 @@ ion-slides
         {
             width: 100%;
             text-align: center;
-            color: #875FB6;
+            color: #18DDD0;
             font-family: PoppinsRegular;
             font-size: 13px;
             line-height: 1.2;
@@ -207,7 +207,7 @@ ion-slides
 .p_busqueda
 {
     font-family: PoppinsRegular;
-    color: #875FB6;
+    color: #18DDD0;
     font-size: 14px;
     margin-top: 15px;
     margin-bottom: 9px;

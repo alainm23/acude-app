@@ -19,7 +19,7 @@ ion-header
     height: 0px;
     ion-toolbar
     {
-        --background: #875FB6;
+        --background: #18DDD0;
         --color: #ffffff;
         --padding-start: 0px;
         --padding-end:0px;
@@ -41,7 +41,7 @@ ion-header
             align-items: end;
             ion-select::before
             {
-                content: url('/assets/img/grupo-1907.png');
+                content: url('/assets/img/Grupo1907.png');
                 position: absolute;
                 right: 0;
                 top: 13px;
@@ -101,7 +101,7 @@ ion-card.card_buscador
 .p_busqueda
 {
     font-family: PoppinsRegular;
-    color: #875FB6;
+    color: #18DDD0;
     margin-top: 55px;
     font-size: 14px;
     display: flex;
@@ -121,7 +121,7 @@ ion-card.card_acordion
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        background-color: #875FB6;
+        background-color: #18DDD0;
         border-radius: 10px;
         color: #ffffff;
         padding: 0px 15px;
@@ -240,7 +240,7 @@ ion-slides
 {
   width: 100%;
   --background: transparent;
-  --color: #3F4079;
+  --color: #18DDD0;
   --border-color: #cdd3d9;
   --box-shadow: none;
   text-transform: capitalize;
@@ -286,13 +286,13 @@ ion-slides
 }
 .p-econtramos
 {
-    color: #875FB6;
+    color: #18DDD0;
     font-family: PoppinsMedium;
 }
 .btn-close-home
 {
     float: right;
-    --background: #875FB6;
+    --background: #18DDD0;
     --border-radius: 50%;
     --color: #ffffff;
     width: 22px;
