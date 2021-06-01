@@ -26,17 +26,23 @@ export class AuthService {
 
   }
 
-  facebook () {
+  async facebook () {
     if(this.platform.is ('cordova')) {
+      const loading = await this.loadingController.create ({
+        message: 'Verificando...',
+      });
+  
+      await loading.present ();
+
       this.fb.getLoginStatus ().then ((res) => {
         if (res.status === 'connected') {
-          this.get_facebook_profile ();
+          this.get_facebook_profile (loading);
         } else {
-          this.fb.login (['public_profile'])
-          .then ((response: FacebookLoginResponse) => {
-            this.get_facebook_profile ();
+          this.fb.login (['public_profile']).then ((response: FacebookLoginResponse) => {
+            this.get_facebook_profile (loading);
           }).catch((error) => {
-            alert ('error:' + JSON.stringify (error))
+            loading.dismiss ();
+            console.log (error);
           });
         }
       });
@@ -45,14 +51,8 @@ export class AuthService {
     }
   }
 
-  get_facebook_profile () {
+  get_facebook_profile (loading: any) {
     this.fb.api ('me?fields=id,name,email,first_name,last_name,picture.width(720).height(720).as(picture_large)', []).then (async (profile: any) => {
-      const loading = await this.loadingController.create ({
-        message: 'Verificando...',
-      });
-  
-      await loading.present ();
-      
       this.api.login_social ('facebook', profile.email, profile.id.toString (), profile.picture_large.data.url, profile.first_name, profile.last_name).subscribe ((USUARIO_ACCESS: any) => {
         console.log (USUARIO_ACCESS);
         this.storage.set ('USUARIO_ACCESS', JSON.stringify (USUARIO_ACCESS));
@@ -86,7 +86,6 @@ export class AuthService {
       }, error => {
         console.log (error);
         loading.dismiss ();
-        alert (JSON.stringify (error));
       });
     });
   }
@@ -100,15 +99,15 @@ export class AuthService {
     return returned;
   }
 
-  google () {
+  async google () {
     if (this.platform.is ('cordova')) {
-      this.googlePlus.login ({}).then (async (res: any) => {
-        const loading = await this.loadingController.create ({
-          message: 'Verificando...',
-        });
-    
-        await loading.present ();
+      const loading = await this.loadingController.create ({
+        message: 'Verificando...',
+      });
+  
+      await loading.present ();
 
+      this.googlePlus.login ({}).then (async (res: any) => {
         console.log (res);
 
         this.api.login_social ('gmail', res.email, res.userId, res.imageUrl, res.givenName, res.familyName).subscribe ((USUARIO_ACCESS: any) => {
@@ -143,13 +142,12 @@ export class AuthService {
           });
         }, error => {
           console.log (error);
-          alert (JSON.stringify (error));
           loading.dismiss ();
         });
       })
       .catch(err => {
-        console.error(err)
-        alert (err);
+        console.error(err);
+        loading.dismiss ();
       });
     } else {
       console.log ('No Cordova');

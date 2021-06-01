@@ -8,7 +8,6 @@ import { LoadingController, NavController, AlertController } from '@ionic/angula
 import { FormGroup , FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
-import { timeStamp } from 'console';
 
 @Component({
   selector: 'app-datos-peruano-extrajero',

@@ -7,6 +7,7 @@
 <ion-content>
   <ion-card class="card-verd ion-text">
     <ion-label (click)="back ()" class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon><span *ngIf="editar === false">Seleccionar fecha y hora</span><span *ngIf="editar">Reprogramar</span></ion-label>
+    <ion-icon routerLink="/home" routerDirection="root" class="home" name="home"></ion-icon>
   </ion-card>
   <ion-card class="card-blanco">
     <div class="div-perfil">
@@ -19,18 +20,17 @@
         <p class="p-direccion">{{ direccion }}</p>
       </div>
     </div>
-    <div *ngIf="editar === false" class="item-toogle" mode="ios">
+    <div *ngIf="editar === false" class="item-toogle" style="margin-bottom: 0px;" mode="ios">
       <p class="p-toogle">Cita presencial</p>
-      <ion-toggle [disabled]="doctor?.brinda_telemedicina === '0'" [(ngModel)]="tipo_cita"></ion-toggle>
+      <ion-toggle [disabled]="modo_consulta != 2" [(ngModel)]="tipo_cita"></ion-toggle>
       <p class="p-toogle">Cita virtual</p>
     </div>
 
-    <div class="ion-text-center" *ngIf="doctor?.brinda_telemedicina === '0'">
+    <div class="ion-text-center" *ngIf="modo_consulta != 2">
       Por el momento el profesional no brinda el servicio de consulta virtual.
     </div>
 
-    <br *ngIf="doctor?.brinda_telemedicina !== '1'">
-    <div class="div-botones">
+    <div class="div-botones" style="margin-top: 1.5rem;">
       <ion-button (click)="update_day (-1)" [disabled]="valid_day ()" mode="ios" class="btn-circulo"><ion-icon name="chevron-back" class="icon-btn"></ion-icon></ion-button>
       <ion-label class="label-fecha" (click)="dateInput.open ()">
         <ion-datetime cancelText="Cancelar" doneText="Seleccionar" monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic" [min]="min_date" hidden #dateInput (ionChange)="date_picker_changed ($event.detail.value)"></ion-datetime>

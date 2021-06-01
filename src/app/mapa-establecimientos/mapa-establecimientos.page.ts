@@ -140,7 +140,7 @@ export class MapaEstablecimientosPage implements OnInit {
 
   async getLocationCoordinates () {
     const loading = await this.loadingController.create({
-      message: 'Buscando a ' + this.kilometros + 'km..'
+      message: 'Buscando a ' + this.kilometros.toFixed (1) + ' km...'
     });
 
     await loading.present ();
@@ -170,11 +170,11 @@ export class MapaEstablecimientosPage implements OnInit {
     this.api.obtener_centros_medicos  (this.latitude, this.longitude, this.id, this.kilometros.toString ()).subscribe (async (res: any) => {
       if (this.buscar_mas_cercano) {
         if (res.sucursales.length <= 0) {
-          if (this.kilometros > 160) {
+          if (this.kilometros > 10) {
             loading.dismiss ();
             this.buscar_mas_cercano =  false;
             const toast = await this.toastController.create ({
-              message: 'No encontramos resultados a 320km a la redonda',
+              message: 'No encontramos resultados a ' + this.kilometros.toFixed (1) + ' km a la redonda',
               duration: 2500,
               position: 'top'
             });
@@ -182,7 +182,7 @@ export class MapaEstablecimientosPage implements OnInit {
             toast.present();
           } else {
             this.kilometros = this.kilometros * 2;
-            loading.message = 'Buscando a ' + this.kilometros + 'km..';
+            loading.message = 'Buscando a ' + this.kilometros.toFixed (1) + ' km...';
             this.draw_marks (loading);
           }
         } else {
@@ -388,7 +388,7 @@ export class MapaEstablecimientosPage implements OnInit {
       google.maps.event.addListener(this.map, 'idle', async () => {
         if (this.buscar_mas_cercano === false) {
           const loading = await this.loadingController.create ({
-            message: 'Buscando a ' + this.kilometros + 'km..'
+            message: 'Buscando a ' + this.kilometros.toFixed (1) + ' km...'
           });
       
           await loading.present ();
@@ -441,30 +441,36 @@ export class MapaEstablecimientosPage implements OnInit {
       ids = 'null';
     }
 
-    this.navController.navigateForward (['establecimientos-salud-lista', ids]);    
+    this.navController.navigateForward (['establecimientos-salud-lista', ids, this.nombre]);    
   }
 
   initAutocomplete () {
     const options = {
-      types: ['establishment'],
-      componentRestrictions: {country: "pe"}
+      // types: ['(regions)'],
+      // componentRestrictions: {country: "us"}
     };
     
     let searchInput = this.searchbar.nativeElement.querySelector ('input');
-    let autocomplete = new google.maps.places.Autocomplete (searchInput);
+    let autocomplete = new google.maps.places.Autocomplete (searchInput, options);
 
     google.maps.event.addListener (autocomplete, 'place_changed', async () => {
+      let place = autocomplete.getPlace ();
+      console.log (place);
+
+      if (!place.geometry || !place.geometry.location) {
+        return;
+      }
+
       this.buscar_mas_cercano = true;
       this.kilometros = 10;
       this.clear_markers ();
 
       const loading = await this.loadingController.create({
-        message: 'Buscando a ' + this.kilometros + 'km..'
+        message: 'Buscando a ' + this.kilometros.toFixed (1) + ' km...'
       });
 
       await loading.present ();
 
-      let place = autocomplete.getPlace ()
       this.search_text = place.formatted_address;
 
       let location = new google.maps.LatLng (place.geometry.location.lat (), place.geometry.location.lng ());
@@ -499,7 +505,7 @@ export class MapaEstablecimientosPage implements OnInit {
       this.clear_markers ();
 
       const loading = await this.loadingController.create({
-        message: 'Buscando a ' + this.kilometros + 'km..'
+        message: 'Buscando a ' + this.kilometros.toFixed (1) + ' km...'
       });
 
       await loading.present ();

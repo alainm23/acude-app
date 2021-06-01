@@ -65,8 +65,7 @@ export class PagoPage implements OnInit {
     
     this.doctor = JSON.parse (this.route.snapshot.paramMap.get ('doctor'));
     this.data = JSON.parse (this.route.snapshot.paramMap.get ('data'));
-    // this.data.monto = 0;
-
+    
     console.log (this.doctor);
     this.datetime = moment (this.data.fecha).set ('hour', parseInt (this.data.hora.split (':') [0])).set ('minute', parseInt (this.data.hora.split (':') [1]));
 
@@ -140,16 +139,18 @@ export class PagoPage implements OnInit {
 
     await loading.present ();
 
-    if (this.data.monto <= 0) {
+    if (this.doctor.tipo_cobro === '0' || this.doctor.tipo_cobro === '1' || this.doctor.tipo_cobro === '3') {
       let data: any = {
         id_user: this.api.USUARIO_DATA.id,
-        tokenculqi: '',
+        tokenculqi: '7890ascasc',
         monto: 0,
         fecha: this.data.fecha,
         hora: this.data.hora,
         tipo_cita: this.data.tipo_cita,
         id_centro_medico_profesional: this.data.id_centro_medico_profesional,
       };
+
+      console.log (data);
 
       this.api.registrar_cita (data).subscribe ((res: any) => {
         loading.dismiss ();
@@ -167,8 +168,8 @@ export class PagoPage implements OnInit {
 
         this.navController.navigateRoot (['reserva-exitosa', JSON.stringify (request)]);
       }, async error => {
-        // loading.dismiss ();
-        console.log (JSON.parse (error.error.message));
+        loading.dismiss ();
+        console.log (error);
         const alert = await this.alertController.create({
           message: 'Ha ocurrido un error en el pago. Vuelva a intentarlo.',
           buttons: ['OK']
@@ -188,76 +189,78 @@ export class PagoPage implements OnInit {
   
       console.log (request);
 
-      // const modal = await this.modalController.create ({
-      //   component: PaymentPage,
-      //   componentProps: {
-      //     amount: this.get_pago_formula (this.data.monto) * 100,
-      //     currency: 'PEN',
-      //     orderId: 'ascascasc',
-      //     email: this.form.value.email
-      //   }
-      // });
-
-      // modal.onDidDismiss ().then (async (response: any) => {
-      //   if (response.role === 'PAID') {
-      //     const loading = await this.loadingCtrl.create({
-      //       message: 'Procesando...',
-      //     });
-        
-      //     await loading.present ();
-
-      //     let data: any = {
-      //       legacyTransId: response.data,
-      //       id_user: this.api.USUARIO_DATA.id,
-      //       monto: this.get_pago_formula (this.data.monto) * 100,
-      //       fecha: this.data.fecha,
-      //       hora: this.data.hora,
-      //       tipo_cita: this.data.tipo_cita,
-      //       id_centro_medico_profesional: this.data.id_centro_medico_profesional,
-      //     };
-
-      //     console.log (data);
-
-      //     this.api.registrar_cita (data).subscribe ((res: any) => {
-      //       loading.dismiss ();
-      //       console.log (res);
-    
-      //       let request: any = {
-      //         doctor: this.doctor,
-      //         fecha: this.data.fecha,
-      //         hora: this.data.hora,
-      //         cita_id: res.cita.id,
-      //         monto: this.data.monto,
-      //         direccion: this.data.direccion,
-      //         tipo_cita: this.data.tipo_cita
-      //       };
-    
-      //       this.navController.navigateRoot (['reserva-exitosa', JSON.stringify (request)]);
-      //     }, async error => {
-      //       loading.dismiss ();
-      //       console.log (JSON.parse (error.error.message));
-      //       const alert = await this.alertController.create({
-      //         message: 'Ha ocurrido un error en el pago. Vuelva a intentarlo.',
-      //         buttons: ['OK']
-      //       });
-        
-      //       await alert.present();
-      //     });
-      //   }
-      // });
-
-      // await modal.present ();
-      this.api.actualizar_datos_pago (request).subscribe (async (USUARIO_DATA: any) => {
-        this.api.USUARIO_DATA = USUARIO_DATA.user;
-        this.storage.set ('USUARIO_DATA', JSON.stringify (this.api.USUARIO_DATA));
-        this.pago.cfgFormulario ("Pago por servicio", this.get_pago_formula (this.data.monto) * 100);
-        loading.dismiss ().then (() => {
-          this.pago.open ();
-        });
-      }, error => {
-        loading.dismiss ();
-        console.log ('Error', error);
+      const modal = await this.modalController.create ({
+        component: PaymentPage,
+        componentProps: {
+          amount: this.get_pago_formula (this.data.monto) * 100,
+          currency: 'PEN',
+          orderId: 'ascascasc',
+          email: this.form.value.email
+        }
       });
+
+      modal.onDidDismiss ().then (async (response: any) => {
+        // if (response.role === 'PAID') {
+        //   const loading = await this.loadingCtrl.create({
+        //     message: 'Procesando...',
+        //   });
+        
+        //   await loading.present ();
+
+        //   let data: any = {
+        //     legacyTransId: response.data,
+        //     id_user: this.api.USUARIO_DATA.id,
+        //     monto: this.get_pago_formula (this.data.monto) * 100,
+        //     fecha: this.data.fecha,
+        //     hora: this.data.hora,
+        //     tipo_cita: this.data.tipo_cita,
+        //     id_centro_medico_profesional: this.data.id_centro_medico_profesional,
+        //   };
+
+        //   console.log (data);
+
+        //   this.api.registrar_cita (data).subscribe ((res: any) => {
+        //     loading.dismiss ();
+        //     console.log (res);
+    
+        //     let request: any = {
+        //       doctor: this.doctor,
+        //       fecha: this.data.fecha,
+        //       hora: this.data.hora,
+        //       cita_id: res.cita.id,
+        //       monto: this.data.monto,
+        //       direccion: this.data.direccion,
+        //       tipo_cita: this.data.tipo_cita
+        //     };
+    
+        //     this.navController.navigateRoot (['reserva-exitosa', JSON.stringify (request)]);
+        //   }, async error => {
+        //     loading.dismiss ();
+        //     console.log (JSON.parse (error.error.message));
+        //     const alert = await this.alertController.create({
+        //       message: 'Ha ocurrido un error en el pago. Vuelva a intentarlo.',
+        //       buttons: ['OK']
+        //     });
+        
+        //     await alert.present();
+        //   });
+        // }
+      });
+
+      await modal.present ();
+
+
+      // this.api.actualizar_datos_pago (request).subscribe (async (USUARIO_DATA: any) => {
+      //   this.api.USUARIO_DATA = USUARIO_DATA.user;
+      //   this.storage.set ('USUARIO_DATA', JSON.stringify (this.api.USUARIO_DATA));
+      //   this.pago.cfgFormulario ("Pago por servicio", this.get_pago_formula (this.data.monto) * 100);
+      //   loading.dismiss ().then (() => {
+      //     this.pago.open ();
+      //   });
+      // }, error => {
+      //   loading.dismiss ();
+      //   console.log ('Error', error);
+      // });
     }
   }
 

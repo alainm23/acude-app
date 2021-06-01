@@ -7,6 +7,7 @@
 <ion-content>
   <ion-card class="card-verd">
     <ion-label (click)="back ()" class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>Reservar cita</ion-label>
+    <ion-icon routerLink="/home" routerDirection="root" class="home" name="home"></ion-icon>
   </ion-card>
   <ion-card class="card-blanco">
     <div class="div-perfil">
@@ -33,10 +34,10 @@
       </div>
     </div>
 
-    <ng-container *ngIf="api.PAIS.id === 1">
-      <div class="ion-text-center" *ngIf="data.monto <= 0">
+    <ng-container *ngIf="doctor?.tipo_cobro === '0'">
+      <div class="ion-text-center">
         <p class="ion-padding">
-          El profesional de su elección, no tiene habilitado el pago virtual, contactase con él para acordar las condiciones del servicio.
+          Pago en consultorio
         </p>
         <ion-button (click)="llamar ()" class="btnRESERVA">
           <ion-icon style="color: #2E5269" name="call"></ion-icon>
@@ -44,62 +45,119 @@
           Llamar al doctor
         </ion-button>
       </div>
-  
-      <div *ngIf="data.monto > 0">
-        <h3 class="ion-text-center titulo-tarjeta">Datos del titular de la tarjeta</h3>
-        <form [formGroup]="form">
-          <ng-container *ngIf="api.PAIS.id === 1">
-            <ion-input placeholder="Nombres" type="text" formControlName="nombre_tarjeta" class="input-genral"></ion-input>
-            <small *ngIf="form.controls.nombre_tarjeta.errors?.required && form.controls.nombre_tarjeta.dirty">
-              * Este campo es obligatorio
-            </small>
-              
-            <ion-input placeholder="Apellidos" type="text" formControlName="apellido_tarjeta" class="input-genral"></ion-input>
-            <small *ngIf="form.controls.apellido_tarjeta.errors?.required && form.controls.apellido_tarjeta.dirty">
-              * Este campo es obligatorio
-            </small>
-  
-            <ion-input placeholder="Teléfono" type="tel" formControlName="telefono_tarjeta" class="input-genral"></ion-input>
-            <small *ngIf="form.controls.telefono_tarjeta.errors?.required && form.controls.telefono_tarjeta.dirty">
-              * Este campo es obligatorio
-            </small>
-  
-            <ion-input placeholder="Dirección" type="text" formControlName="direccion" class="input-genral"></ion-input>
-            <small *ngIf="form.controls.direccion.errors?.required && form.controls.direccion.dirty">
-              * Este campo es obligatorio
-            </small>
-  
-            <ion-input placeholder="Ciudad" type="text" formControlName="ciudad" class="input-genral"></ion-input>
-            <small *ngIf="form.controls.ciudad.errors?.required && form.controls.ciudad.dirty">
-              * Este campo es obligatorio
-            </small>
-          </ng-container>
-  
-          <ng-container *ngIf="api.PAIS.id !== 1">
-            <ion-input placeholder="Correo electronico" type="text" formControlName="email" class="input-genral"></ion-input>
-            <small *ngIf="form.controls.email.errors?.required && form.controls.email.dirty">
-              * Este campo es obligatorio
-            </small>
-          </ng-container>
-        </form>
-        <p class="p-descripcion-plomo">* No hay devoluciones <br>** Cambios de cita hasta 24 horas antes</p>
+    </ng-container>
+
+    <ng-container *ngIf="doctor?.tipo_cobro === '1'">
+      <div class="ion-text-center">
+        <p class="ion-padding">
+          Transferencia bancaria
+        {{ doctor?.nombre_banco }}
+        {{ doctor?.nro_cuenta }}
+        </p>
+        <ion-button (click)="llamar ()" class="btnRESERVA">
+          <ion-icon style="color: #2E5269" name="call"></ion-icon>
+          &nbsp;
+          Llamar al doctor
+        </ion-button>
       </div>
     </ng-container>
 
-    <ng-container *ngIf="api.PAIS.id !== 1">
+    <ng-container *ngIf="doctor?.tipo_cobro === '2'">
+      <ng-container *ngIf="api.PAIS.id === 1">
+        <div class="ion-text-center" *ngIf="data.monto <= 0">
+          <p class="ion-padding">
+            El profesional de su elección, no tiene habilitado el pago virtual, contactase con él para acordar las condiciones del servicio.
+          </p>
+          <ion-button (click)="llamar ()" class="btnRESERVA">
+            <ion-icon style="color: #2E5269" name="call"></ion-icon>
+            &nbsp;
+            Llamar al doctor
+          </ion-button>
+        </div>
+    
+        <div *ngIf="data.monto > 0">
+          <h3 class="ion-text-center titulo-tarjeta">Datos del titular de la tarjeta</h3>
+          <form [formGroup]="form">
+            <ng-container *ngIf="api.PAIS.id === 1">
+              <ion-input placeholder="Nombres" type="text" formControlName="nombre_tarjeta" class="input-genral"></ion-input>
+              <small *ngIf="form.controls.nombre_tarjeta.errors?.required && form.controls.nombre_tarjeta.dirty">
+                * Este campo es obligatorio
+              </small>
+                
+              <ion-input placeholder="Apellidos" type="text" formControlName="apellido_tarjeta" class="input-genral"></ion-input>
+              <small *ngIf="form.controls.apellido_tarjeta.errors?.required && form.controls.apellido_tarjeta.dirty">
+                * Este campo es obligatorio
+              </small>
+    
+              <ion-input placeholder="Teléfono" type="tel" formControlName="telefono_tarjeta" class="input-genral"></ion-input>
+              <small *ngIf="form.controls.telefono_tarjeta.errors?.required && form.controls.telefono_tarjeta.dirty">
+                * Este campo es obligatorio
+              </small>
+    
+              <ion-input placeholder="Dirección" type="text" formControlName="direccion" class="input-genral"></ion-input>
+              <small *ngIf="form.controls.direccion.errors?.required && form.controls.direccion.dirty">
+                * Este campo es obligatorio
+              </small>
+    
+              <ion-input placeholder="Ciudad" type="text" formControlName="ciudad" class="input-genral"></ion-input>
+              <small *ngIf="form.controls.ciudad.errors?.required && form.controls.ciudad.dirty">
+                * Este campo es obligatorio
+              </small>
+            </ng-container>
+    
+            <ng-container *ngIf="api.PAIS.id !== 1">
+              <ion-input placeholder="Correo electronico" type="text" formControlName="email" class="input-genral"></ion-input>
+              <small *ngIf="form.controls.email.errors?.required && form.controls.email.dirty">
+                * Este campo es obligatorio
+              </small>
+            </ng-container>
+          </form>
+          <p class="p-descripcion-plomo">* No hay devoluciones <br>** Cambios de cita hasta 24 horas antes</p>
+        </div>
+      </ng-container>
+  
+      <ng-container *ngIf="api.PAIS.id !== 1">
+        <div class="ion-text-center">
+          <p class="ion-padding">
+            Lo sentimos, la reserva de citas medicas aun no esta disponible en su pais.
+            <br>
+            <br>
+            <br>
+            <br>
+          </p>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="doctor?.tipo_cobro === '3'">
       <div class="ion-text-center">
         <p class="ion-padding">
-          Lo sentimos, la reserva de citas medicas aun no esta disponible en su pais.
-          <br>
-          <br>
-          <br>
-          <br>
+          Pago con yape {{ doctor?.telefono_yape }}
         </p>
+        <ion-button (click)="llamar ()" class="btnRESERVA">
+          <ion-icon style="color: #2E5269" name="call"></ion-icon>
+          &nbsp;
+          Llamar al doctor
+        </ion-button>
       </div>
     </ng-container>
   </ion-card>
-  <ion-button *ngIf="data.monto > 0 && api.PAIS.id === 1" class="btn-proxima" [disabled]="form.invalid" (click)="submit ()">Pagar</ion-button>
-  <ion-button *ngIf="data.monto <= 0 && api.PAIS.id === 1" class="btn-proxima" (click)="submit ()">Reservar</ion-button>
+
+  <ng-container *ngIf="doctor?.tipo_cobro === '0' || doctor?.tipo_cobro === '1' || doctor?.tipo_cobro === '3'">
+    <ion-button class="btn-proxima" (click)="submit ()">
+      Reservar
+    </ion-button>
+  </ng-container>
+
+  <ng-container *ngIf="doctor?.tipo_cobro === '2'">
+    <ion-button *ngIf="data.monto > 0 && api.PAIS.id === 1" class="btn-proxima" [disabled]="form.invalid" (click)="submit ()">
+      Pagar
+    </ion-button>
+    <ion-button *ngIf="data.monto <= 0 && api.PAIS.id === 1" class="btn-proxima" (click)="submit ()">
+      Reservar
+    </ion-button>
+  </ng-container>
+
   <div class="div-foofter">
     <div class="div-linea"></div>
   </div>

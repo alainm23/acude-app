@@ -2,12 +2,7 @@
   <ion-toolbar>
     <ion-card class="card_check">
       <p (click)="back ()"><ion-icon name="arrow-back-outline" class="icon_close"></ion-icon>{{ nombre }}</p>
-      <!-- <ion-select value="brown" okText="Okay" cancelText="Dismiss" mode="ios">
-        <ion-select-option value="brown">Lima</ion-select-option>
-        <ion-select-option value="blonde">Blonde</ion-select-option>
-        <ion-select-option value="black">Black</ion-select-option>
-        <ion-select-option value="red">Red</ion-select-option>
-      </ion-select> -->
+      <ion-icon name="home" routerLink="/home" routerDirection="root"></ion-icon>
     </ion-card>
   </ion-toolbar>
   <ion-slides pager="false" [options]="slideOptsOne">
@@ -51,7 +46,7 @@
                   <p class="p_titulo">{{ item.nombre_completo }}</p>
                 </ion-col>
                 <ion-col size="4" class="ion-no-padding ion-text-end">
-                  <p *ngIf="item.promedio_calificacion > 0" class="p_number_estrella"><span>★</span>{{ item.promedio_calificacion }}</p>
+                  <p *ngIf="item.promedio_calificacion > 0" class="p_number_estrella"><span>★</span>{{ get_promedio (item.promedio_calificacion) }}</p>
                   <!-- <p class="p_ofta">{{ item.especialidad.nombre }}</p> -->
                   <ion-icon style="font-size: 24px; color: #875FB6;" *ngIf="item.brinda_telemedicina === '1'" name="videocam-outline"></ion-icon>
                 </ion-col>
@@ -74,6 +69,8 @@
 
               <ion-button *ngIf="validar_disponibilidad (item) === false" (click)="llamar (item.telefono_celular)" class="btnRESERVA">
                 <img src="assets/img/grupo-1878.png">
+                &nbsp;
+                &nbsp;
                 Llamar
               </ion-button>
             </ion-col>

@@ -13,8 +13,8 @@ export class PaymentPage implements OnInit {
   @Input () currency: string;
   @Input () orderId: string;
   @Input () email: string;
-  @Input () tienda_id: string = '80078824';
-  // @Input () tienda_id: string = '8755077';
+  @Input () tienda_id: string = '11132678';
+  @Input () publickey: string = 'publickey_PbX9uZU7FgoxCFV3HRnVI3FTVzcFPoKFEl0ODoRcz2eDN';
 
   promiseError = null;
   constructor (private payment: PagoService,
@@ -40,7 +40,7 @@ export class PaymentPage implements OnInit {
     };
 
     this.payment.get_formToken (order).subscribe ((res: any) => {
-      const publicKey = this.tienda_id + ':testpublickey_N2rSDYJJIMbIKuwqe4cuf94BPQtABoCgw1k8U5l0TRr56';
+      const publicKey = this.tienda_id + ':' + this.publickey;
       const formToken = res.resultado;
       const endpoint = 'https://api.micuentaweb.pe';
 
@@ -50,7 +50,7 @@ export class PaymentPage implements OnInit {
           // "kr-hide-debug-toolbar": true
         })
       )
-      .then (({ KR }) => 
+      .then (({ KR }) =>
         KR.addForm ("#myPaymentForm")
       )
       .then (({ KR, result }) => {
@@ -75,6 +75,7 @@ export class PaymentPage implements OnInit {
         console.log (error);
       });
     }, error => {
+      loading.dismiss ();
       console.log (error);
     });
   }

@@ -80,13 +80,12 @@ export class LoginPage implements OnInit {
     
     await loading.present ();
 
-    this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY)
-      .then(() => {
-        loading.dismiss ();
-        this.getLocationCoordinates ();
-      }, error => {
-        console.log ('Error requesting location permissions ' + JSON.stringify(error))
-      });
+    this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(() => {
+      loading.dismiss ();
+      this.getLocationCoordinates ();
+    }, error => {
+      console.log ('Error requesting location permissions ' + JSON.stringify(error))
+    });
   }
 
   async requestGPSPermission () {
@@ -137,7 +136,8 @@ export class LoginPage implements OnInit {
       this.directionsService.route (request, (result: any, status: any) => {
         if (status == google.maps.DirectionsStatus.OK) {
           console.log (result);
-          this.geocoder.geocode({'placeId': result.geocoded_waypoints [0].place_id}, (results: any, status: any) => {
+          this.geocoder.geocode ({'placeId': result.geocoded_waypoints [0].place_id}, (results: any, status: any) => {
+            console.log (results);
             if (status == google.maps.GeocoderStatus.OK) {
               loading.dismiss ();
               this.validar_pais (results [0].address_components)
@@ -192,15 +192,20 @@ export class LoginPage implements OnInit {
   validar_pais (address_components: any []) {
     console.log (address_components);
     let corrent_coutry = null;
+    let code_country = null;
     
     address_components.forEach ((e: any) => {
       if (e.types.includes ("country")) {
         corrent_coutry = e.long_name;
+        code_country = e.short_name;
       }
     });
 
+    console.log (corrent_coutry);
+    console.log (code_country);
+
     if (corrent_coutry !== null) {
-      const pais = this.paises.find ((x => x.nombre === corrent_coutry));
+      const pais = this.paises.find ((x => x.iniciales_pais === code_country));
       if (pais !== undefined) {
         this.storage.set ('PAIS', JSON.stringify (pais));
         this.api.PAIS = pais;
@@ -209,7 +214,7 @@ export class LoginPage implements OnInit {
         this.navController.navigateRoot (['estamos-trabajando']);
       }
     } else {
-      this.presentAlertRadio ()
+      this.presentAlertRadio ();
     }
   }
 
@@ -238,7 +243,7 @@ export class LoginPage implements OnInit {
         }, {
           text: 'No encuentro mi pais',
           handler: () => {
-            this.navController.navigateRoot (['estamos-trabajando']);
+            this.navController.navigateRoot (['zdo']);
           }
         }
       ]

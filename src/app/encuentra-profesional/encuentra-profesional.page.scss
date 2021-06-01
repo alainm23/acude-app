@@ -39,6 +39,7 @@ ion-header
         position: relative;
         ion-card.card_check
         {
+            align-items: center;
             display: flex;
             justify-content: space-between;
             background-color: transparent;
@@ -65,6 +66,12 @@ ion-header
                 right: 0;
                 top: 25px;
                 z-index: 99999;
+            }
+            ion-icon {
+                position: relative;
+                padding-left: 0px;
+                font-size: 24px;
+                color:#fff;
             }
             ion-select
             {

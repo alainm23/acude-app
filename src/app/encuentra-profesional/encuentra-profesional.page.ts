@@ -131,7 +131,7 @@ export class EncuentraProfesionalPage implements OnInit {
 
   async getLocationCoordinates () {
     const loading = await this.loadingController.create({
-      message: 'Buscando profesionales a ' + this.kilometros + 'km..'
+      message: 'Buscando profesionales a ' + this.kilometros.toFixed (1) + ' km...'
     });
 
     await loading.present ();
@@ -202,7 +202,7 @@ export class EncuentraProfesionalPage implements OnInit {
             toast.present();
           } else {
             this.kilometros = this.kilometros * 2;
-            loading.message = 'Buscando profesionales a ' + this.kilometros + 'km..';
+            loading.message = 'Buscando profesionales a ' + this.kilometros.toFixed (1) + 'km...';
             this.draw_marks (loading);
           }
         } else {
@@ -456,14 +456,19 @@ export class EncuentraProfesionalPage implements OnInit {
 
   initAutocomplete () {
     const options = {
-      types: ['establishment'],
-      componentRestrictions: {country: "pe"}
+      types: ['(regions)']
     };
     
     let searchInput = this.searchbar.nativeElement.querySelector ('input');
-    let autocomplete = new google.maps.places.Autocomplete (searchInput);
+    let autocomplete = new google.maps.places.Autocomplete (searchInput, options);
 
-    google.maps.event.addListener (autocomplete, 'place_changed', async () => {
+    autocomplete.addListener ('place_changed', async () => {
+      let place = autocomplete.getPlace ();
+      
+      if (!place.geometry || !place.geometry.location) {
+        return;
+      }
+      
       this.buscar_mas_cercano = true;
       this.kilometros = 10;
       this.clear_markers ();
@@ -474,7 +479,6 @@ export class EncuentraProfesionalPage implements OnInit {
 
       await loading.present ();
       
-      let place = autocomplete.getPlace ()
       this.search_text = place.formatted_address;
 
       let location = new google.maps.LatLng (place.geometry.location.lat (), place.geometry.location.lng ());

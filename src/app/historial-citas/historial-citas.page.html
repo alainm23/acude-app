@@ -44,12 +44,16 @@
       <div class="div-datos div-flex div-margin-bottom">
         <div class="div-datos div-right-margin">
           <p class="p-widht-uno color-categorias">Fecha:</p>
-          <p class="p-nombre-categorias">{{ item.fecha }}</p>
+          <p class="p-nombre-categorias">{{ get_format_date (item.fecha) }}</p>
         </div>
         <div class="div-datos">
           <p class="p-widht-uno color-categorias">Hora:</p>
           <p class="p-nombre-categorias">{{ item.hora }}</p>
         </div>
+      </div>
+      <div class="div-datos">
+        <p class="p-widht-uno color-categorias">Lugar:</p>
+        <p class="p-nombre-categorias p-widht-direccion">{{ item.centro_medico_sede_profesional.info_centro_medico_sucursal.denominacion }}</p>
       </div>
       <div class="div-datos">
         <p class="p-widht-uno color-categorias">Dirección:</p>

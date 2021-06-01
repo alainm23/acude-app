@@ -28,6 +28,7 @@ ion-header
         position: relative;
         ion-card.card_check
         {
+            align-items: center;
             display: flex;
             justify-content: space-between;
             background-color: transparent;
@@ -65,6 +66,12 @@ ion-header
                 padding-left: 0px;
                 padding-right: 20px;
                 
+            }
+            ion-icon {
+                position: relative;
+                padding-left: 0px;
+                font-size: 24px;
+                color:#fff;
             }
             ion-select::part(icon) 
             {
@@ -267,16 +274,14 @@ ion-card.card_establecimineto
     .btn_salud
     {
         width: 100%;
-        --background: #ffffff;
-        --border-color: #2E5269;
+        --background: #FE9067;
+        --color: #ffffff;
         --border-style: solid;
         --border-width: 0.5px;
-        --color: #2E5269;
         --border-radius: 25px;
         font-family: PoppinsSemiBold;
         font-size: 13px;
         height: 35px;
-        margin-top: 20px;
         margin-bottom: 0px;
         text-transform: none;
     }

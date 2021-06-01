@@ -75,7 +75,7 @@ const routes: Routes = [
     loadChildren: () => import('./perfil-clinica/perfil-clinica.module').then( m => m.PerfilClinicaPageModule)
   },
   {
-    path: 'establecimientos-salud-lista/:ids',
+    path: 'establecimientos-salud-lista/:ids/:nombre',
     canActivate: [AuthGuard],
     loadChildren: () => import('./establecimientos-salud-lista/establecimientos-salud-lista.module').then( m => m.EstablecimientosSaludListaPageModule)
   },

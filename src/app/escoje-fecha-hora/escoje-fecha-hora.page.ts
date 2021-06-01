@@ -6,7 +6,6 @@ import { ActivatedRoute } from '@angular/router';
 import { PagoService } from '../services/pago.service';
 import { ApiService } from '../services/api.service';
 import { LoadingController, NavController, ToastController } from '@ionic/angular';
-import { error } from 'protractor';
 
 @Component({
   selector: 'app-escoje-fecha-hora',
@@ -22,6 +21,9 @@ export class EscojeFechaHoraPage implements OnInit {
 
   editar: boolean = false;
   cita_id: string = '';
+  modo_consulta: string = '';
+  precio_consulta: number = 0;
+  precio_consulta_telemedicina: number = 0;
 
   doctor: any;
   horarios: any [] = [];
@@ -38,9 +40,21 @@ export class EscojeFechaHoraPage implements OnInit {
 
   async ngOnInit () {
     this.doctor = JSON.parse (this.route.snapshot.paramMap.get ('doctor'));
+
+    console.log (this.doctor);
+
     this.direccion = JSON.parse (this.route.snapshot.paramMap.get ('centro')).direccion;
     this.editar = JSON.parse (this.route.snapshot.paramMap.get ('centro')).editar;
     this.cita_id = JSON.parse (this.route.snapshot.paramMap.get ('centro')).cita_id;
+    this.modo_consulta = JSON.parse (this.route.snapshot.paramMap.get ('centro')).modo_consulta;
+    this.precio_consulta = JSON.parse (this.route.snapshot.paramMap.get ('centro')).precio_consulta;
+    this.precio_consulta_telemedicina = JSON.parse (this.route.snapshot.paramMap.get ('centro')).precio_consulta_telemedicina;
+
+    if (this.modo_consulta == '0') {
+      this.tipo_cita = false;
+    } else if (this.modo_consulta == '1') {
+      this.tipo_cita = true;
+    }
 
     const loading = await this.loadingController.create ({
       message: 'Procesando...',
@@ -59,9 +73,15 @@ export class EscojeFechaHoraPage implements OnInit {
         console.log (_res);
 
         this.citas = res.disponibilidad.citas;
-        this.horarios = res.disponibilidad.horarios;
-        this.bloqueos = _res.data.profesional.bloqueos_hora;
+        res.disponibilidad.horarios.forEach ((element: any) => {
+          if (element.id_dia === 7) {
+            element.id_dia = 0;
+          }
 
+          this.horarios.push (element);;
+        });
+
+        this.bloqueos = _res.data.profesional.bloqueos_hora;
         loading.dismiss ();
       }, error => {
         console.log (error);
@@ -141,63 +161,90 @@ export class EscojeFechaHoraPage implements OnInit {
       }
     });
 
-    // Campturamos la hora de inicio por ejemplo de 10:00 AM - 18:00 PM campturamos las 10:00 AM 
-    let hora_inicio = horario_atencion.split (' - ') [0].split (' ') [0].split (':') [0];
-    let minuto_inicio = horario_atencion.split (' - ') [0].split (' ') [0].split (':') [1];
-    if (horario_atencion.split (' - ') [0].split (' ') [1] === 'PM') {
-      // Si es PM le sumamos mas 12 para convertir a 24 horas
-     hora_inicio = (parseInt (hora_inicio) + 12).toString ();
-    }
+    if (horario_atencion.split (' | ').length >= 2) {
+      let array = horario_atencion.split (' | ');
+      array.forEach ((horario_atencion: string) => {
+        // Campturamos la hora de inicio por ejemplo de 10:00 AM - 18:00 PM campturamos las 10:00 AM 
+        let inicio_tmp = moment ('1995-04-23 ' + horario_atencion.split (' - ') [0]);
+        let hora_inicio = inicio_tmp.format ('H');
+        let minuto_inicio = inicio_tmp.format ('mm');
+        
+        // // Campturamos la hora de fin por ejemplo de 10:00 AM - 18:00 PM campturamos las 18:00 PM
+        let fin_tmp = moment ('1995-04-23 ' + horario_atencion.split (' - ') [1]);
+        let hora_fin = fin_tmp.format ('H');
+        let minuto_fin = fin_tmp.format ('mm');
 
-    // Campturamos la hora de fin por ejemplo de 10:00 AM - 18:00 PM campturamos las 18:00 PM
-    let hora_fin = horario_atencion.split (' - ') [1].split (' ') [0].split (':') [0];
-    let minuto_fin = horario_atencion.split (' - ') [1].split (' ') [0].split (':') [1];
-    if (horario_atencion.split (' - ') [1].split (' ') [1] === 'PM') {
-      hora_fin = (parseInt (hora_fin) + 12).toString ();
-    }
+        if (parseInt (hora_fin) === 0) {
+          hora_fin = '24';
+        }
 
-    // Creamos la hora de inicio y hora de fin con moment
-    let date_inicio = moment (this.date_selected).set ('hour', parseInt (hora_inicio)).set ('minute', parseInt (minuto_inicio));
-    let date_fin = moment (this.date_selected).set ('hour', parseInt (hora_fin)).set ('minute', parseInt (minuto_fin));
+        // Creamos la hora de inicio y hora de fin con moment
+        let date_inicio = moment (this.date_selected).set ('hour', parseInt (hora_inicio)).set ('minute', parseInt (minuto_inicio));
+        let date_fin = moment (this.date_selected).set ('hour', parseInt (hora_fin)).set ('minute', parseInt (minuto_fin));
 
-    // Capturamos la diferencia entre date_inicio y date_fin en horas
-    // Por ejemplo si la diferencia entre 10:00 AM - 18:00 PM es 8 horas
-    let diferencia = moment.duration (date_fin.diff(date_inicio)).asSeconds ();
-    let hora_creada = moment (this.date_selected).set ('hour', parseInt (hora_inicio)).set ('minute', parseInt (minuto_inicio));
+        // Capturamos la diferencia entre date_inicio y date_fin en horas
+        // Por ejemplo si la diferencia entre 10:00 AM - 18:00 PM es 8 horas
+        let diferencia = moment.duration (date_fin.diff(date_inicio)).asSeconds ();
+        let hora_creada = moment (this.date_selected).set ('hour', parseInt (hora_inicio)).set ('minute', parseInt (minuto_inicio));
 
-    while (diferencia > 0) {
-      if (parseInt (hora_creada.format ('H')) > rango_inicio && parseInt (hora_creada.format ('H')) <= rango_fin) {
-        let hour = hora_creada.format ('hh:mm');
-        if (this.date_selected.isSame (this.date_now, 'day')) {
-          let fecha = this.date_selected.format ('YYYY[-]MM[-]DD');
-          if (moment ().add (30, 'minutes').diff (moment (fecha + ' ' + hour), 'minutes') <= 0) {
-            list.push (hour);
+        while (diferencia > 0) {
+          if (parseInt (hora_creada.format ('H')) > rango_inicio && parseInt (hora_creada.format ('H')) <= rango_fin) {
+            let hour = hora_creada.format ('H:mm');
+            if (this.date_selected.isSame (this.date_now, 'day')) {
+              let fecha = this.date_selected.format ('YYYY[-]MM[-]DD');
+              if (moment ().add (30, 'minutes').diff (moment (fecha + ' ' + hour), 'minutes') <= 0) {
+                list.push (hour);
+              }
+            } else {
+              list.push (hour);
+            } 
           }
-        } else {
-          list.push (hour);
-        } 
+
+          hora_creada = hora_creada.add (this.rango_tiempo, 'seconds');
+          diferencia = moment.duration (date_fin.diff (hora_creada)).asSeconds ();
+        }
+      });
+    } else {
+      // Campturamos la hora de inicio por ejemplo de 10:00 AM - 18:00 PM campturamos las 10:00 AM
+      let inicio_tmp = moment ('1995-04-23 ' + horario_atencion.split (' - ') [0]);
+      let hora_inicio = inicio_tmp.format ('H');
+      let minuto_inicio = inicio_tmp.format ('mm');
+
+      let fin_tmp = moment ('1995-04-23 ' + horario_atencion.split (' - ') [1]);
+      let hora_fin = fin_tmp.format ('H');
+      let minuto_fin = fin_tmp.format ('mm');
+
+      if (parseInt (hora_fin) === 0) {
+        hora_fin = '24';
       }
 
-      hora_creada = hora_creada.add (this.rango_tiempo, 'seconds');
-      diferencia = moment.duration (date_fin.diff (hora_creada)).asSeconds ();
+      // Creamos la hora de inicio y hora de fin con moment
+      let date_inicio = moment (this.date_selected).set ('hour', parseInt (hora_inicio)).set ('minute', parseInt (minuto_inicio));
+      let date_fin = moment (this.date_selected).set ('hour', parseInt (hora_fin)).set ('minute', parseInt (minuto_fin));
+
+      // Capturamos la diferencia entre date_inicio y date_fin en horas
+      // Por ejemplo si la diferencia entre 10:00 AM - 18:00 PM es 8 horas
+      let diferencia = moment.duration (date_fin.diff(date_inicio)).asSeconds ();
+      let hora_creada = moment (this.date_selected).set ('hour', parseInt (hora_inicio)).set ('minute', parseInt (minuto_inicio));
+
+      while (diferencia > 0) {
+        if (parseInt (hora_creada.format ('H')) > rango_inicio && parseInt (hora_creada.format ('H')) <= rango_fin) {
+          let hour = hora_creada.format ('H:mm');
+          if (this.date_selected.isSame (this.date_now, 'day')) {
+            let fecha = this.date_selected.format ('YYYY[-]MM[-]DD');
+            if (moment ().add (30, 'minutes').diff (moment (fecha + ' ' + hour), 'minutes') <= 0) {
+              list.push (hour);
+            }
+          } else {
+            list.push (hour);
+          } 
+        }
+
+        hora_creada = hora_creada.add (this.rango_tiempo, 'seconds');
+        diferencia = moment.duration (date_fin.diff (hora_creada)).asSeconds ();
+      }
     }
-    // Cremos las horas disponibles desde la hora de inicio hasta hora de inicio + las horas de diferencia
-    // De 10:00 horas hasta la 10:00 + 8 (Horas de diferencia) horas
-    // Agregamos la hora a la lista de horas para mostrar en el array
-    // Tambien validamos si la hora esta en el rango para validar si es mañana, de tarde o de noche
-    // for (let hora_creada = parseInt (hora_inicio); hora_creada <= parseInt (hora_inicio) + horas_diferencia; hora_creada++) {
-    //   if (hora_creada > rango_inicio && hora_creada <= rango_fin) {
-    //     let hour = moment (this.date_selected).set ('hour', hora_creada).set ('minute', 0).format ('LT');
-    //     if (this.date_selected.isSame (this.date_now, 'day')) {
-    //       let fecha = this.date_selected.format ('YYYY[-]MM[-]DD');
-    //       if (moment ().add (30, 'minutes').diff (moment (fecha + ' ' + hour + ':00'), 'minutes') <= 0) {
-    //         list.push (hour);
-    //       }
-    //     } else {
-    //       list.push (hour);
-    //     }
-    //   }
-    // }
+
     return list;
   }
   
@@ -230,15 +277,24 @@ export class EscojeFechaHoraPage implements OnInit {
       if (this.tipo_cita === true) {
         tipo_cita = 1;
       }
+      
+      let monto;
+      if (this.tipo_cita === true) {
+        monto = this.precio_consulta;
+      } else {
+        monto = this.precio_consulta_telemedicina;
+      }
 
       let data: any = {
-        monto: JSON.parse (this.route.snapshot.paramMap.get ('centro')).precio,
+        monto: monto,
         id_centro_medico_profesional: JSON.parse (this.route.snapshot.paramMap.get ('centro')).centro_medico_id,
         direccion: JSON.parse (this.route.snapshot.paramMap.get ('centro')).direccion,
         tipo_cita: tipo_cita,
         hora: this.hora_selected + ':00',
         fecha: this.date_selected.format ('YYYY[-]MM[-]DD')
       };
+
+      console.log (data);
 
       this.navController.navigateForward (['pago', JSON.stringify (this.doctor), JSON.stringify (data)]);
     }
@@ -247,9 +303,6 @@ export class EscojeFechaHoraPage implements OnInit {
   validar_disponibilidad (hora: string) {
     let invalido = false;
     let fecha = this.date_selected.format ('YYYY[-]MM[-]DD');
-
-    console.log (hora);
-    console.log (fecha);
 
     this.citas.forEach ((cita: any) => {
       if (cita.fecha === fecha && cita.hora === hora + ':00') {

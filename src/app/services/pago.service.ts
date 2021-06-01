@@ -41,10 +41,12 @@ export class PagoService {
   }
 
   get_formToken (request: any) {
+    console.log (this.api.USUARIO_ACCESS.access_token);
+
     const headers = {
       'Authorization': 'Bearer ' + this.api.USUARIO_ACCESS.access_token
     }
-    return this.http.post ('https://appmedico.demoperu.site/api/crear-token/izipay', request, { headers });
+    return this.http.post ('https://acudeapp.com/api/crear-token/izipay', request, { headers });
   }
 
   open () {

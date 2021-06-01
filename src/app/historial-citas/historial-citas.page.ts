@@ -68,7 +68,7 @@ export class HistorialCitasPage implements OnInit {
 
   get_tipo_cita (get_tipo_cita: string) {
     if (get_tipo_cita === '0') {
-      return 'Presencal';
+      return 'Presencial';
     }
 
     return 'Virtual';
@@ -145,5 +145,13 @@ export class HistorialCitasPage implements OnInit {
     } else {
       this.navController.navigateForward (['cita-resultados', item.id]);
     }
+  }
+
+  get_format_date (date: any) {
+    if (date === undefined || date === null) {
+      return '';
+    }
+
+    return moment (date).format ('L');
   }
 }
