@@ -61,7 +61,7 @@ export class EmergenciaPage implements OnInit {
 
   get_foto (fotografia: any) {
     if (fotografia === null || fotografia === undefined) {
-      return '';
+      return 'assets/img/icono_clinica.jpg'
     }
 
     return 'https://www.acudeapp.com/storage/' + fotografia;

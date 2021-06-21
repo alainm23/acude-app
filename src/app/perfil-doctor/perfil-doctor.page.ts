@@ -128,8 +128,9 @@ export class PerfilDoctorPage implements OnInit {
   }
 
   share () {
-    const url = 'https://acudeapp.com/?type=doctor?id=' + this.route.snapshot.paramMap.get ('id');
-    const mensaje = "Conectate con " + this.datos.nombre_completo + " en AcudeAPP " + url;
+    const url = 'https://acudeapp.com/?type=doctor?id=' + this.datos.id;
+    const mensaje = `Te recomiendo al ${ this.datos.tratamiento } ${ this.datos.nombre_completo } (${ this.datos.especialidad.categoria_especialidad.nombre } ${ this.datos.especialidad.nombre }), puedes encontrarlo(a) en ACUDE APP ${ url }`;
+    console.log (mensaje);
     this.socialSharing.share (mensaje);
   }
 
@@ -198,6 +199,8 @@ export class PerfilDoctorPage implements OnInit {
       brinda_telemedicina = 1;
     }
 
+    console.log (brinda_telemedicina);
+
     this.navController.navigateForward (
       ['escoje-fecha-hora',
       JSON.stringify ({
@@ -211,6 +214,7 @@ export class PerfilDoctorPage implements OnInit {
         nombre_banco: this.datos.nombre_banco,
         nro_cuenta: this.datos.nro_cuenta,
         telefono_yape: this.datos.telefono_yape,
+        interbancario: this.datos.interbancario
       }),
       JSON.stringify (data)
       ]

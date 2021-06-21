@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LoadingController, NavController } from '@ionic/angular';
+import { LoadingController, NavController, ToastController } from '@ionic/angular';
 import * as moment from 'moment';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 
 @Component({
   selector: 'app-cita-detalle',
@@ -16,7 +17,9 @@ export class CitaDetallePage implements OnInit {
     private route: ActivatedRoute,
     private navController: NavController,
     private socialSharing: SocialSharing,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private clipboard: Clipboard,
+    private toastController: ToastController
     ) { }
 
   ngOnInit () {
@@ -29,8 +32,7 @@ export class CitaDetallePage implements OnInit {
   }
 
   get_date_format (format: string) {
-    // return this.datetime.format (format);
-    return '';
+    return this.datetime.format (format);
   }
 
   get_relative_date () {
@@ -40,23 +42,25 @@ export class CitaDetallePage implements OnInit {
       return 'Mañana';
     }
 
-    let day: string = this.datetime.format ('dddd');
-    return day.charAt(0).toUpperCase () + day.slice (1);
+    let day: string = this.datetime.format ('dddd DD [de] MMMM');
+    return day;
 
     return '';
   }
 
-  get_date () {
-    // if (this.datetime !== undefined && this.datetime !== null) {
-    //   return '';
-    // }
+  copy (data: string) {
+    this.clipboard.copy (data).then (async () => {
+      const toast = await this.toastController.create({
+        message: 'El número fue copiado al portapapeles',
+        duration: 2000
+      });
 
-    // let month: string = this.datetime.format ('MMM');
-    // return this.datetime.format ('DD[ ]') + month.charAt(0).toUpperCase () + month.slice (1);
-
-    return '';
+      toast.present();
+    }).catch ((error) => {
+      console.log (error);
+    });
   }
-  
+
   get_tipo_cita (get_tipo_cita: string) {
     if (get_tipo_cita === '0') {
       return 'Presencal';
@@ -98,5 +102,9 @@ export class CitaDetallePage implements OnInit {
     }).catch ((error: any) => {
       loading.dismiss ();
     });
+  }
+
+  iniciar_video () {
+    this.navController.navigateForward (['consultorio-virtual', this.data.enlace_sala, this.data.nombre_paciente]);
   }
 }

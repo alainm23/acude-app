@@ -5,9 +5,10 @@ import * as moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
 import { PagoService } from '../services/pago.service';
 import { ApiService } from '../services/api.service';
-import { AlertController, LoadingController, NavController, ModalController } from '@ionic/angular';
+import { AlertController, LoadingController, NavController, ModalController, ToastController } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { PaymentPage } from '../payment/payment.page';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 
 // Forms
 import { FormGroup , FormControl, Validators } from '@angular/forms';
@@ -32,7 +33,9 @@ export class PagoPage implements OnInit {
     private alertController: AlertController,
     private callNumber: CallNumber,
     private navController: NavController,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private clipboard: Clipboard,
+    private toastController: ToastController
     ) { }
 
   ngOnInit () {
@@ -86,9 +89,12 @@ export class PagoPage implements OnInit {
         hora: this.data.hora,
         tipo_cita: this.data.tipo_cita,
         id_centro_medico_profesional: this.data.id_centro_medico_profesional,
+        metodo_pago: 'culqi',
+        id_izipay: '',
+        modo_pago: this.doctor.tipo_cobro
       };
 
-      console.log (data),
+      console.log (data);
 
       this.api.registrar_cita (data).subscribe ((res: any) => {
         loading.dismiss ();
@@ -132,52 +138,35 @@ export class PagoPage implements OnInit {
     return 'https://www.acudeapp.com/storage/' + data.fotografia;
   }
 
-  async submit () {    
-    const loading = await this.loadingCtrl.create ({
-      message: 'Procesando...',
-    });
-
-    await loading.present ();
-
-    if (this.doctor.tipo_cobro === '0' || this.doctor.tipo_cobro === '1' || this.doctor.tipo_cobro === '3') {
-      let data: any = {
-        id_user: this.api.USUARIO_DATA.id,
-        tokenculqi: '7890ascasc',
-        monto: 0,
-        fecha: this.data.fecha,
-        hora: this.data.hora,
-        tipo_cita: this.data.tipo_cita,
-        id_centro_medico_profesional: this.data.id_centro_medico_profesional,
-      };
-
-      console.log (data);
-
-      this.api.registrar_cita (data).subscribe ((res: any) => {
-        loading.dismiss ();
-        console.log (res);
-
-        let request: any = {
-          doctor: this.doctor,
-          fecha: this.data.fecha,
-          hora: this.data.hora,
-          cita_id: res.cita.id,
-          monto: this.data.monto,
-          direccion: this.data.direccion,
-          tipo_cita: this.data.tipo_cita
-        };
-
-        this.navController.navigateRoot (['reserva-exitosa', JSON.stringify (request)]);
-      }, async error => {
-        loading.dismiss ();
-        console.log (error);
-        const alert = await this.alertController.create({
-          message: 'Ha ocurrido un error en el pago. Vuelva a intentarlo.',
-          buttons: ['OK']
-        });
-    
-        await alert.present();
+  async submit () {
+    if (this.doctor.tipo_cobro === '0') {
+      this.agendar_cita ();
+    } else if (this.doctor.tipo_cobro === '1' || this.doctor.tipo_cobro === '3') {
+      const alert = await this.alertController.create({
+        header: 'Gracias por realizar tu reserva',
+        message: 'Luego de pagar, ingresa a tu "Historial de citas", selecciona la cita correspondiente y envía el comprobante al Whatsapp del profesional para la confirmación de tu reserva.',
+        mode: 'ios',
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel'
+          }, {
+            text: 'Continuar',
+            handler: () => {
+              this.agendar_cita ();
+            }
+          }
+        ]
       });
+  
+      await alert.present ();
     } else {
+      const loading = await this.loadingCtrl.create ({
+        message: 'Procesando...',
+      });
+    
+      await loading.present ();
+
       let request: any = {
         id_user: this.api.USUARIO_DATA.id,
         nombre_tarjeta: this.form.value.nombre_tarjeta,
@@ -189,89 +178,155 @@ export class PagoPage implements OnInit {
   
       console.log (request);
 
-      const modal = await this.modalController.create ({
-        component: PaymentPage,
-        componentProps: {
-          amount: this.get_pago_formula (this.data.monto) * 100,
-          currency: 'PEN',
-          orderId: 'ascascasc',
-          email: this.form.value.email
-        }
-      });
-
-      modal.onDidDismiss ().then (async (response: any) => {
-        // if (response.role === 'PAID') {
-        //   const loading = await this.loadingCtrl.create({
-        //     message: 'Procesando...',
-        //   });
-        
-        //   await loading.present ();
-
-        //   let data: any = {
-        //     legacyTransId: response.data,
-        //     id_user: this.api.USUARIO_DATA.id,
-        //     monto: this.get_pago_formula (this.data.monto) * 100,
-        //     fecha: this.data.fecha,
-        //     hora: this.data.hora,
-        //     tipo_cita: this.data.tipo_cita,
-        //     id_centro_medico_profesional: this.data.id_centro_medico_profesional,
-        //   };
-
-        //   console.log (data);
-
-        //   this.api.registrar_cita (data).subscribe ((res: any) => {
-        //     loading.dismiss ();
-        //     console.log (res);
-    
-        //     let request: any = {
-        //       doctor: this.doctor,
-        //       fecha: this.data.fecha,
-        //       hora: this.data.hora,
-        //       cita_id: res.cita.id,
-        //       monto: this.data.monto,
-        //       direccion: this.data.direccion,
-        //       tipo_cita: this.data.tipo_cita
-        //     };
-    
-        //     this.navController.navigateRoot (['reserva-exitosa', JSON.stringify (request)]);
-        //   }, async error => {
-        //     loading.dismiss ();
-        //     console.log (JSON.parse (error.error.message));
-        //     const alert = await this.alertController.create({
-        //       message: 'Ha ocurrido un error en el pago. Vuelva a intentarlo.',
-        //       buttons: ['OK']
-        //     });
-        
-        //     await alert.present();
-        //   });
-        // }
-      });
-
-      await modal.present ();
-
-
-      // this.api.actualizar_datos_pago (request).subscribe (async (USUARIO_DATA: any) => {
-      //   this.api.USUARIO_DATA = USUARIO_DATA.user;
-      //   this.storage.set ('USUARIO_DATA', JSON.stringify (this.api.USUARIO_DATA));
-      //   this.pago.cfgFormulario ("Pago por servicio", this.get_pago_formula (this.data.monto) * 100);
-      //   loading.dismiss ().then (() => {
-      //     this.pago.open ();
-      //   });
-      // }, error => {
-      //   loading.dismiss ();
-      //   console.log ('Error', error);
+      // const modal = await this.modalController.create ({
+      //   component: PaymentPage,
+      //   componentProps: {
+      //     amount: this.get_pago_formula (this.data.monto) * 100,
+      //     currency: 'PEN',
+      //     orderId: 'ascascasc',
+      //     email: this.form.value.email
+      //   }
       // });
+
+      // modal.onDidDismiss ().then (async (response: any) => {
+      //   if (response.role === 'PAID') {
+      //     const loading = await this.loadingCtrl.create ({
+      //       message: 'Procesando...',
+      //     });
+        
+      //     await loading.present ();
+
+      //     let data: any = {
+      //       id_user: this.api.USUARIO_DATA.id,
+      //       monto: this.get_pago_formula (this.data.monto) * 100,
+      //       fecha: this.data.fecha,
+      //       hora: this.data.hora,
+      //       tipo_cita: this.data.tipo_cita,
+      //       id_centro_medico_profesional: this.data.id_centro_medico_profesional,
+      //       metodo_pago: 'izipay',
+      //       id_izipay: response.data,
+      //       modo_pago: this.doctor.tipo_cobro
+      //     };
+
+      //     console.log (data);
+
+      //     this.api.registrar_cita (data).subscribe ((res: any) => {
+      //       loading.dismiss ();
+      //       console.log (res);
+            
+      //       let request: any = {
+      //         doctor: this.doctor,
+      //         fecha: this.data.fecha,
+      //         hora: this.data.hora,
+      //         cita_id: res.cita.id,
+      //         monto: this.data.monto,
+      //         direccion: this.data.direccion,
+      //         tipo_cita: this.data.tipo_cita,
+      //         metodo_pago: 'culqi'
+      //       };
+          
+      //       this.navController.navigateRoot (['reserva-exitosa', JSON.stringify (request)]);
+      //     }, async error => {
+      //       loading.dismiss ();
+      //       console.log (JSON.parse (error.error.message));
+      //       const alert = await this.alertController.create({
+      //         message: 'Ha ocurrido un error en el pago. Vuelva a intentarlo.',
+      //         buttons: ['OK']
+      //       });
+        
+      //       await alert.present();
+      //     });
+      //   }
+      // });
+
+      // await modal.present ();
+      
+      this.api.actualizar_datos_pago (request).subscribe (async (USUARIO_DATA: any) => {
+        this.api.USUARIO_DATA = USUARIO_DATA.user;
+        this.storage.set ('USUARIO_DATA', JSON.stringify (this.api.USUARIO_DATA));
+        this.pago.cfgFormulario ("Pago por servicio", this.get_pago_formula (this.data.monto) * 100);
+        loading.dismiss ().then (() => {
+          this.pago.open ();
+        });
+      }, error => {
+        loading.dismiss ();
+        console.log ('Error', error);
+      });
     }
   }
 
+  copy (data: string) {
+    this.clipboard.copy (data).then (async () => {
+      const toast = await this.toastController.create({
+        message: 'El número fue copiado al portapapeles',
+        duration: 2000
+      });
+
+      toast.present();
+    });
+  }
+
+  async agendar_cita () {
+    const loading = await this.loadingCtrl.create ({
+      message: 'Procesando...',
+    });
+
+    await loading.present ();
+
+    let data: any = {
+      id_user: this.api.USUARIO_DATA.id,
+      tokenculqi: '7890ascasc',
+      monto: 0,
+      fecha: this.data.fecha,
+      hora: this.data.hora,
+      tipo_cita: this.data.tipo_cita,
+      id_centro_medico_profesional: this.data.id_centro_medico_profesional,
+      metodo_pago: 'gratis',
+      modo_pago: this.doctor.tipo_cobro
+    };
+
+    console.log (data);
+
+    this.api.registrar_cita (data).subscribe ((res: any) => {
+      loading.dismiss ();
+      console.log (res);
+
+      let request: any = {
+        doctor: this.doctor,
+        fecha: this.data.fecha,
+        hora: this.data.hora,
+        cita_id: res.cita.id,
+        monto: this.data.monto,
+        direccion: this.data.direccion,
+        tipo_cita: this.data.tipo_cita
+      };
+
+      this.navController.navigateRoot (['reserva-exitosa', JSON.stringify (request)]);
+    }, async error => {
+      loading.dismiss ();
+      console.log (error);
+      const alert = await this.alertController.create({
+        message: 'Ha ocurrido un error en el pago. Vuelva a intentarlo.',
+        buttons: ['OK']
+      });
+  
+      await alert.present();
+    });
+  }
+
   get_pago_formula (monto: string) {
-    let v = parseFloat (monto);
+    let returned: number = parseFloat (monto);
+    if (this.doctor.tipo_cobro === '2') {
+      let v = parseFloat (monto);
 
-    let cv = v * 0.042;
-    let cf = 0.3 * 3.6;
-    let igv = (cv + cf) * 0.18;
+      let cv = v * 0.0344;
+      let cf = 0.6;
+      let igv = (cv + cf) * 0.18;
 
-    return parseFloat ((v + (cv + cf + igv)).toFixed (2));
+      returned = parseFloat ((v + (cv + cf + igv)).toFixed (2));
+    }
+
+    return returned;
   }
 
   get_pago_uso () {

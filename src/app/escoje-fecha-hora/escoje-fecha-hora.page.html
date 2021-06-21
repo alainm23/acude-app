@@ -22,7 +22,7 @@
     </div>
     <div *ngIf="editar === false" class="item-toogle" style="margin-bottom: 0px;" mode="ios">
       <p class="p-toogle">Cita presencial</p>
-      <ion-toggle [disabled]="modo_consulta != 2" [(ngModel)]="tipo_cita"></ion-toggle>
+      <ion-toggle [disabled]="get_disabled ()" [(ngModel)]="tipo_cita"></ion-toggle>
       <p class="p-toogle">Cita virtual</p>
     </div>
 

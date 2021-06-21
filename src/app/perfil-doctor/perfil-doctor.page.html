@@ -37,9 +37,9 @@
               </div>
             </ion-col>
             <ion-col size="12" class="ion-text-center">
-              <p class="subtitulo_p" style="margin-bottom: 0px; margin-top: 1rem;">{{ datos?.especialidad?.nombre }}</p>
-              <p class="titulo_p" style="margin-top: 0px;">{{ datos?.tratamiento }}&nbsp;{{ datos?.nombre_completo }}</p>
-              <p style="margin-top: 0px;">{{ datos?.especialidad?.categoria_especialidad?.siglas }} {{ datos?.numero_colegiatura_cmp }}</p>
+              <p class="titulo_p" style="margin-top: 1rem;">{{ datos?.tratamiento }}&nbsp;{{ datos?.nombre_completo }}</p>
+              <p class="subtitulo_p" style="margin-bottom: 0px;">{{ datos?.especialidad?.categoria_especialidad?.nombre }} {{ datos?.especialidad?.nombre }}</p>
+              <p style="margin-top: 0px;">{{ datos?.siglas }} {{ datos?.numero_colegiatura_cmp }}</p>
             </ion-col>
             <ion-col size="6" class="ion-no-padding">
               <ion-icon *ngIf="datos?.brinda_telemedicina === '1'" style="font-size: 24px; color: #875FB6;" name="videocam-outline">
@@ -107,21 +107,21 @@
               <div class="div_conuslta_nutton">
                 <ng-container *ngIf="centro.modo_consulta === '2'">
                   <p>
-                    Costo de consulta telemedicina:
+                    Consulta telemedicina:
                     <span>{{ centro.precio_consulta_telemedicina | currency:'S/. ' }}</span>
                     <br>
-                    Costo de consulta presencial: <span>{{ centro.precio_consulta | currency:'S/. ' }}</span>
+                    Consulta presencial: <span>{{ centro.precio_consulta | currency:'S/. ' }}</span>
                   </p>
                 </ng-container>
 
                 <ng-container *ngIf="centro.modo_consulta === '1'">
-                  <p>Costo de consulta telemedicina: <span>
+                  <p>Consulta telemedicina: <span>
                     {{ centro.precio_consulta_telemedicina | currency:'S/. ' }}
                   </span></p>
                 </ng-container>
 
                 <ng-container *ngIf="centro.modo_consulta === '0'">
-                  <p>Costo de consulta presencial: <span>
+                  <p>Consulta presencial: <span>
                     {{ centro.precio_consulta | currency:'S/. ' }}
                   </span></p>
                 </ng-container>
@@ -194,7 +194,7 @@
         </ion-card>
       </ion-col>
       <ion-col style="margin-bottom: 2rem;" size="12" size-md="7">
-        <ion-button class="btn-proxima btn-left-width" *ngIf="validar_disponibilidad (datos)" (click)="reservar_select ()">Reservar cita</ion-button>
+        <ion-button class="btn-proxima btn-left-width" *ngIf="validar_disponibilidad (datos)" (click)="reservar_select ()">Agendar cita</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

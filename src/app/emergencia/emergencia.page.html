@@ -7,6 +7,9 @@
     </p>
     <ion-list>
       <ion-item *ngFor="let item of emergencias" class="item-list">
+        <ion-avatar style="width: 48px; --border-radius: 0px;" slot="start">
+          <img [src]="get_foto (item.imagen_logo)" alt="">
+        </ion-avatar>
         <ion-label class="ion-text-wrap label-top">
           <p class="p-nombre-empresa">{{ item.establecimiento.nombre_comercial }}</p>
           <p class="p-descrip-empresa">{{ item.descripcion }}</p>

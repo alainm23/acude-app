@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { HistorialCitasPageRoutingModule } from './historial-citas-routing.module';
-
+import { OrderModule } from 'ngx-order-pipe';
 import { HistorialCitasPage } from './historial-citas.page';
 
 @NgModule({
@@ -13,7 +13,8 @@ import { HistorialCitasPage } from './historial-citas.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    HistorialCitasPageRoutingModule
+    HistorialCitasPageRoutingModule,
+    OrderModule
   ],
   declarations: [HistorialCitasPage]
 })

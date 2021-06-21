@@ -241,7 +241,17 @@ const routes: Routes = [
     path: 'payment',
     canActivate: [AuthGuard],
     loadChildren: () => import('./payment/payment.module').then( m => m.PaymentPageModule)
+  },
+  {
+    path: 'chat-test',
+    loadChildren: () => import('./chat-test/chat-test.module').then( m => m.ChatTestPageModule)
+  },
+  {
+    path: 'consultorio-virtual/:id/:nombre_paciente',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./consultorio-virtual/consultorio-virtual.module').then( m => m.ConsultorioVirtualPageModule)
   }
+
 
 
 ];

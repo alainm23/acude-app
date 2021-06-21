@@ -29,7 +29,7 @@
   
   <div class="div-list-card">
     <ion-card *ngFor="let item of citas" class="card-pacientes" (click)="ver_cita (item)">
-      <h6 class="hl-titulo-doctorres">Dr {{ item.centro_medico_sede_profesional.info_doctor.nombre_completo }}</h6>
+      <h6 class="hl-titulo-doctorres">{{ item.tratamiento_profesional }} {{ item.centro_medico_sede_profesional.info_doctor.nombre_completo }}</h6>
       <div class="div-datos div-margin-bottom">
         <p class="p-widht-uno color-categorias">Tipo:</p>
         <p class="p-nombre-categorias">{{ get_tipo_cita (item.tipo_cita) }}</p>
@@ -44,11 +44,7 @@
       <div class="div-datos div-flex div-margin-bottom">
         <div class="div-datos div-right-margin">
           <p class="p-widht-uno color-categorias">Fecha:</p>
-          <p class="p-nombre-categorias">{{ get_format_date (item.fecha) }}</p>
-        </div>
-        <div class="div-datos">
-          <p class="p-widht-uno color-categorias">Hora:</p>
-          <p class="p-nombre-categorias">{{ item.hora }}</p>
+          <p class="p-nombre-categorias">{{ get_format_date (item.fecha) }} {{ item.hora }}</p>
         </div>
       </div>
       <div class="div-datos">
@@ -59,6 +55,53 @@
         <p class="p-widht-uno color-categorias">Dirección:</p>
         <p class="p-nombre-categorias p-widht-direccion">{{ item.centro_medico_sede_profesional.info_centro_medico_sucursal.direccion }}</p>
       </div>
+      <div class="div-datos">
+        <p class="p-widht-uno color-categorias">Tipo de pago:</p>
+        <p class="p-nombre-categorias">
+          <span *ngIf="item?.modo_pago === '0'">Pago en consultorio</span>
+          <span *ngIf="item?.modo_pago === '1'">Transferencia bancaria</span>
+          <span *ngIf="item?.modo_pago === '2'">Online</span>
+          <span *ngIf="item?.modo_pago === '3'">Yape</span>
+        </p>
+      </div>
+
+      <ng-container *ngIf="item?.modo_pago === '1'">
+        <div class="div-datos div-flex div-margin-bottom">
+          <div class="div-datos div-right-margin">
+            <p class="p-widht-uno color-categorias">N° Cuenta:</p>
+            <p class="p-nombre-categorias p-widht-direccion" style="display: flex;">
+              {{ item?.centro_medico_sede_profesional?.info_doctor?.nro_cuenta }}
+              &nbsp;
+              <ion-icon (click)="copy ($event, item?.centro_medico_sede_profesional?.info_doctor?.nro_cuenta)" class="copy-css" name="copy-outline"></ion-icon>
+            </p>
+          </div>
+          <div class="div-datos">
+            <p class="p-widht-uno color-categorias">Interbancario:</p>
+            <p class="p-nombre-categorias p-widht-direccion" style="display: flex;">
+              {{ item?.centro_medico_sede_profesional?.info_doctor?.interbancario }}
+              &nbsp;
+              <ion-icon (click)="copy ($event, item?.centro_medico_sede_profesional?.info_doctor?.interbancario)" class="copy-css" name="copy-outline"></ion-icon>
+            </p>
+          </div>
+        </div>
+        <ion-button *ngIf="item?.estado == '2'" class="comprobante-css" (click)="abrir_whatsaap ($event, item)" size="small">
+          Enviar comprobante
+        </ion-button>
+      </ng-container>
+
+      <ng-container *ngIf="item?.modo_pago === '3'">
+        <div class="div-datos">
+          <p class="p-widht-uno color-categorias">Número Yape:</p>
+          <p class="p-nombre-categorias p-widht-direccion" style="display: flex;">
+            {{ item?.centro_medico_sede_profesional?.info_doctor?.telefono_yape }}
+            &nbsp;
+            <ion-icon (click)="copy ($event, item?.centro_medico_sede_profesional?.info_doctor?.telefono_yape)" class="copy-css" name="copy-outline"></ion-icon>
+          </p>
+        </div>
+        <ion-button *ngIf="item?.estado == '2'" class="comprobante-css" (click)="abrir_whatsaap ($event, item)" size="small">
+          Enviar comprobante
+        </ion-button>
+      </ng-container>
       <ion-button *ngIf="validar_boton (item)" (click)="editar (item)" class="btn-reprogramar" mode="ios">Reprogramar</ion-button>
     </ion-card>
   </div>

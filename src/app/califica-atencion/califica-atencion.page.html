@@ -8,7 +8,7 @@
   <img src="assets/img/califica-atencion.png">
   <p class="p-titulo">¿Te gustó mi atención?</p>
   <p class="p-descrip">
-    Ayúdanos a mejorar la atención, califica la atención brindada por el profesional
+    <!-- Ayúdanos a mejorar la atención, califica la atención brindada por el profesional -->
   </p>
   <div class="div-sterllas">
     <ion-icon name="star-outline" *ngFor="let num of [1, 2, 3, 4, 5]" 
@@ -17,7 +17,7 @@
   </div>
   <form [formGroup]="form" class="form-class">
     <ion-item lines="none">
-      <ion-textarea formControlName="comment" placeholder="Deja tu comentario para"></ion-textarea>
+      <ion-textarea formControlName="comment" [placeholder]="'Comentanos sobre la atención de ' + item?.tratamiento_doctor + ' ' + item?.nombre_doctor"></ion-textarea>
     </ion-item>
   </form>
 </ion-content>

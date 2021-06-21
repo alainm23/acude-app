@@ -13,10 +13,11 @@ export class PaymentPage implements OnInit {
   @Input () currency: string;
   @Input () orderId: string;
   @Input () email: string;
-  @Input () tienda_id: string = '11132678';
-  @Input () publickey: string = 'publickey_PbX9uZU7FgoxCFV3HRnVI3FTVzcFPoKFEl0ODoRcz2eDN';
+  @Input () tienda_id: string = '80078824';
+  @Input () publickey: string = 'testpublickey_N2rSDYJJIMbIKuwqe4cuf94BPQtABoCgw1k8U5l0TRr56';
 
   promiseError = null;
+  
   constructor (private payment: PagoService,
     private loadingCtrl: LoadingController,
     private modalController: ModalController) { }
@@ -34,7 +35,7 @@ export class PaymentPage implements OnInit {
         currency: this.currency,
         orderId: this.orderId,
         customer: {
-            email: this.email
+          email: this.email
         }
       }
     };
@@ -45,10 +46,10 @@ export class PaymentPage implements OnInit {
       const endpoint = 'https://api.micuentaweb.pe';
 
       KRGlue.loadLibrary (endpoint, publicKey).then (({ KR }) => KR.setFormConfig ({
-          formToken: formToken,
-          "kr-language": "es",
-          // "kr-hide-debug-toolbar": true
-        })
+        formToken: formToken,
+        "kr-language": "es",
+        "kr-hide-debug-toolbar": false
+      })
       )
       .then (({ KR }) =>
         KR.addForm ("#myPaymentForm")

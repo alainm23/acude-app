@@ -43,6 +43,7 @@ import { SelectHorarioPageModule } from './popovers/select-horario/select-horari
 import { SelectSucursalPageModule } from './popovers/select-sucursal/select-sucursal.module';
 import { SelectEspecialidadPageModule } from './popovers/select-especialidad/select-especialidad.module';
 import { PaymentPageModule } from './payment/payment.module';
+import { OrderModule } from 'ngx-order-pipe';
 
 @NgModule({
   declarations: [AppComponent],

@@ -1,29 +1,21 @@
-<!-- <ion-header>
+<ion-header>
   <ion-toolbar mode="ios">
     <ion-buttons mode="md" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title class="ion-text-center">
-      Historial de calificaciones
+    <ion-title style="display: contents;" class="ion-text-center ion-text-wrap">
+      Califica la atencion del profesional
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  
-</ion-content> -->
-
-<!---<ion-header>
-  <ion-toolbar>
-    <ion-title>califica-atencion</ion-title>
-  </ion-toolbar>
-</ion-header>-->
-
 <ion-content class="ion-text-center">
   <img src="assets/img/califica-atencion.png">
-  <p class="p-titulo">¿Te gustó mi atención?</p>
+  <!-- <p class="p-titulo">¿Te gustó mi atención?</p> -->
   <p class="p-descrip">
-    Ayúdanos a mejorar la atención, califica la atención brindada por el profesional
+    Ayúdanos a mejorar nuestro servicio.
+    <br>
+    Califica la atención brindada por el profesional.
   </p>
   <!--<div class="div-list-card">
     <ion-card (click)="calificar (item)" *ngFor="let item of items" class="card-pacientes">
@@ -51,17 +43,14 @@
         <ion-card (click)="calificar (item)" *ngFor="let item of items" class="card_establecimineto" >
           <div class="div_img_p">
             <div class="div_img_circulo">
-              <img src="assets/img/c88185bc9da4e6f2397185cab7ff2039.png">
-              <div class="div_circulo_verde">
-                97%
-              </div>
+              <img [src]="get_imagen (item?.img_doctor)">
             </div>
           </div>
           <div class="div_img_pdiv_img_p">
             <div class="div_titulo_estrella">
               <ion-row>
                 <ion-col size="12" class="ion-no-padding">
-                  <p class="p_titulo">Dr {{ item.nombre_doctor }}</p>
+                  <p class="p_titulo">{{ item.tratamiento_doctor }} {{ item.nombre_doctor }}</p>
                 </ion-col>
                 <!--<ion-col size="4" class="ion-no-padding ion-text-end" style="position: relative;">
                   <p class="p_ofta">Oftalmologa</p>
@@ -78,10 +67,10 @@
             </div>
           </div>
           <ion-row class="ion-justify-content-center" style="width: 100%;">
-            <ion-col size="6">
+            <!-- <ion-col size="6">
               <ion-button class="btn_salud" mode="ios">Omitir</ion-button>
-            </ion-col>
-            <ion-col size="6">
+            </ion-col> -->
+            <ion-col size="12">
               <ion-button class="btn_salud_llmar" mode="ios">Calificar</ion-button>
             </ion-col>
           </ion-row>

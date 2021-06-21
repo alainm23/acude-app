@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 import { ApiService } from '../services/api.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-comentarios-lista',
@@ -14,7 +16,8 @@ export class ComentariosListaPage implements OnInit {
     private alertController: AlertController, 
     private api: ApiService,
     private navController: NavController,
-    private loadingCtrl: LoadingController) { }
+    private loadingCtrl: LoadingController,
+    private storage: Storage) { }
 
   async ngOnInit () {
     
@@ -41,7 +44,17 @@ export class ComentariosListaPage implements OnInit {
     this.navController.navigateForward (['califica-atencion', JSON.stringify (item), this.items.length]);
   }
 
-  back () {
-    this.navController.back ();
+  async back () {
+    // this.storage.set ('calificar', true).then (() => {
+      this.navController.back ();
+    // });
+  }
+
+  get_imagen (fotografia: string) {
+    if (fotografia === null || fotografia === undefined) {
+      return 'assets/img/ion-avatar.png';
+    }
+
+    return 'https://www.acudeapp.com/storage/' + fotografia;
   }
 }

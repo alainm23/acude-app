@@ -308,6 +308,6 @@ export class PerfilClinicaPage implements OnInit {
   }
 
   go_perfil (item: any) {
-    this.navController.navigateForward (['perfil-doctor', item.id])
+    this.navController.navigateForward (['perfil-doctor', item.id]);
   }
 }

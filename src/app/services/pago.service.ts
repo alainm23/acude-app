@@ -27,13 +27,14 @@ export class PagoService {
 
   initCulqi () {
     // Ingresa tu "Puclic Key" que te da Culqi aqui
-    Culqi.publicKey = 'pk_test_ddc278666ef0f6ce';
+    // Culqi.publicKey = 'pk_test_ddc278666ef0f6ce';
+    Culqi.publicKey = 'pk_live_e397d55556f9df4e';
   }
 
   cfgFormulario (descripcion: string, cantidad: number) {
     Culqi.getOptions.style.logo = "https://www.acudeapp.com/acude-logo.png";
     Culqi.settings ({
-      title: 'ACUDE APP',
+      title: 'ACUDE',
       currency: 'PEN',
       description: descripcion,
       amount: cantidad

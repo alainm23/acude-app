@@ -24,6 +24,7 @@ export class EscojeFechaHoraPage implements OnInit {
   modo_consulta: string = '';
   precio_consulta: number = 0;
   precio_consulta_telemedicina: number = 0;
+  brinda_telemedicina: number = 0;
 
   doctor: any;
   horarios: any [] = [];
@@ -90,6 +91,18 @@ export class EscojeFechaHoraPage implements OnInit {
       console.log (error);
       loading.dismiss ();
     });
+  }
+
+  get_disabled () {
+    let returned: boolean = false;
+
+    if (this.doctor.brinda_telemedicina === 0) {
+      returned =  true;
+    } else {
+      returned = this.modo_consulta != '2';
+    }
+
+    return returned;
   }
 
   update_day (value: number) {
@@ -280,9 +293,9 @@ export class EscojeFechaHoraPage implements OnInit {
       
       let monto;
       if (this.tipo_cita === true) {
-        monto = this.precio_consulta;
-      } else {
         monto = this.precio_consulta_telemedicina;
+      } else {
+        monto = this.precio_consulta;
       }
 
       let data: any = {
@@ -296,7 +309,9 @@ export class EscojeFechaHoraPage implements OnInit {
 
       console.log (data);
 
-      this.navController.navigateForward (['pago', JSON.stringify (this.doctor), JSON.stringify (data)]);
+      this.navController.navigateForward (
+        ['pago', JSON.stringify (this.doctor), JSON.stringify (data)]
+      );
     }
   }
 

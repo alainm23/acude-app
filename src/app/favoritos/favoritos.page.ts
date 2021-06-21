@@ -21,6 +21,7 @@ export class FavoritosPage implements OnInit {
   profesionales: any [] = [];
   centros_medicos: any [] = [];
   index: number = 0;
+  tipo: string = '0';
   constructor (
     private api: ApiService,
     private loadingController: LoadingController,
@@ -77,6 +78,11 @@ export class FavoritosPage implements OnInit {
   
   slide_to (index: number) {
     this.slide.slideTo (index);
+  }
+
+  segmentChanged (event: any) {
+    console.log (event.detail.value);
+    this.index = parseInt (event.detail.value);
   }
 
   get_foto (imagen: string) {

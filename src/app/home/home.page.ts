@@ -13,6 +13,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { decimalDigest } from '@angular/compiler/src/i18n/digest';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-home',
@@ -68,7 +69,9 @@ export class HomePage implements OnInit {
     private geolocation: Geolocation,
     private platform: Platform,
     private keyboard: Keyboard
-  ) {}
+  ) {
+    
+  }
 
   async ngOnInit () {
     if (this.platform.is ('cordova')) {
@@ -109,7 +112,7 @@ export class HomePage implements OnInit {
     }, error => {
       console.log (error);
     });
-
+    
     this.api.listado_de_citas_sin_calificacion ().subscribe (async (res: any) => {
       console.log (res);
 
@@ -117,12 +120,12 @@ export class HomePage implements OnInit {
         if (res.citas.length === 1) {
           this.navController.navigateForward (['califica-atencion', JSON.stringify (res.citas [0]), res.citas.length]);
         } else {
-          this.navController.navigateRoot (['comentarios-lista', JSON.stringify (res.citas)]); 
+          this.navController.navigateForward (['comentarios-lista', JSON.stringify (res.citas)]); 
         }
       }
     }, error => {
       console.log (error);
-    });
+    }); 
   }
 
   completar_cita (data: any) {

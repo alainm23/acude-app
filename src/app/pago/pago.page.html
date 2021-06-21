@@ -6,7 +6,9 @@
 
 <ion-content>
   <ion-card class="card-verd">
-    <ion-label (click)="back ()" class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>Reservar cita</ion-label>
+    <ion-label (click)="back ()" class="label-cabezera"><ion-icon name="arrow-back-outline" class="icon-flecha"></ion-icon>
+      Confirmación de reserva
+    </ion-label>
     <ion-icon routerLink="/home" routerDirection="root" class="home" name="home"></ion-icon>
   </ion-card>
   <ion-card class="card-blanco">
@@ -37,12 +39,12 @@
     <ng-container *ngIf="doctor?.tipo_cobro === '0'">
       <div class="ion-text-center">
         <p class="ion-padding">
-          Pago en consultorio
+          El pago se realizara en el consultorio del profesional, si necesita mas información.
         </p>
         <ion-button (click)="llamar ()" class="btnRESERVA">
           <ion-icon style="color: #2E5269" name="call"></ion-icon>
           &nbsp;
-          Llamar al doctor
+          Llamar al profesional
         </ion-button>
       </div>
     </ng-container>
@@ -50,14 +52,21 @@
     <ng-container *ngIf="doctor?.tipo_cobro === '1'">
       <div class="ion-text-center">
         <p class="ion-padding">
-          Transferencia bancaria
-        {{ doctor?.nombre_banco }}
-        {{ doctor?.nro_cuenta }}
+        Para reservar su cita, usted debe realizar una transferencia o pago a la siguiente cuenta:
+        <br>
+        <br>
+        <b>Banco:</b> {{ doctor?.nombre_banco }}
+        <br>
+        <br>
+        <b>N° Cuenta:</b> {{ doctor?.nro_cuenta }} <ion-icon (click)="copy (doctor?.nro_cuenta)" name="copy-outline"></ion-icon>
+        <br>
+        <br>
+        <b>Interbancario:</b> {{ doctor?.interbancario }} <ion-icon (click)="copy (doctor?.nro_cuenta)" name="copy-outline"></ion-icon>
         </p>
         <ion-button (click)="llamar ()" class="btnRESERVA">
           <ion-icon style="color: #2E5269" name="call"></ion-icon>
           &nbsp;
-          Llamar al doctor
+          Llamar al profesional
         </ion-button>
       </div>
     </ng-container>
@@ -71,11 +80,16 @@
           <ion-button (click)="llamar ()" class="btnRESERVA">
             <ion-icon style="color: #2E5269" name="call"></ion-icon>
             &nbsp;
-            Llamar al doctor
+            Llamar al profesional
           </ion-button>
         </div>
     
         <div *ngIf="data.monto > 0">
+          <!-- <div class="ion-text-center">
+            <p class="ion-padding">
+            Para reservar su cita, usted debe realizar un pago via online.
+            </p>
+          </div> -->
           <h3 class="ion-text-center titulo-tarjeta">Datos del titular de la tarjeta</h3>
           <form [formGroup]="form">
             <ng-container *ngIf="api.PAIS.id === 1">
@@ -112,7 +126,7 @@
               </small>
             </ng-container>
           </form>
-          <p class="p-descripcion-plomo">* No hay devoluciones <br>** Cambios de cita hasta 24 horas antes</p>
+          <p class="p-descripcion-plomo">* No hay devoluciones. <br>** Cambios de cita hasta 24 horas antes.</p>
         </div>
       </ng-container>
   
@@ -132,12 +146,18 @@
     <ng-container *ngIf="doctor?.tipo_cobro === '3'">
       <div class="ion-text-center">
         <p class="ion-padding">
-          Pago con yape {{ doctor?.telefono_yape }}
+          Para reservar su cita, usted debe realizar el pago al profesional, al siguiente número:
         </p>
+
+        <div class="vertical-center">
+          <img style="height: 32px;" src="../../assets//img/yape-logo-3E473EE7E5-seeklogo.com.png" alt="">
+          &nbsp;&nbsp;<b>{{ doctor?.telefono_yape }}</b>&nbsp;<ion-icon (click)="copy (doctor?.telefono_yape)" name="copy-outline"></ion-icon>
+        </div>
+
         <ion-button (click)="llamar ()" class="btnRESERVA">
           <ion-icon style="color: #2E5269" name="call"></ion-icon>
           &nbsp;
-          Llamar al doctor
+          Llamar al profesional
         </ion-button>
       </div>
     </ng-container>

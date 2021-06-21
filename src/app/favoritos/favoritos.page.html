@@ -4,7 +4,7 @@
       <p (click)="back ()"><ion-icon name="arrow-back-outline" class="icon_close"></ion-icon>Favoritos</p>
     </ion-card>
   </ion-toolbar>
-  <ion-slides  pager="false" [options]="slideOptsOne" (ionSlideDidChange)="slides_categoria_changed ()">
+  <!-- <ion-slides  pager="false" [options]="slideOptsOne" (ionSlideDidChange)="slides_categoria_changed ()">
     <ion-slide></ion-slide>
     <ion-slide (click)="slide_to (0)">
       <ion-card>
@@ -17,10 +17,19 @@
       </ion-card>
     </ion-slide>
     <ion-slide></ion-slide>
-  </ion-slides>
+  </ion-slides> -->
 </ion-header>
 
 <ion-content>
+  <ion-segment (ionChange)="segmentChanged ($event)" [(ngModel)]="index" class="ion-segment">
+    <ion-segment-button value="0" class="segment-btn-pasada">
+      <ion-label>Profesional</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="1" class="segment-btn-proximas">
+      <ion-label>Establecimientos</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
   <ion-grid *ngIf="index === 0">
     <ion-row *ngIf="profesionales.length > 0" class="ion-justify-content-center">
       <ion-col *ngFor="let item of profesionales" size="12" size-sm="10" size-md="8" size-lg="6">

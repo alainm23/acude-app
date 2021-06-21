@@ -21,7 +21,7 @@
     "@angular/router": "~9.1.6",
     "@ionic-native/android-permissions": "^5.29.0",
     "@ionic-native/call-number": "^5.29.0",
-    "@ionic-native/camera": "^5.28.0",
+    "@ionic-native/camera": "^5.33.1",
     "@ionic-native/clipboard": "^5.29.0",
     "@ionic-native/core": "^5.0.7",
     "@ionic-native/deeplinks": "^5.27.0",
@@ -31,6 +31,7 @@
     "@ionic-native/google-plus": "^5.29.0",
     "@ionic-native/keyboard": "^5.31.1",
     "@ionic-native/location-accuracy": "^5.29.0",
+    "@ionic-native/media-capture": "^5.33.1",
     "@ionic-native/onesignal": "^5.31.1",
     "@ionic-native/social-sharing": "^5.31.1",
     "@ionic-native/splash-screen": "^5.0.0",
@@ -39,7 +40,6 @@
     "@ionic/storage": "^2.3.0",
     "@lyracom/embedded-form-glue": "^0.3.3",
     "call-number": "^1.0.1",
-    "cordova-android": "^9.0.0",
     "cordova-clipboard": "^1.3.0",
     "cordova-plugin-android-permissions": "^1.1.0",
     "cordova-plugin-facebook4": "^6.4.0",
@@ -53,6 +53,7 @@
     "ionic-plugin-deeplinks": "^1.0.20",
     "moment": "^2.27.0",
     "ng2-validation": "^4.2.0",
+    "ngx-order-pipe": "^2.1.1",
     "onesignal-cordova-plugin": "^2.11.2",
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",
@@ -69,10 +70,12 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
+    "cordova-android": "^9.1.0",
     "cordova-plugin-camera": "git+https://github.com/apache/cordova-plugin-camera.git",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
     "cordova-plugin-ionic-webview": "^4.2.1",
+    "cordova-plugin-media-capture": "^3.0.3",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-statusbar": "^2.4.2",
     "cordova-plugin-whitelist": "^1.3.3",
@@ -140,12 +143,11 @@
       "cordova-plugin-request-location-accuracy": {
         "PLAY_SERVICES_LOCATION_VERSION": "16.+"
       },
-      "cordova-plugin-camera": {
-        "ANDROID_SUPPORT_V4_VERSION": "27.+"
-      },
+      "cordova-plugin-camera": {},
       "cordova-clipboard": {},
       "onesignal-cordova-plugin": {},
-      "call-number": {}
+      "call-number": {},
+      "cordova-plugin-media-capture": {}
     },
     "platforms": [
       "android"

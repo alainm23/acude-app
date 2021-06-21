@@ -68,6 +68,7 @@ export class LoginPage implements OnInit {
         }
       },
       err => {
+        loading.dismiss ();
         alert (err);
       }
     );
@@ -84,6 +85,7 @@ export class LoginPage implements OnInit {
       loading.dismiss ();
       this.getLocationCoordinates ();
     }, error => {
+      loading.dismiss ();
       console.log ('Error requesting location permissions ' + JSON.stringify(error))
     });
   }
@@ -109,6 +111,8 @@ export class LoginPage implements OnInit {
           }
         );
       }
+    }, error => {
+      loading.dismiss ();
     });
   }
 
@@ -117,8 +121,10 @@ export class LoginPage implements OnInit {
       message: 'Procesando...'
     });
 
+    await loading.present ();
+
     this.geolocation.getCurrentPosition ().then ().catch ();
-    this.geolocation.getCurrentPosition ({enableHighAccuracy: true}).then ((resp: Geoposition) => {
+    this.geolocation.getCurrentPosition ({enableHighAccuracy: true, timeout: 60*1000}).then ((resp: Geoposition) => {
       console.log (resp.coords.latitude);
       console.log (resp.coords.longitude);
 
@@ -156,8 +162,6 @@ export class LoginPage implements OnInit {
       console.log (error);
       this.presentAlertRadio ();
     });
-
-    await loading.present ();
   }
 
   go_view (view: string) {

@@ -18,7 +18,9 @@
         <ion-card class="card_clinica">
           <div class="div_flex">
             <div class="div_flex1">
-              <h5>{{ datos?.nombre_comercial }}</h5>
+              <h5 *ngIf="datos?.sucursales?.length > 1">{{ datos?.nombre_comercial }}</h5>
+              <h5>{{ sucursal?.denominacion }}</h5>
+              <p><small>{{ sucursal?.tipo_centro_medico?.nombre }}</small></p>
               <p>{{ sucursal?.direccion }}</p>
             </div>
             <div class="div_flex2">

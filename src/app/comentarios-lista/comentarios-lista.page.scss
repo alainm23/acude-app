@@ -18,11 +18,39 @@
     font-family: PoppinsExtraBold;
     src : url('/assets/font/Poppins-ExtraBold.otf')
 }
+@font-face{
+    font-family: MontserratSemiBold;
+    src : url('/assets/font/Montserrat-SemiBold.ttf')
+}
 .p-titulo
 {
     font-family: PoppinsSemiBold;
     color: #18DDD0;
     font-size: 16px;
+}
+ion-header
+{
+    height: 30px;
+    ion-toolbar
+    {
+        --background: #18DDD0;
+        --color: #ffffff;
+        --padding-start: 0px;
+        --padding-end:0px;
+        text-align: left;
+        border-radius: 0px 0px 35px 35px;
+        height: 94px;
+        display: flex;
+        align-items: center;
+        font-family: MontserratSemiBold;
+        position: relative;
+        ion-buttons
+        {
+            position: absolute;
+            left: 0;
+            z-index: 1;
+        }
+    }
 }
 .p-descrip
 {

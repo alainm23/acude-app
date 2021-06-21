@@ -233,6 +233,16 @@ ion-content
     font-family: PoppinsMedium;
     font-size: 14px;
 }
+
+.vertical-center {
+    margin-bottom: 2rem;
+    font-size: 1.2rem;
+    justify-content: center;
+    /* display: list-item; */
+    display: flex;
+    align-items: center;
+}
+
 .div-foofter
 {
     height: 56px;

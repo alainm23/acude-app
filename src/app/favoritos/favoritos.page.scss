@@ -100,6 +100,41 @@ ion-header
         }
     }
 }
+
+.ion-segment
+{
+    .segment-btn-pasada
+    {
+        --color: #18DDD0;
+        --indicator-color: #18DDD0;
+        --color-checked: #18DDD0;
+        font-family: PoppinsRegular;
+        text-transform: capitalize;
+        --padding-start: 0px;
+        --padding-end: 0px;
+        width: 0px;
+    }
+    .segment-btn-proximas
+    {
+        --color: #18DDD0;
+        --indicator-color: #18DDD0;
+        --color-checked: #18DDD0;
+        font-family: PoppinsRegular;
+        text-transform: capitalize;
+        --padding-start: 0px;
+        --padding-end: 0px;
+        width: 0px;
+    }
+    .segment-btn-pasada:hover
+    {
+        font-family: PoppinsBold;
+    }
+    .segment-btn-proximas:hover
+    {
+        font-family: PoppinsBold;
+    }
+}
+
 ion-content
 {
     --padding-top: 110px;
