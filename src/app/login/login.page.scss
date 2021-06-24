@@ -87,6 +87,10 @@ ion-header
     --color: #FF6B6B;
     margin-bottom: 15px;
 }
+.btn_apple {
+    --color: #333333;
+    margin-bottom: 15px;
+}
 .btn_correo:hover::after
 {
     content: 'Correo';

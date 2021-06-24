@@ -16,5 +16,6 @@
     <ion-button class="btn_enlace btn_correo" (click)="login_social ('correo')">Correo</ion-button>
     <ion-button class="btn_enlace btn_facebbok" (click)="login_social ('facebook')">Facebook</ion-button>
     <ion-button class="btn_enlace btn_google" (click)="login_social ('google')">Google</ion-button>
+    <ion-button class="btn_enlace btn_apple" *ngIf="is_ios" (click)="login_social ('apple')">Apple</ion-button>
   </div>
 </ion-content>

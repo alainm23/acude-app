@@ -7,6 +7,12 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { ApiService } from '../services/api.service';
 import { Storage } from '@ionic/storage';
+import {
+  SignInWithApple,
+  ASAuthorizationAppleIDRequest,
+  AppleSignInResponse,
+  AppleSignInErrorResponse
+} from "@ionic-native/sign-in-with-apple/ngx";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +28,8 @@ export class AuthService {
     private storage: Storage,
     private alertController: AlertController,
     private navController: NavController,
-    private loadingController: LoadingController) {
+    private loadingController: LoadingController,
+    private signInWithApple: SignInWithApple) {
 
   }
 
@@ -152,5 +159,59 @@ export class AuthService {
     } else {
       console.log ('No Cordova');
     }
+  }
+
+  apple () {
+    this.signInWithApple.signin({
+      requestedScopes: [
+        ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
+        ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail
+      ]
+    })
+    .then (async (res: AppleSignInResponse) => {
+      const loading = await this.loadingController.create ({
+        message: 'Verificando...',
+      });
+  
+      await loading.present ();
+
+      this.api.login_social ('gmail', res.email, res.user, '', res.fullName.givenName, res.fullName.familyName).subscribe ((USUARIO_ACCESS: any) => {
+        console.log (USUARIO_ACCESS);
+        
+        this.storage.set ('USUARIO_ACCESS', JSON.stringify (USUARIO_ACCESS));
+        this.api.USUARIO_ACCESS = USUARIO_ACCESS;
+
+        loading.message = 'Obteniendo datos del usuario...';
+
+        this.api.get_user (USUARIO_ACCESS.access_token).subscribe ((USUARIO_DATA: any) => {
+          console.log (USUARIO_DATA)
+
+          this.api.USUARIO_DATA = USUARIO_DATA.user;
+          this.api.USUARIO_DATA.departamento_id = USUARIO_DATA.departamento_id;
+          this.api.USUARIO_DATA.distrito_id = USUARIO_DATA.distrito_id;
+          this.api.USUARIO_DATA.provincia_id = USUARIO_DATA.provincia_id;
+
+          this.storage.set ('USUARIO_DATA', JSON.stringify (this.api.USUARIO_DATA));
+          loading.dismiss ();
+
+          if (USUARIO_DATA.departamento_id === 0) {
+            this.navController.navigateRoot ('actualizar-residencia');
+          } else {
+            this.navController.navigateRoot ('home');
+          }
+
+          this.api.usuario_changed (this.api.USUARIO_DATA);
+        }, (error: any) => {
+          loading.dismiss ();
+          console.log (error);
+        });
+      }, error => {
+        console.log (error);
+        loading.dismiss ();
+      });
+    })
+    .catch((error: AppleSignInErrorResponse) => {
+      console.error(error);
+    });
   }
 }

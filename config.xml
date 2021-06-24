@@ -105,4 +105,20 @@
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
+
+    <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
+        <string>So we can get to you as fast as possible</string>
+    </edit-config>
+    <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysAndWhenInUseUsageDescription">
+        <string>So we can get to you as fast as possible</string>
+    </edit-config>
+    <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysUsageDescription">
+        <string>So we can get to you as fast as possible</string>
+    </edit-config>
+    <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
+        <string>In order to get your medical recipe</string>
+    </edit-config>
+    <edit-config file="*-Info.plist" mode="merge" target="NSCameraUsageDescription">
+        <string>So you can attach the necessary information</string>
+    </edit-config>
 </widget>

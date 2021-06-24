@@ -22,6 +22,8 @@ import { CurrencyPipe } from '@angular/common';
 })
 export class LoginPage implements OnInit {
   checked: boolean = false;
+  is_ios: boolean = false;
+
   paises: any [] = [];
   directionsService: any = new google.maps.DirectionsService ();
   geocoder: any = new google.maps.Geocoder ();
@@ -39,6 +41,8 @@ export class LoginPage implements OnInit {
     private alertController: AlertController) { }
 
   ngOnInit () {
+    this.is_ios = this.platform.is ('ios');
+
     this.api.listado_paises ().subscribe ((res: any) => {
       this.paises = res.paises;
       console.log (res.paises);
@@ -176,6 +180,8 @@ export class LoginPage implements OnInit {
         this.auth.facebook ();
       } else if (social === 'google') {
         this.auth.google ();
+      } else if (social === 'apple') {
+        this.auth.apple ();
       }
     } else {
       const toast = await this.toastController.create({

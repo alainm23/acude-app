@@ -35,6 +35,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
+import { SignInWithApple } from "@ionic-native/sign-in-with-apple/ngx";
 
 // Popovers
 import { SelectIdiomaPageModule } from './popovers/select-idioma/select-idioma.module';
@@ -78,6 +79,7 @@ import { OrderModule } from 'ngx-order-pipe';
     LocationAccuracy,
     Keyboard,
     OneSignal,
+    SignInWithApple,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
