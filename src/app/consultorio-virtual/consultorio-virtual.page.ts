@@ -34,7 +34,7 @@ export class ConsultorioVirtualPage implements OnInit {
     if (!this.platform.is ('cordova')) {
       return this.init_syno ();
     }
-
+    
     const has_camera_permission = await this.permission.checkCameraPermission ();
     const has_audio_permission = await this.permission.checkAudioPermission ();
 
