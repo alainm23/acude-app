@@ -177,13 +177,14 @@ export class PerfilDoctorPage implements OnInit {
   }
 
   reservar (centro: any) {
+    console.log(centro);
+
     let data: any = {
       centro_medico_id: centro.id,
       direccion: centro.info_centro_medico_sucursal_tarjeta_medico.direccion,
       modo_consulta: centro.modo_consulta,
       editar: false
     };
-
 
     if (centro.modo_consulta === '0') {
       data.precio_consulta = centro.precio_consulta;

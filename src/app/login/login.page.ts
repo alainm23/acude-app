@@ -25,6 +25,7 @@ export class LoginPage implements OnInit {
   is_ios: boolean = false;
 
   paises: any [] = [];
+  pais: any;
   directionsService: any = new google.maps.DirectionsService ();
   geocoder: any = new google.maps.Geocoder ();
   constructor (
@@ -195,8 +196,13 @@ export class LoginPage implements OnInit {
     }
   }
 
-  go_link (link: string) {
-    window.open (link, '_system');
+  go_link (type: string) {
+    console.log(this.pais);
+    if (type === 'terminos') {
+      window.open ('https://www.acudeapp.com/storage/' + this.pais.pdf_terminos_usuario, '_system');
+    } else {
+      window.open ('https://www.acudeapp.com/storage/' + this.pais.pdf_politicas_usuario, '_system');
+    }
   }
 
   validar_pais (address_components: any []) {
@@ -217,6 +223,7 @@ export class LoginPage implements OnInit {
     if (corrent_coutry !== null) {
       const pais = this.paises.find ((x => x.iniciales_pais === code_country));
       if (pais !== undefined) {
+        this.pais = pais;
         this.storage.set ('PAIS', JSON.stringify (pais));
         this.api.PAIS = pais;
         console.log (this.api.PAIS);
@@ -247,6 +254,7 @@ export class LoginPage implements OnInit {
       buttons: [{
           text: 'Confirmar',
           handler: (data: any) => {
+            this.pais = data;
             this.storage.set ('PAIS', JSON.stringify (data));
             this.api.PAIS = data;
           }

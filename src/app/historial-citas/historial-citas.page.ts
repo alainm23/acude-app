@@ -87,7 +87,7 @@ export class HistorialCitasPage implements OnInit {
 
     await loading.present ();
 
-    let text = `${ item.tratamiento_profesional } ${item.centro_medico_sede_profesional.info_doctor.nombre_completo}, le adjunto el comprobante para confirmar la reserva de el/la paciente ${item.paciente.nombres.toLocaleUpperCase ()} para el ${this.get_format_date (item.fecha)} ${item.hora}. Gracias.`;
+    let text = `${ item.tratamiento_profesional } ${item.centro_medico_sede_profesional.info_doctor.nombre_completo}, le adjunto el comprobante para confirmar la reserva de el/la paciente ${item.paciente.nombres.toLocaleUpperCase ()} ${item.paciente.apellidos.toLocaleUpperCase ()} para el ${this.get_format_date (item.fecha)} ${item.hora}. Gracias.`;
 
     console.log (text);
 

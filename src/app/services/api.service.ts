@@ -617,4 +617,14 @@ export class ApiService {
 
     return this.http.get (url, { headers });
   }
+
+  validar_telemedicina (id_profesional: string, id_cm_sede: string) {
+    let url = this.URL_BASE + '/api/profesionales/validar-telemedicina/' + id_profesional + '/' + id_cm_sede;
+    
+    const headers = {
+      'Authorization': 'Bearer ' + this.USUARIO_ACCESS.access_token
+    }
+
+    return this.http.get (url, { headers });
+  }
 }
